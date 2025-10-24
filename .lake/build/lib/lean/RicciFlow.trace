@@ -24,7 +24,7 @@
         ["RicciFlow.RicciCurvature:importAllArts", "44d5bd96aba6c34d"],
         ["RicciFlow.Flow transitive imports (legacy)", "1a57b3ff1ae46850"],
         ["RicciFlow.Flow:importAllArts", "28a8c8f91f1c6d0e"],
-        ["RicciFlow.Examples transitive imports (legacy)", "53b75b3ee5203581"],
+        ["RicciFlow.Examples transitive imports (legacy)", "fddbbcaf608d8ed6"],
         ["RicciFlow.Examples:importAllArts", "9011d07675ab39ca"],
         ["RicciFlow.Geometry.Pullback transitive imports (legacy)",
          "cc29b27e6aa875f3"],
@@ -32,7 +32,7 @@
         ["RicciFlow.Ricci.DeturckReduction transitive imports (legacy)",
          "e447c1691e0c429b"],
         ["RicciFlow.Ricci.DeturckReduction:importAllArts",
-         "7dbada49cd6fe048"]]]]],
+         "67439b2e229d451d"]]]]],
     ["libs",
      [["import dynlibs", "00000000000006bb"],
       ["package external libraries", "00000000000006bb"],
@@ -43,4 +43,4 @@
   ["/Users/lixinze/RicciFlow/RicciFlow.lean", "db1ae0eb54eeabed"],
   ["options", "00000000000006bb"],
   ["Module.leanArgs: #[]", "00000000000006bb"]],
- "depHash": "e309d074b4c5c5a3"}
+ "depHash": "0cdff6ac1a5ceb06"}

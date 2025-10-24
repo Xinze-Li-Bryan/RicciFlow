@@ -194,8 +194,7 @@ A Ricci flow $(M, g(t))$ is \textbf{$\kappa$-noncollapsed at scale $r_0$} if for
 \begin{theorem}[Perelman's No Local Collapsing]
 \label{thm:perelman_no_local_collapsing}
 \lean{Perelman.perelman\_no\_local\_collapsing}
-\uses{def:kappa_noncollapsing}
-\uses{thm:w_entropy_monotone}
+\uses{def:kappa_noncollapsing}\n\uses{thm:w_entropy_monotone}
 For any Ricci flow $(M, g(t))$ on $[0, T]$ starting from a compact manifold, there exists $\kappa > 0$ such that the flow is $\kappa$-noncollapsed at scale $\sqrt{T}$.
 
 \textbf{Proof idea}: Uses W-entropy monotonicity to bound the volume from below.
@@ -239,10 +238,7 @@ At surgery times $\{t_i\}$, the manifold is modified by:
 \begin{theorem}[Poincaré from Perelman]
 \label{thm:poincare_from_perelman}
 \lean{Poincare.poincare\_from\_perelman}
-\uses{def:3manifold}
-\uses{def:simply_connected}
-\uses{ax:ricci_flow_with_surgery}
-\uses{thm:perelman_no_local_collapsing}
+\uses{def:3manifold, def:simply_connected, ax:ricci_flow_with_surgery, thm:perelman_no_local_collapsing}
 The Poincaré Conjecture (Theorem~\ref{thm:poincare_conjecture}) follows from Perelman's work on Ricci flow with surgery.
 \end{theorem}
 
