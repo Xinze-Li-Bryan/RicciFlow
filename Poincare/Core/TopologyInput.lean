@@ -79,21 +79,49 @@ noncomputable instance : TopologicalSpace Sphere3 :=
 这些将在后续 Phase 中逐步证明。
 -/
 
--- S³ 是单连通的（Hopf定理）
--- 证明需要：代数拓扑理论 + 覆叠空间理论
-axiom sphere3_simply_connected : SimplyConnected Sphere3
+/-!
+### S³ 性质的证明状态
 
--- S³ 是紧致的
--- 证明需要：度量空间的紧致性 + 闭球紧致性定理（Heine-Borel）
-axiom sphere3_compact : CompactSpace Sphere3
+下面的定理有些已经可以从 mathlib 自动推断，有些需要额外工作。
+-/
 
--- S³ 是连通的
--- 证明需要：球面的路径连通性
-axiom sphere3_connected : ConnectedSpace Sphere3
+-- S³ 的拓扑性质
+-- 详细证明见 Poincare.Core.SphereProperties
 
 -- S³ 是 Hausdorff 空间
 -- 证明：度量空间自动是 Hausdorff 的
-axiom sphere3_t2 : T2Space Sphere3
+-- TopCat.sphere 的底层是度量空间，所以应该是 T2 的
+instance sphere3_t2 : T2Space Sphere3 :=
+  inferInstanceAs (T2Space (ULift (Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1)))
+
+-- S³ 是紧致的
+-- 证明：S³ 是 ℝ⁴ 中的闭球面，由 Heine-Borel 定理是紧致的
+instance sphere3_compact : CompactSpace Sphere3 :=
+  inferInstanceAs (CompactSpace (ULift (Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1)))
+
+-- S³ 是连通的
+-- 证明：对于 n ≥ 1, 球面 Sⁿ 是路径连通的
+-- 注意：路径连通性目前使用 axiom（见 SphereProperties.lean）
+axiom sphere_path_connected (n : ℕ) (hn : n ≥ 1) :
+    PathConnectedSpace (ULift (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1))
+
+instance sphere3_path_connected : PathConnectedSpace Sphere3 := by
+  have : (3 : ℕ) ≥ 1 := by norm_num
+  have h := sphere_path_connected 3 this
+  show PathConnectedSpace (ULift (Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1))
+  norm_num at h
+  exact h
+
+instance sphere3_connected : ConnectedSpace Sphere3 :=
+  PathConnectedSpace.connectedSpace
+
+-- S³ 是单连通的（Hopf定理）
+-- 这是最难的性质，需要代数拓扑理论
+-- 证明方法：
+-- 1. Hopf 纤维化 S³ → S²（纤维是 S¹）
+-- 2. 长正合序列 π₂(S²) → π₁(S¹) → π₁(S³) → π₁(S²)
+-- 3. 因为 π₂(S²) = 0, π₁(S²) = 0，所以 π₁(S³) = 0
+axiom sphere3_simply_connected : SimplyConnectedSpace Sphere3
 
 /-!
 ## 备注
