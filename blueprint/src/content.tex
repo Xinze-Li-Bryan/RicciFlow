@@ -194,6 +194,7 @@ The scalar curvature equals the trace value: $R = \mathrm{Ric}.\mathrm{traceValu
 
 \begin{proof}
 \leanok
+\uses{def:scalar_curvature}
 Definitional in our current implementation.
 \end{proof}
 
@@ -234,6 +235,7 @@ If $g_0$ is a Ricci-flat metric (i.e., $\mathrm{Ric}(g_0) = 0$), then the consta
 
 \begin{proof}
 \leanok
+\uses{lem:timeDeriv_const, def:ricci_of_metric}
 For a constant family, the time derivative is zero by Lemma~\ref{lem:timeDeriv_const}. Since $\mathrm{Ric}(g_0) = 0$ by assumption, both sides of the Ricci flow equation are zero.
 
 \textbf{File}: \texttt{Flow.lean}
@@ -250,6 +252,7 @@ For any constant Riemannian metric $g_0$, the time derivative of the constant fa
 
 \begin{proof}
 \leanok
+\uses{def:time_deriv}
 Direct application of the derivative of a constant function.
 
 \textbf{File}: \texttt{Flow.lean}
@@ -267,6 +270,7 @@ For any smooth compact Riemannian manifold $(M, g_0)$, there exists $T > 0$ and 
 \end{theorem}
 
 \begin{proof}
+\uses{def:ricci_flow_eq_on}
 This axiomatizes Hamilton's fundamental theorem (1982). The complete proof involves DeTurck's trick and parabolic PDE theory.
 \end{proof}
 
@@ -280,6 +284,7 @@ For any smooth compact Riemannian manifold $(M, g_0)$, there exists $T > 0$ and 
 
 \begin{proof}
 \leanok
+\uses{axiom:hamilton_ste}
 Direct application of the Hamilton axiom.
 \end{proof}
 
@@ -367,6 +372,7 @@ The pullback operation is linear in velocities:
 
 \begin{proof}
 \leanok
+\uses{def:pullback_velocity}
 All properties follow immediately from the pointwise definition. For example, $\varphi^*0$ is zero because $(\varphi^*0)_x(v,w) = 0_{\varphi(x)}(v,w) = 0$ for all $x, v, w$. The other properties are similar.
 \end{proof}
 
@@ -384,6 +390,7 @@ Pullback satisfies functorial properties:
 
 \begin{proof}
 \leanok
+\uses{def:pullback_metric, def:pullback_velocity}
 Direct verification from the definition.
 \end{proof}
 
@@ -456,6 +463,7 @@ Then $\hat{g}(t) := \varphi_t^* g(t)$ satisfies Hamilton's Ricci flow equation o
 
 \begin{proof}
 \leanok
+\uses{def:deturckEqOnWithGauge, def:pullbackChainRuleOn, def:gaugeCancellationOn, def:ricciNaturalityOn, lem:pullback_linearity}
 Differentiate $\varphi_t^* g(t)$ using the chain rule to split into the pulled-back time derivative plus the $\varphi$-part:
 \[ \frac{\partial}{\partial t}(\varphi_t^* g(t)) = \varphi_t^*\left(\frac{\partial g}{\partial t}\right) + \frac{\partial \varphi_t^*}{\partial t}g(t) \]
 
@@ -489,6 +497,7 @@ If $\varphi_t \equiv \mathrm{id}$ is the identity map, then the chain rule (\ref
 
 \begin{proof}
 \leanok
+\uses{def:pullbackChainRuleOn, lem:pullback_functoriality}
 When $\varphi_t = \mathrm{id}$, both $\varphi_t^* g(t) = g(t)$ and $\partial \varphi_t^*/\partial t = 0$, so the equation holds by reflexivity.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
@@ -505,6 +514,7 @@ If $\varphi_t \equiv \varphi_0$ is constant in time, then the chain rule (\ref{d
 
 \begin{proof}
 \leanok
+\uses{def:pullbackChainRuleOn, def:pullback_metric}
 When $\varphi_t$ is constant, $\partial \varphi_t^*/\partial t = 0$. The chain rule reduces to the statement that pullback commutes with time differentiation, which is immediate from the definition.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
@@ -521,6 +531,7 @@ The identity map trivially satisfies Ricci naturality:
 
 \begin{proof}
 \leanok
+\uses{def:ricciNaturalityOn, lem:pullback_functoriality}
 Immediate by reflexivity since $\mathrm{id}^* = \mathrm{id}$.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
@@ -536,6 +547,7 @@ If $\varphi_t \equiv \varphi_0$ is constant and $G \equiv 0$, then gauge cancell
 
 \begin{proof}
 \leanok
+\uses{def:gaugeCancellationOn, lem:pullback_linearity}
 When $\varphi_t$ is constant, $\partial \varphi_t^*/\partial t = 0$. With zero gauge, $-\varphi_0^*(0) = 0$ by linearity of pullback.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
@@ -551,6 +563,7 @@ If $\varphi_t \equiv \mathrm{id}$ and $G \equiv 0$, then gauge cancellation hold
 
 \begin{proof}
 \leanok
+\uses{def:gaugeCancellationOn, lem:pullback_linearity}
 Both sides are zero, proved by simplification.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
@@ -568,6 +581,7 @@ Since both sides are zero, this holds trivially.
 
 \begin{proof}
 \leanok
+\uses{def:deturckEqOnWithGauge, lem:timeDeriv_const, def:ricci_of_metric}
 The left side vanishes because $g$ is constant. The right side vanishes because $\mathrm{Ric}(g_0) = 0$.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
@@ -585,6 +599,7 @@ with Ricci naturality under $\varphi_0$, then $\hat{g}(t) := \varphi_0^* g(t)$ a
 
 \begin{proof}
 \leanok
+\uses{thm:deturck_to_hamilton, lem:pullbackChainRuleOn_constφ, lem:gaugeCancellationOn_zero_constφ}
 This is a direct application of Theorem~\ref{thm:deturck_to_hamilton} with the constant chain rule (Lemma~\ref{lem:pullbackChainRuleOn_constφ}) and trivial gauge cancellation (since $G \equiv 0$).
 
 This corollary demonstrates the reduction mechanism in a controlled, provable setting without additional axioms.
@@ -604,6 +619,7 @@ Let $g_0$ be a Ricci-flat metric with $\mathrm{Ric}(g_0) = 0$. Then the static m
 
 \begin{proof}
 \leanok
+\uses{thm:deturck_to_hamilton, lem:pullbackChainRuleOn_id, lem:ricciNaturalityOn_id, lem:gaugeCancellationOn_id_zero, lem:deturckEqOnWithGauge_ricciFlat_static}
 This is the most trivial case combining all simple predicates:
 \begin{itemize}
 \item Use $\varphi_t \equiv \mathrm{id}$ (identity map for all time)
@@ -633,6 +649,7 @@ If two constant diffeomorphisms $\varphi, \psi : M \to M$ each preserve Ricci na
 
 \begin{proof}
 \leanok
+\uses{def:ricciNaturalityOn, lem:pullback_functoriality}
 Use the functorial property of pullback: $(\varphi \circ \psi)^* = \psi^* \circ \varphi^*$ (contravariant).
 Then:
 \begin{align*}
@@ -655,6 +672,7 @@ Composing with the identity map on the right preserves Ricci naturality (trivial
 
 \begin{proof}
 \leanok
+\uses{def:ricciNaturalityOn}
 Immediate from function composition with identity.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
@@ -670,6 +688,7 @@ The identity map composed with itself satisfies Ricci naturality: $\mathrm{Ric}(
 
 \begin{proof}
 \leanok
+\uses{lem:ricciNaturalityOn_id}
 By simplification using $\mathrm{id} \circ \mathrm{id} = \mathrm{id}$ and Lemma~\ref{lem:ricciNaturalityOn_id}.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
