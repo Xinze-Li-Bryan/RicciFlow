@@ -476,6 +476,38 @@ When $\varphi_t$ is constant, $\partial \varphi_t^*/\partial t = 0$. With zero g
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
 
+\begin{lemma}[Gauge Cancellation for Identity Map with Zero Gauge]
+\label{lem:gaugeCancellationOn_id_zero}
+\lean{RicciFlow.gaugeCancellationOn_id_zero}
+\leanok
+\uses{def:gaugeCancellationOn}
+If $\varphi_t \equiv \mathrm{id}$ and $G \equiv 0$, then gauge cancellation holds trivially: $0 = -\mathrm{id}^*(0) = 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+Both sides are zero, proved by simplification.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Static Ricci-flat Metric Satisfies DeTurck Equation]
+\label{lem:deturckEqOnWithGauge_ricciFlat_static}
+\lean{RicciFlow.deturckEqOnWithGauge_ricciFlat_static}
+\leanok
+\uses{def:deturckEqOnWithGauge}
+A static Ricci-flat metric $g(t) \equiv g_0$ with $\mathrm{Ric}(g_0) = 0$ satisfies the DeTurck equation with zero gauge:
+\[ \frac{\partial g}{\partial t} = -2\,\mathrm{Ric}(g_0) + 0 \]
+Since both sides are zero, this holds trivially.
+\end{lemma}
+
+\begin{proof}
+\leanok
+The left side vanishes because $g$ is constant. The right side vanishes because $\mathrm{Ric}(g_0) = 0$.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
 \begin{corollary}[DeTurck to Hamilton with Constant Diffeomorphism]
 \label{cor:deturck_to_hamilton_constφ_noGauge}
 \lean{RicciFlow.deturck_to_hamilton_constφ_noGauge}
@@ -491,6 +523,34 @@ with Ricci naturality under $\varphi_0$, then $\hat{g}(t) := \varphi_0^* g(t)$ a
 This is a direct application of Theorem~\ref{thm:deturck_to_hamilton} with the constant chain rule (Lemma~\ref{lem:pullbackChainRuleOn_constφ}) and trivial gauge cancellation (since $G \equiv 0$).
 
 This corollary demonstrates the reduction mechanism in a controlled, provable setting without additional axioms.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{corollary}[Complete Trivial Example: Identity Map on Static Ricci-flat Metric]
+\label{cor:deturck_to_hamilton_id_ricciFlat}
+\lean{RicciFlow.deturck_to_hamilton_id_ricciFlat}
+\leanok
+\uses{thm:deturck_to_hamilton, lem:pullbackChainRuleOn_id, lem:ricciNaturalityOn_id, lem:gaugeCancellationOn_id_zero, lem:deturckEqOnWithGauge_ricciFlat_static}
+Let $g_0$ be a Ricci-flat metric with $\mathrm{Ric}(g_0) = 0$. Then the static metric family $g(t) \equiv g_0$ satisfies Hamilton's Ricci flow equation:
+\[ \frac{\partial g}{\partial t} = -2\,\mathrm{Ric}(g(t)) \]
+(Both sides are zero.)
+\end{corollary}
+
+\begin{proof}
+\leanok
+This is the most trivial case combining all simple predicates:
+\begin{itemize}
+\item Use $\varphi_t \equiv \mathrm{id}$ (identity map for all time)
+\item Use $G \equiv 0$ (zero gauge)
+\item Static Ricci-flat metric satisfies DeTurck equation with zero gauge (Lemma~\ref{lem:deturckEqOnWithGauge_ricciFlat_static})
+\item Identity map satisfies chain rule (Lemma~\ref{lem:pullbackChainRuleOn_id})
+\item Identity with zero gauge satisfies gauge cancellation (Lemma~\ref{lem:gaugeCancellationOn_id_zero})
+\item Identity map satisfies Ricci naturality (Lemma~\ref{lem:ricciNaturalityOn_id})
+\end{itemize}
+Apply Theorem~\ref{thm:deturck_to_hamilton} to obtain that $\mathrm{id}^* g_0 = g_0$ satisfies Ricci flow, which is trivially true since both $\partial g_0/\partial t$ and $-2\,\mathrm{Ric}(g_0)$ are zero.
+
+This serves as a complete sanity check that the reduction pipeline works in the most trivial setting.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}

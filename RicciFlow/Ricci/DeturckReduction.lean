@@ -157,6 +157,26 @@ lemma gaugeCancellationOn_zero_constφ
   simp [timeDeriv, pullbackMetric, pullbackVelocity, deriv_const,
         mv_toFun_neg, MetricVelocity.toFun_zero]
 
+/-- **Trivial case**: Identity map with zero gauge satisfies gauge cancellation.
+    When φ = id and G = 0, both sides are zero: 0 = -id*(0) = 0. -/
+lemma gaugeCancellationOn_id_zero (g : ℝ → RiemannianMetric M V) (s : Set ℝ) :
+  gaugeCancellationOn (fun _ => id) g (fun _ => 0) s := by
+  intro t ht
+  unfold dPullback_dt
+  ext x v w
+  simp [timeDeriv, pullbackMetric, pullbackVelocity, deriv_const,
+        mv_toFun_neg, MetricVelocity.toFun_zero]
+
+/-- **Sanity lemma**: Ricci-flat metric trivially satisfies DeTurck with zero gauge.
+    If Ric(g) = 0, then ∂g/∂t = -2·Ric(g) + 0 reduces to ∂g/∂t = 0. -/
+lemma deturckEqOnWithGauge_ricciFlat_static
+  (g0 : RiemannianMetric M V) (h : ricciOfMetric g0 = 0) (s : Set ℝ) :
+  deturckEqOnWithGauge (fun _ => g0) (fun _ => 0) s := by
+  intro t ht
+  unfold timeDeriv
+  ext x v w
+  simp [deriv_const, smul_toFun, h, MetricVelocity.toFun_zero, mv_toFun_add]
+
 /-- **Sanity corollary**: With constant φ and zero gauge, DeTurck reduces to Hamilton.
     This demonstrates the reduction mechanism in a controlled, provable setting. -/
 lemma deturck_to_hamilton_constφ_noGauge
@@ -176,5 +196,19 @@ lemma deturck_to_hamilton_constφ_noGauge
     simp [timeDeriv, pullbackMetric, pullbackVelocity, deriv_const, mv_toFun_neg, MetricVelocity.toFun_zero]
   · -- Ricci naturality
     exact Hnat
+
+/-- **Complete trivial example**: Identity map on static Ricci-flat metric.
+    This is the most trivial case combining all simple predicates. -/
+lemma deturck_to_hamilton_id_ricciFlat
+  (g0 : RiemannianMetric M V) (h : ricciOfMetric g0 = 0) (s : Set ℝ) :
+  ricciFlowEqOn (fun _ => g0) s := by
+  have hg : ricciFlowEqOn (fun t => pullbackMetric id g0) s := by
+    apply deturck_to_hamilton_reduction (φ:=fun _ => id) (g:=fun _ => g0) (G:=fun _ => 0) (s:=s)
+    · exact deturckEqOnWithGauge_ricciFlat_static g0 h s
+    · exact pullbackChainRuleOn_id (fun _ => g0) s
+    · exact gaugeCancellationOn_id_zero (fun _ => g0) s
+    · exact ricciNaturalityOn_id (fun _ => g0) s
+  simp only [pullbackMetric_id] at hg
+  exact hg
 
 end RicciFlow

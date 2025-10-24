@@ -34,4 +34,7 @@ RicciFlow.pullbackChainRuleOn_id
 RicciFlow.pullbackChainRuleOn_constφ
 RicciFlow.ricciNaturalityOn_id
 RicciFlow.gaugeCancellationOn_zero_constφ
+RicciFlow.gaugeCancellationOn_id_zero
+RicciFlow.deturckEqOnWithGauge_ricciFlat_static
 RicciFlow.deturck_to_hamilton_constφ_noGauge
+RicciFlow.deturck_to_hamilton_id_ricciFlat

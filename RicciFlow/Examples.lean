@@ -41,6 +41,9 @@ example (g0 : RiemannianMetric M V) (h : ricciOfMetric g0 = 0) :
 #check @pullbackChainRuleOn_constφ
 #check @ricciNaturalityOn_id
 #check @gaugeCancellationOn_zero_constφ
+#check @gaugeCancellationOn_id_zero
+#check @deturckEqOnWithGauge_ricciFlat_static
 #check @deturck_to_hamilton_constφ_noGauge
+#check @deturck_to_hamilton_id_ricciFlat
 
 end RicciFlow
