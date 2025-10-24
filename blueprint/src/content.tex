@@ -148,15 +148,27 @@ Follows from the positive-definiteness axiom.
 \lean{RicciFlow.MetricVelocity}
 \leanok
 \uses{def:riemannian_metric}
-A metric velocity is an abstract symmetric $(0,2)$-tensor field used to represent time derivatives of metrics and the Ricci tensor.
+A metric velocity is an abstract symmetric $(0,2)$-tensor field used to represent time derivatives of metrics and the Ricci tensor. Unlike a metric, it need not be positive-definite.
 
-For each point $x \in M$ and tangent vectors $v, w \in T_xM$:
+Formally, for each point $x \in M$ and tangent vectors $v, w \in T_xM$:
 \begin{itemize}
 \item $\tau_x : T_xM \times T_xM \to \mathbb{R}$ is a bilinear form
 \item \textbf{Symmetry}: $\tau_x(v, w) = \tau_x(w, v)$
 \end{itemize}
 
-The space of metric velocities admits scalar multiplication: for $c \in \mathbb{R}$ and velocity $\tau$, we have $(c \cdot \tau)_x(v,w) = c \cdot \tau_x(v,w)$.
+\textbf{Geometric interpretation}: A metric velocity describes how a Riemannian metric changes. If $g(t)$ is a time-dependent metric, then $\frac{\partial g}{\partial t}$ is a metric velocity. Similarly, the Ricci tensor $\mathrm{Ric}(g)$ is naturally viewed as a metric velocity.
+
+\textbf{Vector space structure}: The space of metric velocities forms a real vector space:
+\begin{itemize}
+\item \textbf{Addition}: $(\tau + \sigma)_x(v,w) = \tau_x(v,w) + \sigma_x(v,w)$
+\item \textbf{Scalar multiplication}: $(c \cdot \tau)_x(v,w) = c \cdot \tau_x(v,w)$ for $c \in \mathbb{R}$
+\item \textbf{Zero element}: $0_x(v,w) = 0$ for all $v,w$
+\item \textbf{Negation}: $(-\tau)_x(v,w) = -\tau_x(v,w)$
+\end{itemize}
+
+This vector space structure is crucial for the Ricci flow PDE, which involves linear combinations of velocities like $-2\,\mathrm{Ric}(g) + G$.
+
+\textbf{File}: \texttt{RicciCurvature.lean}
 \end{definition}
 
 \begin{definition}[Ricci of Metric]
@@ -165,10 +177,27 @@ The space of metric velocities admits scalar multiplication: for $c \in \mathbb{
 \uses{def:riemannian_metric, def:metric_velocity}
 The Ricci operator $\mathrm{Ric} : g \mapsto \mathrm{Ric}(g)$ assigns to each Riemannian metric a metric velocity representing the Ricci curvature tensor.
 
-Mathematically, the Ricci tensor is obtained by contracting the Riemann curvature tensor:
+\textbf{Mathematical definition}: The Ricci tensor is obtained by contracting the Riemann curvature tensor:
 \[ \mathrm{Ric}_{ij} = R^k_{ikj} = g^{kl} R_{likj} \]
+where $R_{ijkl}$ is the Riemann curvature tensor computed from the metric $g$ via Christoffel symbols.
 
-This is currently axiomatized; a complete implementation would compute it from the metric via Christoffel symbols and the Riemann tensor.
+\textbf{Geometric meaning}: The Ricci tensor measures how volumes grow or shrink under parallel transport. More precisely:
+\begin{itemize}
+\item If $\mathrm{Ric} > 0$ in some direction, geodesics starting in that direction converge (positive curvature)
+\item If $\mathrm{Ric} < 0$, geodesics diverge (negative curvature)
+\item If $\mathrm{Ric} = 0$, the space is locally Euclidean in that direction (Ricci-flat)
+\end{itemize}
+
+\textbf{Role in Ricci flow}: The Ricci flow equation $\frac{\partial g}{\partial t} = -2\,\mathrm{Ric}(g)$ says that the metric evolves to reduce regions of high positive curvature and increase regions of negative curvature, acting as a "heat flow" for geometry.
+
+\textbf{Implementation note}: In this formalization, $\mathrm{Ric}$ is currently axiomatized as an abstract operator. A complete implementation would:
+\begin{enumerate}
+\item Compute Christoffel symbols $\Gamma^k_{ij}$ from the metric
+\item Compute the Riemann tensor $R_{ijkl}$ from derivatives of Christoffel symbols
+\item Contract to obtain $\mathrm{Ric}_{ij} = R^k_{ikj}$
+\end{enumerate}
+
+\textbf{File}: \texttt{RicciCurvature.lean}
 \end{definition}
 
 \begin{definition}[Ricci Tensor (Legacy)]
@@ -462,6 +491,14 @@ A family of metrics $g(t)$ satisfies the DeTurck equation with gauge velocity $G
 
 The gauge term $G(t)$ represents an abstract ``gauge-fixing'' velocity that will be compensated by a suitable diffeomorphism flow.
 
+\textbf{Geometric interpretation}: This is a modified Ricci flow equation where we add an extra ``correction term'' $G(t)$. The key insight of DeTurck's trick is that by carefully choosing a time-dependent diffeomorphism $\varphi_t$, we can transform this modified equation back into the standard Ricci flow via pullback.
+
+\textbf{Special cases}:
+\begin{itemize}
+\item When $G(t) \equiv 0$, this reduces to the standard Ricci flow equation
+\item In DeTurck's original work, $G$ is typically the Lie derivative along the harmonic map heat flow, which provides better parabolicity
+\end{itemize}
+
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{definition}
 
@@ -472,7 +509,15 @@ The gauge term $G(t)$ represents an abstract ``gauge-fixing'' velocity that will
 For a time-dependent diffeomorphism $\varphi_t : M \to M$ and metric family $g(t)$, the chain rule holds on $S$ if:
 \[ \forall t \in S, \quad \frac{\partial}{\partial t}(\varphi_t^* g(t)) = \varphi_t^*\left(\frac{\partial g}{\partial t}\right) + \frac{\partial \varphi_t^*}{\partial t}g(t) \]
 
-This expresses the time derivative of a pulled-back metric as the sum of the pulled-back time derivative and the ``$\varphi$-part'' contribution.
+This expresses the time derivative of a pulled-back metric as the sum of two contributions:
+\begin{itemize}
+\item $\varphi_t^*\left(\frac{\partial g}{\partial t}\right)$: the ``$g$-part'', arising from the evolution of the metric
+\item $\frac{\partial \varphi_t^*}{\partial t}g(t)$: the ``$\varphi$-part'', arising from the evolution of the diffeomorphism
+\end{itemize}
+
+\textbf{Intuition}: When both the metric $g(t)$ and the diffeomorphism $\varphi_t$ depend on time, differentiating their composition requires the product rule. This is the geometric analogue of $\frac{d}{dt}[f(t) \circ h(t)] = f'(t) \circ h(t) + f(t) \circ h'(t)$.
+
+\textbf{Key observation}: When $\varphi_t$ is constant in time (i.e., $\varphi_t \equiv \varphi_0$), the ``$\varphi$-part'' vanishes and the pullback commutes with time differentiation.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{definition}
@@ -486,6 +531,18 @@ The diffeomorphism flow $\varphi_t$ achieves gauge cancellation on $S$ if:
 
 This means the ``$\varphi$-part'' exactly cancels the pulled-back gauge term.
 
+\textbf{The heart of DeTurck's trick}: This condition says that we choose the diffeomorphism flow $\varphi_t$ to evolve in precisely the right way to compensate for the gauge term $G(t)$ in the DeTurck equation. When this holds:
+\begin{align*}
+\frac{\partial}{\partial t}(\varphi_t^* g(t))
+&= \varphi_t^*\left(\frac{\partial g}{\partial t}\right) + \frac{\partial \varphi_t^*}{\partial t}g(t) \quad \text{(chain rule)} \\
+&= \varphi_t^*\Big(-2\,\mathrm{Ric}(g(t)) + G(t)\Big) + \Big(-\varphi_t^* G(t)\Big) \quad \text{(DeTurck eq + cancellation)} \\
+&= \varphi_t^*\Big(-2\,\mathrm{Ric}(g(t))\Big) \quad \text{(gauge terms cancel!)}
+\end{align*}
+
+In other words, the gauge term $G(t)$ is designed to be "absorbed" by the diffeomorphism evolution, leaving only the Ricci curvature term in the pulled-back equation.
+
+\textbf{Geometric picture}: Think of $\varphi_t$ as a time-dependent coordinate system that "tracks" the gauge correction, so that in these moving coordinates, the equation becomes the standard Ricci flow.
+
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{definition}
 
@@ -497,6 +554,20 @@ The Ricci operator commutes with pullback on $S$ if:
 \[ \forall t \in S, \quad \mathrm{Ric}(\varphi_t^* g(t)) = \varphi_t^* \mathrm{Ric}(g(t)) \]
 
 This is a naturality property expressing that Ricci curvature is geometric and invariant under pullback.
+
+\textbf{Geometric meaning}: This says that Ricci curvature is a \emph{diffeomorphism-invariant} geometric quantity. The Ricci curvature of a pulled-back metric is simply the pullback of the Ricci curvature.
+
+\textbf{Why this matters}: In the DeTurck reduction, we need:
+\begin{align*}
+\frac{\partial}{\partial t}(\varphi_t^* g(t))
+&= \varphi_t^*\Big(-2\,\mathrm{Ric}(g(t))\Big) \\
+&= -2\, \varphi_t^*\Big(\mathrm{Ric}(g(t))\Big) \quad \text{(pullback is linear)} \\
+&= -2\, \mathrm{Ric}(\varphi_t^* g(t)) \quad \text{(Ricci naturality!)}
+\end{align*}
+
+This final step is crucial: it allows us to transform the equation from involving $\mathrm{Ric}(g(t))$ to involving $\mathrm{Ric}(\varphi_t^* g(t))$, which is exactly what we need for $\hat{g}(t) := \varphi_t^* g(t)$ to satisfy Ricci flow.
+
+\textbf{Note}: In general Riemannian geometry, Ricci naturality under diffeomorphisms is a fundamental property. Here we conditionally assume it as part of our reduction framework.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{definition}
@@ -621,7 +692,22 @@ If $\varphi_t \equiv \mathrm{id}$ and $G \equiv 0$, then gauge cancellation hold
 \begin{proof}
 \leanok
 \uses{def:gaugeCancellationOn, lem:pullback_linearity}
-Both sides are zero, proved by simplification.
+For the identity map and zero gauge, the gauge cancellation condition becomes:
+\[
+\frac{\partial \mathrm{id}^*}{\partial t} g(t) = -\mathrm{id}^*(0).
+\]
+
+\textbf{Left side}: Since $\mathrm{id}^*$ doesn't depend on $t$, its time derivative is zero:
+\[
+\frac{\partial \mathrm{id}^*}{\partial t} g(t) = 0.
+\]
+
+\textbf{Right side}: By pullback linearity (Lemma~\ref{lem:pullback_linearity}), $\mathrm{id}^*(0) = 0$, so:
+\[
+-\mathrm{id}^*(0) = -0 = 0.
+\]
+
+Therefore, $0 = 0$ and gauge cancellation holds trivially.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
@@ -639,7 +725,22 @@ Since both sides are zero, this holds trivially.
 \begin{proof}
 \leanok
 \uses{def:deturckEqOnWithGauge, lem:timeDeriv_const, def:ricci_of_metric}
-The left side vanishes because $g$ is constant. The right side vanishes because $\mathrm{Ric}(g_0) = 0$.
+We need to verify that for all $t \in S$:
+\[
+\frac{\partial g}{\partial t} = -2\,\mathrm{Ric}(g(t)) + 0.
+\]
+
+Since $g(t) \equiv g_0$ is constant, by Lemma~\ref{lem:timeDeriv_const}:
+\[
+\frac{\partial g}{\partial t} = 0.
+\]
+
+For the right side, since $g(t) = g_0$ for all $t$ and $\mathrm{Ric}(g_0) = 0$ by assumption:
+\[
+-2\,\mathrm{Ric}(g(t)) + 0 = -2 \cdot 0 + 0 = 0.
+\]
+
+Therefore, both sides equal zero and the DeTurck equation with zero gauge is satisfied. This shows that static Ricci-flat metrics are stationary solutions of the (modified) Ricci flow.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
@@ -730,7 +831,15 @@ Composing with the identity map on the right preserves Ricci naturality (trivial
 \begin{proof}
 \leanok
 \uses{def:ricciNaturalityOn}
-Immediate from function composition with identity.
+Since $\varphi \circ \mathrm{id} = \varphi$ by the definition of identity, we have:
+\begin{align*}
+\mathrm{Ric}\big((\varphi \circ \mathrm{id})^* g\big)
+&= \mathrm{Ric}(\varphi^* g) \\
+&= \varphi^* \mathrm{Ric}(g) \quad \text{(by assumption)} \\
+&= (\varphi \circ \mathrm{id})^* \mathrm{Ric}(g)
+\end{align*}
+
+This is a sanity check confirming that identity acts as a right unit in composition.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
@@ -866,7 +975,21 @@ Let $\varphi_0 : M \to M$ be a diffeomorphism and $g : \mathbb{R} \to \mathcal{M
 \begin{proof}
 \leanok
 \uses{lem:pullbackChainRuleOn_constφ, lem:gaugeCancellationOn_const_zero}
-Direct application of Lemmas~\ref{lem:pullbackChainRuleOn_constφ} and~\ref{lem:gaugeCancellationOn_const_zero}.
+This lemma combines two key properties of constant diffeomorphisms:
+
+\textbf{Chain rule}: By Lemma~\ref{lem:pullbackChainRuleOn_constφ}, for a constant diffeomorphism $\varphi(t) \equiv \varphi_0$:
+\[
+\frac{\partial}{\partial t}(\varphi_0^* g(t)) = \varphi_0^*\left(\frac{\partial g}{\partial t}\right) + 0.
+\]
+The ``$\varphi$-part'' vanishes because $\varphi_0$ doesn't evolve in time.
+
+\textbf{Gauge cancellation}: By Lemma~\ref{lem:gaugeCancellationOn_const_zero}, with zero gauge $G \equiv 0$:
+\[
+0 = -\varphi_0^*(0) = 0.
+\]
+Both the diffeomorphism contribution and the gauge term vanish.
+
+Together, these show that constant diffeomorphisms with zero gauge satisfy two of the four DeTurck predicates automatically, making them ideal test cases for the reduction framework.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
@@ -881,13 +1004,26 @@ Let $g_0 \in \mathcal{M}$ be a Ricci-flat metric (i.e., $\mathrm{Ric}(g_0) = 0$)
 \begin{proof}
 \leanok
 \uses{lem:deturckEqOnWithGauge_ricciFlat_static, lem:pullbackChainRuleOn_id, lem:gaugeCancellationOn_id_zero, lem:ricciNaturalityOn_id}
-Direct application of:
-\begin{itemize}
-\item Lemma~\ref{lem:deturckEqOnWithGauge_ricciFlat_static} for the DeTurck equation,
-\item Lemma~\ref{lem:pullbackChainRuleOn_id} for the chain rule,
-\item Lemma~\ref{lem:gaugeCancellationOn_id_zero} for gauge cancellation,
-\item Lemma~\ref{lem:ricciNaturalityOn_id} for Ricci naturality.
-\end{itemize}
+This is the most trivial example of the DeTurck reduction: a static Ricci-flat metric under the identity map. We verify all four predicates:
+
+\textbf{(1) DeTurck equation}: By Lemma~\ref{lem:deturckEqOnWithGauge_ricciFlat_static}, since $g(t) \equiv g_0$ is constant and $\mathrm{Ric}(g_0) = 0$:
+\[
+\frac{\partial g}{\partial t} = 0 = -2 \cdot 0 + 0 = -2\,\mathrm{Ric}(g_0) + 0.
+\]
+
+\textbf{(2) Chain rule}: By Lemma~\ref{lem:pullbackChainRuleOn_id}, the identity map trivially satisfies the chain rule since $\mathrm{id}^* = \mathrm{id}$.
+
+\textbf{(3) Gauge cancellation}: By Lemma~\ref{lem:gaugeCancellationOn_id_zero}, with identity and zero gauge:
+\[
+0 = -\mathrm{id}^*(0) = 0.
+\]
+
+\textbf{(4) Ricci naturality}: By Lemma~\ref{lem:ricciNaturalityOn_id}, the identity map preserves Ricci curvature:
+\[
+\mathrm{Ric}(\mathrm{id}^* g_0) = \mathrm{id}^*\mathrm{Ric}(g_0).
+\]
+
+This example serves as a sanity check: the simplest possible configuration (static metric, identity map, zero gauge) satisfies all requirements. It confirms that the reduction framework correctly handles the trivial case where nothing evolves.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
