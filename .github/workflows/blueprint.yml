@@ -70,17 +70,10 @@ jobs:
         cd blueprint
         leanblueprint web
 
-    - name: Build API documentation
-      run: |
-        lake -R -Kenv=dev build RicciFlow:docs
-      timeout-minutes: 120
-
     - name: Prepare deployment directory
       run: |
         mkdir -p _site
         cp -r blueprint/web/* _site/
-        mkdir -p _site/docs
-        cp -r docs/* _site/docs/
         # Create index redirect
         cat > _site/index.html << 'EOF'
         <!DOCTYPE html>
