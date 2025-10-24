@@ -251,6 +251,30 @@ For any smooth compact Riemannian manifold $(M, g_0)$, there exists $T > 0$ and 
 Direct application of the Hamilton axiom.
 \end{proof}
 
+\begin{theorem}[Short-Time Existence for Ricci-Flat Initial Data (via DeTurck)]
+\label{thm:short_time_existence_ricciflat}
+\lean{RicciFlow.short_time_existence_ricciFlat}
+\leanok
+\uses{axiom:hamilton_ste, cor:deturck_to_hamilton_id_ricciFlat}
+If $(M, g_0)$ is a compact Riemannian manifold with $\mathrm{Ric}(g_0) = 0$ (Ricci-flat), then there exists $T > 0$ and a Ricci flow solution $g(t)$ for $t \in (0, T)$ with $g(0) = g_0$.
+
+Moreover, the trivial static solution $g(t) \equiv g_0$ satisfies the Ricci flow equation (since both $\partial g/\partial t$ and $-2 \mathrm{Ric}(g)$ are zero), which can be verified using the DeTurck reduction framework.
+\end{theorem}
+
+\begin{proof}
+\leanok
+\uses{cor:deturck_to_hamilton_id_ricciFlat}
+This combines two approaches:
+\begin{enumerate}
+\item General existence follows from Theorem~\ref{thm:short_time_existence} (Hamilton's axiom).
+\item The specific Ricci-flat case can be verified constructively: the static solution $g(t) \equiv g_0$ trivially satisfies Ricci flow since $\frac{\partial g}{\partial t} = 0 = -2 \, \mathrm{Ric}(g_0)$.
+
+This can be proven using the DeTurck reduction (Corollary~\ref{cor:deturck_to_hamilton_id_ricciFlat}) with identity diffeomorphism and zero gauge.
+\end{enumerate}
+
+\textbf{File}: \texttt{Flow.lean}, verified via \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
 \chapter{Pullback Structures and DeTurck Reduction}
 \label{chap:deturck}
 
