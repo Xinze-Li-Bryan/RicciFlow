@@ -265,8 +265,13 @@ lemma pullbackChainRuleOn_const_simplified
   ∀ ⦃t : ℝ⦄, t ∈ s →
     timeDeriv (fun τ => pullbackMetric φ₀ (g τ)) t = pullbackVelocity φ₀ (timeDeriv g t) := by
   intro t _
-  -- This is the simplification of chain rule when dPullback_dt = 0
-  sorry  -- Requires axiom about pullback commuting with time derivative
+  -- Since φ₀ is constant, pullback commutes with derivative
+  ext x v w
+  unfold timeDeriv pullbackMetric pullbackVelocity MetricVelocity.toFun
+  -- LHS: deriv (fun τ => (g τ).toFun (φ₀ x) v w) t
+  -- RHS: (deriv (fun τ => g τ) t).toFun (φ₀ x) v w
+  -- These are equal because φ₀ x is constant, so the derivative passes through
+  rfl
 
 /-- **Constant diffeomorphism with zero gauge satisfies gauge cancellation**:
     Since dPullback_dt = 0 and φ₀* 0 = 0, both sides vanish. -/
@@ -278,8 +283,11 @@ lemma gaugeCancellationOn_const_zero
   intro t _
   have h1 : dPullback_dt (fun _ => φ₀) g t = 0 := dPullback_dt_const φ₀ g t
   have h2 : pullbackVelocity φ₀ (0 : MetricVelocity M V) = 0 := pullbackVelocity_zero φ₀
-  -- Goal: 0 = -0, which requires neg_zero but type inference is tricky
-  sorry
+  -- Goal: 0 = -0
+  calc dPullback_dt (fun _ => φ₀) g t
+      = 0 := h1
+    _ = -0 := by ext x v w; simp [mv_toFun_neg, MetricVelocity.toFun_zero]
+    _ = -(pullbackVelocity φ₀ 0) := by rw [h2]
 
 /-- **Constant Ricci naturality**: If φ preserves Ricci curvature for one metric,
     it preserves it for the constant family. -/
@@ -330,8 +338,11 @@ theorem const_diff_reduction
     intro t ht
     have h := hflow ht
     show timeDeriv g t = (-2 : ℝ) • ricciOfMetric (g t) + (0 : MetricVelocity M V)
-    rw [h]
-    sorry  -- Type inference issue: need to show -2 • ricciOfMetric (g t) = -2 • ricciOfMetric (g t) + 0
+    calc timeDeriv g t
+        = (-2 : ℝ) • ricciOfMetric (g t) := h
+      _ = (-2 : ℝ) • ricciOfMetric (g t) + (0 : MetricVelocity M V) := by
+          ext x v w
+          simp [mv_toFun_add, MetricVelocity.toFun_zero]
   apply deturck_to_hamilton_reduction (φ:=fun _ => φ₀) (g:=g) (G:=fun _ => 0) (s:=s)
   · exact hdeturck
   · exact pullbackChainRuleOn_constφ φ₀ g s
