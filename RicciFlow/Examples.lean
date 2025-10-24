@@ -57,4 +57,9 @@ example (g0 : RiemannianMetric M V) (h : ricciOfMetric g0 = 0) :
 #check @gaugeCancellationOn_const_zero
 #check @ricciNaturalityOn_const_single
 
+-- ✅ Phase 6: Combined predicate applications
+#check @const_diff_satisfies_chain_and_gauge
+#check @id_satisfies_all_predicates
+#check @const_diff_reduction
+
 end RicciFlow

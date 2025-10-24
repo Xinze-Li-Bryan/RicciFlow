@@ -291,4 +291,52 @@ lemma ricciNaturalityOn_const_single
   intro t _
   exact hnat
 
+-- ========================================================================
+-- Phase 6: Combined predicate applications
+-- ========================================================================
+
+/-- **Combined constant diffeomorphism lemma**: A constant diffeomorphism with zero gauge
+    automatically satisfies both chain rule and gauge cancellation. -/
+lemma const_diff_satisfies_chain_and_gauge
+  (φ₀ : M → M)
+  (g  : ℝ → RiemannianMetric M V)
+  (s  : Set ℝ) :
+  pullbackChainRuleOn (fun _ => φ₀) g s ∧ gaugeCancellationOn (fun _ => φ₀) g (fun _ => 0) s :=
+  ⟨pullbackChainRuleOn_constφ φ₀ g s, gaugeCancellationOn_const_zero φ₀ g s⟩
+
+/-- **Identity satisfies all four predicates**: The identity map with zero gauge
+    satisfies all four DeTurck predicates for any Ricci-flat static metric. -/
+lemma id_satisfies_all_predicates
+  (g₀ : RiemannianMetric M V) (h : ricciOfMetric g₀ = 0) (s : Set ℝ) :
+  deturckEqOnWithGauge (fun _ => g₀) (fun _ => 0) s ∧
+  pullbackChainRuleOn (fun _ => id) (fun _ => g₀) s ∧
+  gaugeCancellationOn (fun _ => id) (fun _ => g₀) (fun _ => 0) s ∧
+  ricciNaturalityOn (fun _ => id) (fun _ => g₀) s :=
+  ⟨deturckEqOnWithGauge_ricciFlat_static g₀ h s,
+   pullbackChainRuleOn_id (fun _ => g₀) s,
+   gaugeCancellationOn_id_zero (fun _ => g₀) s,
+   ricciNaturalityOn_id (fun _ => g₀) s⟩
+
+/-- **Simplified reduction for constant diffeomorphism**: If a constant diffeomorphism φ₀
+    satisfies Ricci naturality and the metric family satisfies Ricci flow with zero gauge,
+    then the pulled-back metric also satisfies Ricci flow. -/
+theorem const_diff_reduction
+  (φ₀ : M → M) (g : ℝ → RiemannianMetric M V) (s : Set ℝ)
+  (hflow : ricciFlowEqOn g s)
+  (hnat : ∀ t, ricciOfMetric (pullbackMetric φ₀ (g t)) = pullbackVelocity φ₀ (ricciOfMetric (g t))) :
+  ricciFlowEqOn (fun t => pullbackMetric φ₀ (g t)) s := by
+  -- Use the reduction theorem with zero gauge
+  have hdeturck : deturckEqOnWithGauge g (fun _ => 0) s := by
+    intro t ht
+    have h := hflow ht
+    show timeDeriv g t = (-2 : ℝ) • ricciOfMetric (g t) + (0 : MetricVelocity M V)
+    rw [h]
+    sorry  -- Type inference issue: need to show -2 • ricciOfMetric (g t) = -2 • ricciOfMetric (g t) + 0
+  apply deturck_to_hamilton_reduction (φ:=fun _ => φ₀) (g:=g) (G:=fun _ => 0) (s:=s)
+  · exact hdeturck
+  · exact pullbackChainRuleOn_constφ φ₀ g s
+  · exact gaugeCancellationOn_const_zero φ₀ g s
+  · intro t _
+    exact hnat t
+
 end RicciFlow

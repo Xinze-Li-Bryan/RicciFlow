@@ -48,3 +48,6 @@ RicciFlow.dPullback_dt_const
 RicciFlow.pullbackChainRuleOn_const_simplified
 RicciFlow.gaugeCancellationOn_const_zero
 RicciFlow.ricciNaturalityOn_const_single
+const_diff_satisfies_chain_and_gauge
+id_satisfies_all_predicates
+const_diff_reduction

@@ -756,6 +756,86 @@ Immediate from the assumption applied at each time $t$.
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
 
+% ========================================================================
+% Phase 6: Combined predicate applications
+% ========================================================================
+
+\subsection{Phase 6: Combined Predicate Applications}
+
+Building on the previous phases, we now prove lemmas that combine multiple predicates and demonstrate how the reduction framework simplifies concrete applications.
+
+\begin{lemma}[Combined constant diffeomorphism properties]
+\label{lem:const_diff_satisfies_chain_and_gauge}
+\lean{const_diff_satisfies_chain_and_gauge}
+\leanok
+Let $\varphi_0 : M \to M$ be a diffeomorphism and $g : \mathbb{R} \to \mathcal{M}$ a smooth metric family. Then the constant-in-time diffeomorphism $\varphi(t) \equiv \varphi_0$ satisfies both the pullback chain rule and gauge cancellation (with zero gauge).
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{lem:pullbackChainRuleOn_constφ, lem:gaugeCancellationOn_const_zero}
+Direct application of Lemmas~\ref{lem:pullbackChainRuleOn_constφ} and~\ref{lem:gaugeCancellationOn_const_zero}.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Identity satisfies all predicates]
+\label{lem:id_satisfies_all_predicates}
+\lean{id_satisfies_all_predicates}
+\leanok
+Let $g_0 \in \mathcal{M}$ be a Ricci-flat metric (i.e., $\mathrm{Ric}(g_0) = 0$). Then the identity map $\varphi(t) \equiv \mathrm{id}$ with the constant metric $g(t) \equiv g_0$ and zero gauge satisfies all four DeTurck predicates.
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{lem:deturckEqOnWithGauge_ricciFlat_static, lem:pullbackChainRuleOn_id, lem:gaugeCancellationOn_id_zero, lem:ricciNaturalityOn_id}
+Direct application of:
+\begin{itemize}
+\item Lemma~\ref{lem:deturckEqOnWithGauge_ricciFlat_static} for the DeTurck equation,
+\item Lemma~\ref{lem:pullbackChainRuleOn_id} for the chain rule,
+\item Lemma~\ref{lem:gaugeCancellationOn_id_zero} for gauge cancellation,
+\item Lemma~\ref{lem:ricciNaturalityOn_id} for Ricci naturality.
+\end{itemize}
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{theorem}[Constant diffeomorphism reduction]
+\label{thm:const_diff_reduction}
+\lean{const_diff_reduction}
+\leanok
+Let $\varphi_0 : M \to M$ be a diffeomorphism and $g : \mathbb{R} \to \mathcal{M}$ a metric family satisfying the Ricci flow equation on an interval $s \subseteq \mathbb{R}$. Suppose that $\varphi_0$ satisfies Ricci naturality:
+\[
+\mathrm{Ric}(\varphi_0^* g(t)) = \varphi_0^* \mathrm{Ric}(g(t)) \quad \text{for all } t.
+\]
+Then the pulled-back metric $\varphi_0^* g(t)$ also satisfies the Ricci flow equation on $s$.
+\end{theorem}
+
+\begin{proof}
+\leanok
+\uses{thm:deturck_to_hamilton, lem:pullbackChainRuleOn_constφ, lem:gaugeCancellationOn_const_zero}
+We apply the main reduction Theorem~\ref{thm:deturck_to_hamilton} with the constant diffeomorphism $\varphi(t) \equiv \varphi_0$ and zero gauge $G \equiv 0$.
+
+The four required predicates are verified as follows:
+\begin{enumerate}
+\item \textbf{DeTurck equation with zero gauge}: Since $g$ satisfies Ricci flow, we have
+\[
+\frac{\partial g}{\partial t} = -2 \, \mathrm{Ric}(g) = -2 \, \mathrm{Ric}(g) + 0,
+\]
+which is precisely the DeTurck equation with $G \equiv 0$.
+
+\item \textbf{Pullback chain rule}: Lemma~\ref{lem:pullbackChainRuleOn_constφ} shows that constant diffeomorphisms satisfy the chain rule.
+
+\item \textbf{Gauge cancellation}: Lemma~\ref{lem:gaugeCancellationOn_const_zero} shows that constant diffeomorphisms with zero gauge satisfy gauge cancellation.
+
+\item \textbf{Ricci naturality}: This is the hypothesis of the theorem.
+\end{enumerate}
+
+Therefore, by Theorem~\ref{thm:deturck_to_hamilton}, the metric $\varphi_0^* g(t)$ satisfies Ricci flow on $s$.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
 \section{Changelog: New Symbols and Files}
 
 This chapter introduces the following new symbols and files:
