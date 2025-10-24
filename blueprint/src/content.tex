@@ -223,6 +223,38 @@ In Lean: \texttt{ricciFlowEqOn g S} means $\forall t \in S$, \texttt{timeDeriv g
 This PDE deforms the metric to make the curvature more uniform over time.
 \end{definition}
 
+\begin{lemma}[Constant Ricci-flat Family Satisfies Ricci Flow]
+\label{lem:ricciFlowEqOn_const_of_ricciFlat}
+\lean{RicciFlow.ricciFlowEqOn_const_of_ricciFlat}
+\leanok
+\uses{def:ricci_flow_eq_on, def:time_deriv}
+If $g_0$ is a Ricci-flat metric (i.e., $\mathrm{Ric}(g_0) = 0$), then the constant family $g(t) \equiv g_0$ satisfies the Ricci flow equation on any time interval $S$:
+\[ \frac{\partial g}{\partial t} = 0 = -2 \cdot 0 = -2 \, \mathrm{Ric}(g_0) \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+For a constant family, the time derivative is zero by Lemma~\ref{lem:timeDeriv_const}. Since $\mathrm{Ric}(g_0) = 0$ by assumption, both sides of the Ricci flow equation are zero.
+
+\textbf{File}: \texttt{Flow.lean}
+\end{proof}
+
+\begin{lemma}[Time Derivative of Constant Family is Zero]
+\label{lem:timeDeriv_const}
+\lean{RicciFlow.timeDeriv_const}
+\leanok
+\uses{def:time_deriv}
+For any constant Riemannian metric $g_0$, the time derivative of the constant family $g(t) \equiv g_0$ is zero at all times:
+\[ \frac{\partial}{\partial t}(g_0) = 0 \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+Direct application of the derivative of a constant function.
+
+\textbf{File}: \texttt{Flow.lean}
+\end{proof}
+
 \begin{theorem}[Hamilton Short-Time Existence (Axiomatized)]
 \label{axiom:hamilton_ste}
 \lean{RicciFlow.hamilton_short_time_existence}
@@ -251,28 +283,37 @@ For any smooth compact Riemannian manifold $(M, g_0)$, there exists $T > 0$ and 
 Direct application of the Hamilton axiom.
 \end{proof}
 
-\begin{theorem}[Short-Time Existence for Ricci-Flat Initial Data (via DeTurck)]
+\begin{theorem}[Short-Time Existence for Ricci-Flat Initial Data \textbf{(Proven without axioms!)}]
 \label{thm:short_time_existence_ricciflat}
 \lean{RicciFlow.short_time_existence_ricciFlat}
 \leanok
-\uses{axiom:hamilton_ste, cor:deturck_to_hamilton_id_ricciFlat}
+\uses{def:ricci_flow_eq_on, lem:ricciFlowEqOn_const_of_ricciFlat}
 If $(M, g_0)$ is a compact Riemannian manifold with $\mathrm{Ric}(g_0) = 0$ (Ricci-flat), then there exists $T > 0$ and a Ricci flow solution $g(t)$ for $t \in (0, T)$ with $g(0) = g_0$.
 
-Moreover, the trivial static solution $g(t) \equiv g_0$ satisfies the Ricci flow equation (since both $\partial g/\partial t$ and $-2 \mathrm{Ric}(g)$ are zero), which can be verified using the DeTurck reduction framework.
+\textbf{This theorem is proven constructively without axioms}, by taking the constant solution $g(t) \equiv g_0$.
 \end{theorem}
 
 \begin{proof}
 \leanok
-\uses{cor:deturck_to_hamilton_id_ricciFlat}
-This combines two approaches:
-\begin{enumerate}
-\item General existence follows from Theorem~\ref{thm:short_time_existence} (Hamilton's axiom).
-\item The specific Ricci-flat case can be verified constructively: the static solution $g(t) \equiv g_0$ trivially satisfies Ricci flow since $\frac{\partial g}{\partial t} = 0 = -2 \, \mathrm{Ric}(g_0)$.
+\uses{lem:ricciFlowEqOn_const_of_ricciFlat}
+We construct an explicit solution: take $T = 1$ and $g(t) \equiv g_0$ (the constant family).
 
-This can be proven using the DeTurck reduction (Corollary~\ref{cor:deturck_to_hamilton_id_ricciFlat}) with identity diffeomorphism and zero gauge.
-\end{enumerate}
+\textbf{Verification}:
+\begin{itemize}
+\item Initial condition: $g(0) = g_0$ $\checkmark$
+\item Ricci flow equation: For any $t \in (0, 1)$,
+\begin{align*}
+\frac{\partial g}{\partial t} &= 0 \quad \text{(constant family)} \\
+-2 \, \mathrm{Ric}(g(t)) &= -2 \, \mathrm{Ric}(g_0) = 0 \quad \text{(Ricci-flat assumption)}
+\end{align*}
+Thus $\frac{\partial g}{\partial t} = -2 \, \mathrm{Ric}(g(t))$ holds. $\checkmark$
+\end{itemize}
 
-\textbf{File}: \texttt{Flow.lean}, verified via \texttt{Ricci/DeturckReduction.lean}
+\textbf{This proof uses no axioms} - it's a direct construction verified in Lemma~\ref{lem:ricciFlowEqOn_const_of_ricciFlat}.
+
+\textbf{Connection to DeTurck reduction}: The same result can be verified using the DeTurck framework (Corollary~\ref{cor:deturck_to_hamilton_id_ricciFlat}), demonstrating that our DeTurck reduction machinery correctly reproduces this known result.
+
+\textbf{File}: \texttt{Flow.lean}
 \end{proof}
 
 \chapter{Pullback Structures and DeTurck Reduction}
