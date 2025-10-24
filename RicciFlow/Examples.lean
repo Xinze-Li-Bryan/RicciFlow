@@ -46,4 +46,9 @@ example (g0 : RiemannianMetric M V) (h : ricciOfMetric g0 = 0) :
 #check @deturck_to_hamilton_constφ_noGauge
 #check @deturck_to_hamilton_id_ricciFlat
 
+-- ✅ Phase 4: Composition properties
+#check @ricciNaturalityOn_const_comp
+#check @ricciNaturalityOn_comp_id
+#check @ricciNaturalityOn_id_id
+
 end RicciFlow

@@ -555,6 +555,61 @@ This serves as a complete sanity check that the reduction pipeline works in the 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
 
+\subsection{Composition Properties}
+
+\begin{lemma}[Ricci Naturality Preserved Under Composition]
+\label{lem:ricciNaturalityOn_const_comp}
+\lean{RicciFlow.ricciNaturalityOn_const_comp}
+\leanok
+\uses{def:ricciNaturalityOn}
+If two constant diffeomorphisms $\varphi, \psi : M \to M$ each preserve Ricci naturality, then their composition $\varphi \circ \psi$ also preserves it:
+\[ \mathrm{Ric}((\varphi \circ \psi)^* g) = (\varphi \circ \psi)^* \mathrm{Ric}(g) \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+Use the functorial property of pullback: $(\varphi \circ \psi)^* = \psi^* \circ \varphi^*$ (contravariant).
+Then:
+\begin{align*}
+\mathrm{Ric}((\varphi \circ \psi)^* g) &= \mathrm{Ric}(\psi^* (\varphi^* g)) \\
+&= \psi^* \mathrm{Ric}(\varphi^* g) \quad \text{(by naturality of $\psi$)} \\
+&= \psi^* (\varphi^* \mathrm{Ric}(g)) \quad \text{(by naturality of $\varphi$)} \\
+&= (\varphi \circ \psi)^* \mathrm{Ric}(g)
+\end{align*}
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Identity as Right Unit]
+\label{lem:ricciNaturalityOn_comp_id}
+\lean{RicciFlow.ricciNaturalityOn_comp_id}
+\leanok
+\uses{def:ricciNaturalityOn}
+Composing with the identity map on the right preserves Ricci naturality (trivially, since $\varphi \circ \mathrm{id} = \varphi$).
+\end{lemma}
+
+\begin{proof}
+\leanok
+Immediate from function composition with identity.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Identity Composition Corollary]
+\label{lem:ricciNaturalityOn_id_id}
+\lean{RicciFlow.ricciNaturalityOn_id_id}
+\leanok
+\uses{lem:ricciNaturalityOn_id}
+The identity map composed with itself satisfies Ricci naturality: $\mathrm{Ric}((\mathrm{id} \circ \mathrm{id})^* g) = (\mathrm{id} \circ \mathrm{id})^* \mathrm{Ric}(g)$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+By simplification using $\mathrm{id} \circ \mathrm{id} = \mathrm{id}$ and Lemma~\ref{lem:ricciNaturalityOn_id}.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
 \section{Changelog: New Symbols and Files}
 
 This chapter introduces the following new symbols and files:

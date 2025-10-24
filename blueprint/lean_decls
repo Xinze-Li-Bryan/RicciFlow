@@ -38,3 +38,6 @@ RicciFlow.gaugeCancellationOn_id_zero
 RicciFlow.deturckEqOnWithGauge_ricciFlat_static
 RicciFlow.deturck_to_hamilton_constφ_noGauge
 RicciFlow.deturck_to_hamilton_id_ricciFlat
+RicciFlow.ricciNaturalityOn_const_comp
+RicciFlow.ricciNaturalityOn_comp_id
+RicciFlow.ricciNaturalityOn_id_id

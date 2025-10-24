@@ -210,4 +210,38 @@ lemma deturck_to_hamilton_id_ricciFlat
     · exact ricciNaturalityOn_id (fun _ => g0) s
   simpa using hg
 
+-- ========================================================================
+-- Phase 4: Composition properties
+-- ========================================================================
+
+/-- **Composition lemma**: If two constant maps preserve Ricci naturality,
+    then their composition also preserves it.
+    Note: pullbackMetric_comp gives (φ ∘ ψ)* = ψ* ∘ φ* (contravariant). -/
+lemma ricciNaturalityOn_const_comp
+  (φ ψ : M → M) (g : RiemannianMetric M V)
+  (hnat_φ : ricciOfMetric (pullbackMetric φ g) = pullbackVelocity φ (ricciOfMetric g))
+  (hnat_ψ : ricciOfMetric (pullbackMetric ψ (pullbackMetric φ g)) =
+            pullbackVelocity ψ (ricciOfMetric (pullbackMetric φ g))) :
+  ricciOfMetric (pullbackMetric (fun x => φ (ψ x)) g) =
+  pullbackVelocity (fun x => φ (ψ x)) (ricciOfMetric g) := by
+  -- pullbackMetric_comp: (φ ∘ ψ)* g = ψ* (φ* g)
+  simp only [pullbackMetric_comp, pullbackVelocity_comp]
+  -- Goal: ricciOfMetric (ψ* (φ* g)) = ψ* (φ* (ricciOfMetric g))
+  rw [hnat_ψ]
+  -- Goal: ψ* (ricciOfMetric (φ* g)) = ψ* (φ* (ricciOfMetric g))
+  rw [hnat_φ]
+
+/-- **Identity as unit**: Composing with identity on the right preserves Ricci naturality. -/
+lemma ricciNaturalityOn_comp_id
+  (φ : M → M) (g : RiemannianMetric M V)
+  (hφ : ricciOfMetric (pullbackMetric φ g) = pullbackVelocity φ (ricciOfMetric g)) :
+  ricciOfMetric (pullbackMetric (fun x => φ x) g) =
+  pullbackVelocity (fun x => φ x) (ricciOfMetric g) := hφ
+
+/-- **Corollary**: Identity composed with itself satisfies Ricci naturality (trivially). -/
+lemma ricciNaturalityOn_id_id (g : RiemannianMetric M V) :
+  ricciOfMetric (pullbackMetric (fun x => id (id x)) g) =
+  pullbackVelocity (fun x => id (id x)) (ricciOfMetric g) := by
+  simp [pullbackMetric_id, pullbackVelocity_id]
+
 end RicciFlow
