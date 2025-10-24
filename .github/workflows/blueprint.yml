@@ -74,20 +74,6 @@ jobs:
       run: |
         mkdir -p _site
         cp -r blueprint/web/* _site/
-        # Create index redirect
-        cat > _site/index.html << 'EOF'
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <meta http-equiv="refresh" content="0; url=./index.html">
-          <title>Ricci Flow Formalization</title>
-        </head>
-        <body>
-          <p>Redirecting to <a href="./index.html">Blueprint</a>...</p>
-        </body>
-        </html>
-        EOF
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
