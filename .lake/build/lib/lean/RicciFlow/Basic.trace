@@ -1,0 +1,29 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["5be9a22a3714a6f2.olean"],
+  "i": "6108e28dae7d87fd.ilean",
+  "c": "6d907aa6aed15230.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow/Basic.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Basic.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Basic.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/Basic.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/Basic.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["RicciFlow.Basic:deps",
+   [["deps",
+     [["ricciflow/RicciFlow:extraDep",
+       [["@ricciflow:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "b1932a8a34cf8238"],
+        ["Mathlib:importAllArts", "dd9a3418932dc6ef"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.25.0, commit 744f98064b056ee27fc8c97f524797c8cc96f436",
+   "4bbac11c6209e48b"],
+  ["/Users/lixinze/RicciFlow/RicciFlow/Basic.lean", "e27d946cb66e7713"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "6ffc121d16fc2014"}

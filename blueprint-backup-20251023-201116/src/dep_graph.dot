@@ -1,0 +1,46 @@
+digraph blueprint_deps {
+    rankdir=TB;
+    node [shape=box, style=filled, fontname="Arial"];
+
+    // Nodes with completion status
+    manifold [label="Manifold Type\n(Basic)", fillcolor="#90EE90", color="green"];
+    metric [label="Riemannian Metric", fillcolor="#FFFFE0", color="orange"];
+    ricci_tensor [label="Ricci Tensor", fillcolor="#FFFFE0", color="orange"];
+    scalar_curv [label="Scalar Curvature", fillcolor="#FFB6C1", color="red"];
+    flow_eq [label="Ricci Flow Equation", fillcolor="#FFFFE0", color="orange"];
+    existence [label="Short-Time Existence", fillcolor="#FFB6C1", color="red"];
+
+    // Basic lemmas
+    pos_mul [label="pos_mul_pos", fillcolor="#90EE90", color="green"];
+    square_pos [label="square_pos_of_ne_zero", fillcolor="#90EE90", color="green"];
+    exists_pos [label="exists_pos_real", fillcolor="#90EE90", color="green"];
+    inv_pos [label="inv_pos_of_pos", fillcolor="#90EE90", color="green"];
+    cont_at [label="continuousAt_iff", fillcolor="#90EE90", color="green"];
+
+    // Dependencies
+    metric -> manifold;
+    ricci_tensor -> metric;
+    scalar_curv -> ricci_tensor;
+    scalar_curv -> inv_pos;
+    flow_eq -> metric;
+    flow_eq -> ricci_tensor;
+    existence -> flow_eq;
+    existence -> exists_pos;
+
+    // Metric uses positivity lemmas
+    metric -> pos_mul [style=dotted];
+    metric -> square_pos [style=dotted];
+    metric -> cont_at [style=dotted];
+
+    // Legend
+    {
+        rank=sink;
+        legend [shape=none, label=<
+            <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD BGCOLOR="#90EE90">Green: Complete</TD></TR>
+            <TR><TD BGCOLOR="#FFFFE0">Yellow: Partial/Axiom</TD></TR>
+            <TR><TD BGCOLOR="#FFB6C1">Red: Uses sorry</TD></TR>
+            </TABLE>
+        >];
+    }
+}

@@ -1,0 +1,277 @@
+\chapter{Introduction}
+
+This blueprint documents the formalization of Ricci Flow theory in Lean 4.
+Ricci Flow is a fundamental geometric evolution equation introduced by Richard Hamilton,
+which has profound applications including the proof of the Poincaré conjecture.
+
+\chapter{Basic Lemmas}
+\label{chap:basic}
+
+This chapter contains fundamental lemmas about real numbers and topology
+that are used throughout the formalization.
+
+\section{Properties of Positive Reals}
+
+\begin{lemma}[Positive multiplication]
+\label{lem:pos_mul_pos}
+\lean{RicciFlow.pos_mul_pos}
+\leanok
+For positive real numbers $a$ and $b$, their product $a \cdot b$ is positive.
+\end{lemma}
+
+\begin{proof}
+\leanok
+This follows directly from Mathlib's \texttt{mul\_pos} theorem.
+\end{proof}
+
+\begin{lemma}[Square of nonzero is positive]
+\label{lem:square_pos_of_ne_zero}
+\lean{RicciFlow.square_pos_of_ne_zero}
+\leanok
+If $x \neq 0$, then $x^2 > 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+This is a consequence of the fact that squares of nonzero numbers are positive,
+formalized using Mathlib's \texttt{sq\_pos\_of\_ne\_zero}.
+This property is fundamental for proving positive-definiteness of the metric tensor.
+\end{proof}
+
+\begin{lemma}[Existence of positive real]
+\label{lem:exists_pos_real}
+\lean{RicciFlow.exists_pos_real}
+\leanok
+There exists a real number $t$ such that $t > 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+Constructively, we exhibit $t = 1$ and verify $1 > 0$ using \texttt{norm\_num}.
+\end{proof}
+
+\begin{lemma}[Inverse of positive is positive]
+\label{lem:inv_pos_of_pos}
+\lean{RicciFlow.inv_pos_of_pos}
+\leanok
+If $x > 0$, then $x^{-1} > 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+This is \texttt{inv\_pos.mpr} from Mathlib.
+Used when computing scalar curvature $R = g^{ij} \mathrm{Ric}_{ij}$ where
+we need the inverse metric $g^{ij}$ to preserve positivity properties.
+\end{proof}
+
+\section{Topological Properties}
+
+\begin{lemma}[Continuity equivalence]
+\label{lem:continuous_at_iff}
+\lean{RicciFlow.continuousAt_iff_continuousWithinAt}
+\leanok
+A function $f$ is continuous at $x$ if and only if it is continuous within
+the universal set at $x$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+This follows from \texttt{continuousWithinAt\_univ} in Mathlib.
+Useful when working with smooth functions in local coordinate charts.
+\end{proof}
+
+\chapter{Riemannian Manifolds}
+\label{chap:riemannian}
+
+We introduce the structures of Riemannian geometry.
+
+\begin{definition}[Riemannian Metric]
+\label{def:riemannian_metric}
+\lean{RicciFlow.RiemannianMetric}
+\leanok
+\uses{lem:pos_mul_pos, lem:square_pos_of_ne_zero}
+A Riemannian metric on a manifold $M$ is a smooth assignment to each point $x \in M$
+of a positive-definite symmetric bilinear form $g_x : T_xM \times T_xM \to \mathbb{R}$.
+
+Formally, it is a structure containing:
+\begin{itemize}
+\item A function \texttt{toFun} : $M \to (V \to V \to \mathbb{R})$ where $V$ represents the tangent space
+\item \textbf{Symmetry}: $g_x(v, w) = g_x(w, v)$ for all $x, v, w$
+\item \textbf{Positive-definiteness}: $g_x(v, v) > 0$ for all $x$ and all $v \neq 0$
+\end{itemize}
+
+\textbf{Implementation note}: The current version uses a type parameter $V$ for the abstract
+tangent space. The full implementation should use the actual tangent bundle $TM$.
+\end{definition}
+
+\begin{definition}[Inner Product]
+\label{def:inner_product}
+\lean{RicciFlow.innerProduct}
+\leanok
+\uses{def:riemannian_metric}
+Given a Riemannian metric $g$ on $M$, the inner product of two tangent vectors
+$v, w \in T_xM$ at point $x$ is defined as:
+\[ \langle v, w \rangle_x := g_x(v, w) \]
+\end{definition}
+
+\begin{definition}[Norm Squared]
+\label{def:norm_sq}
+\lean{RicciFlow.normSq}
+\leanok
+\uses{def:riemannian_metric}
+The squared norm of a tangent vector $v \in T_xM$ at point $x$ is:
+\[ \|v\|^2 := g_x(v, v) \]
+
+The actual norm is $\|v\| = \sqrt{\|v\|^2}$.
+\end{definition}
+
+\begin{lemma}[Inner product symmetry]
+\label{lem:inner_product_symm}
+\lean{RicciFlow.innerProduct_symm}
+\leanok
+\uses{def:inner_product}
+For any tangent vectors $v, w$ at point $x$:
+\[ \langle v, w \rangle_x = \langle w, v \rangle_x \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{def:riemannian_metric}
+This follows directly from the symmetry axiom of the Riemannian metric.
+\end{proof}
+
+\begin{lemma}[Norm squared positivity]
+\label{lem:norm_sq_pos}
+\lean{RicciFlow.normSq_pos}
+\leanok
+\uses{def:norm_sq}
+For any nonzero tangent vector $v$ at point $x$:
+\[ \|v\|^2 > 0 \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{def:riemannian_metric}
+This follows from the positive-definiteness axiom of the Riemannian metric.
+\end{proof}
+
+\chapter{Ricci Curvature}
+\label{chap:ricci}
+
+The Ricci tensor encodes information about the curvature of a Riemannian manifold.
+
+\begin{definition}[Ricci Tensor]
+\label{def:ricci_tensor}
+\lean{RicciFlow.RicciTensor}
+\leanok
+\uses{def:riemannian_metric}
+The Ricci tensor $\mathrm{Ric}$ is obtained by contracting the Riemann curvature tensor:
+\[ \mathrm{Ric}_{ij} = R^k_{ikj} = g^{kl} R_{likj} \]
+where $R_{ijkl}$ is the Riemann curvature tensor and $g^{kl}$ is the inverse metric.
+
+\textbf{Current implementation}: This is a simplified structure that stores the trace value
+(scalar curvature) directly. The full implementation should compute this from the Riemann tensor.
+\end{definition}
+
+\begin{definition}[Scalar Curvature]
+\label{def:scalar_curvature}
+\lean{RicciFlow.scalarCurvature}
+\leanok
+\uses{def:ricci_tensor, lem:inv_pos_of_pos}
+The scalar curvature $R$ is the trace of the Ricci tensor with respect to the metric:
+\[ R = g^{ij} \mathrm{Ric}_{ij} \]
+
+\textbf{Geometric interpretation}:
+\begin{itemize}
+\item $R > 0$: The manifold curves inward (like a sphere)
+\item $R < 0$: The manifold curves outward (like hyperbolic space)
+\item $R = 0$: The manifold is locally flat (like Euclidean space)
+\end{itemize}
+\end{definition}
+
+\begin{lemma}[Scalar curvature computation]
+\label{lem:scalar_curvature_eq}
+\lean{RicciFlow.scalarCurvature_eq_traceValue}
+\leanok
+\uses{def:scalar_curvature}
+In our current implementation, the scalar curvature equals the stored trace value:
+\[ R = \mathrm{Ric}.\mathrm{traceValue} \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+This is definitional in our simplified implementation.
+\end{proof}
+
+\chapter{Ricci Flow}
+\label{chap:flow}
+
+The Ricci flow is a geometric evolution equation that deforms a Riemannian metric.
+
+\begin{definition}[Ricci Flow Equation]
+\label{def:ricci_flow_equation}
+\lean{RicciFlow.ricci_flow_equation}
+\uses{def:riemannian_metric, def:ricci_tensor}
+The Ricci flow equation is a parabolic PDE for a time-dependent Riemannian metric $g(t)$:
+\[ \frac{\partial g_{ij}}{\partial t} = -2 \mathrm{Ric}_{ij} \]
+
+This equation describes how the metric evolves to become more uniform over time.
+
+\textbf{Current status}: Declared as an axiom. The full definition requires
+setting up the theory of time-dependent metrics and their derivatives.
+\end{definition}
+
+\begin{theorem}[Short-Time Existence]
+\label{thm:short_time_existence}
+\lean{RicciFlow.short_time_existence}
+\uses{def:ricci_flow_equation, lem:exists_pos_real}
+For any smooth compact Riemannian manifold $(M, g_0)$, there exists $T > 0$
+and a smooth solution $g : [0, T) \to \mathrm{Met}(M)$ to the Ricci flow equation
+with initial condition $g(0) = g_0$.
+\end{theorem}
+
+\begin{proof}
+\textbf{Current status}: Declared as \texttt{sorry}.
+
+The full proof requires three main steps:
+\begin{enumerate}
+\item \textbf{DeTurck's trick}: Introduce the Ricci-DeTurck flow
+  \[ \frac{\partial g_{ij}}{\partial t} = -2 \mathrm{Ric}_{ij} + \mathcal{L}_W g_{ij} \]
+  where $W$ is chosen to break diffeomorphism invariance.
+
+\item \textbf{Parabolic theory}: Apply standard short-time existence theory for
+  parabolic PDEs to the Ricci-DeTurck flow. This is the main analytic work.
+
+\item \textbf{Pullback}: Show that the Ricci-DeTurck solution can be pulled back
+  by a family of diffeomorphisms to obtain a Ricci flow solution.
+\end{enumerate}
+
+Key references:
+\begin{itemize}
+\item Hamilton, ``Three-manifolds with positive Ricci curvature" (1982)
+\item DeTurck, ``Deforming metrics in the direction of their Ricci tensors" (1983)
+\item Topping, ``Lectures on the Ricci Flow" (2006)
+\end{itemize}
+\end{proof}
+
+\chapter{Future Work}
+
+\section{Planned Extensions}
+
+\begin{itemize}
+\item Complete the proof of short-time existence
+\item Formalize the maximum principle for Ricci flow
+\item Implement normalized Ricci flow
+\item Develop the theory of ancient solutions
+\item Formalize Perelman's monotonicity formulas
+\item Prove convergence results for special geometries
+\end{itemize}
+
+\section{Technical Improvements}
+
+\begin{itemize}
+\item Replace the simplified tangent space representation with proper tangent bundle theory
+\item Implement full Riemann curvature tensor computation
+\item Add support for time-dependent Riemannian metrics
+\item Develop calculus on manifolds infrastructure
+\end{itemize}

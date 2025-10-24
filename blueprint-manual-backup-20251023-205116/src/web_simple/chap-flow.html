@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formalization of Ricci Flow in Lean 4: Ricci Flow</title>
+<link rel="next" href="sect0002.html" title="Future Directions" />
+<link rel="prev" href="chap-ricci.html" title="Ricci Curvature" />
+<link rel="up" href="index.html" title="Formalization of Ricci Flow in Lean 4" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of Ricci Flow in Lean 4</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+ </li>
+<li class="">
+  <a href="chap-basic.html"><span class="toc_ref">2</span> <span class="toc_entry">Basic Definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-riemannian.html"><span class="toc_ref">3</span> <span class="toc_entry">Riemannian Manifolds</span></a>
+ </li>
+<li class="">
+  <a href="chap-ricci.html"><span class="toc_ref">4</span> <span class="toc_entry">Ricci Curvature</span></a>
+ </li>
+<li class=" active current">
+  <a href="chap-flow.html"><span class="toc_ref">5</span> <span class="toc_entry">Ricci Flow</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">6</span> <span class="toc_entry">Future Directions</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Immediate Goals</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Long-Term Goals</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="chap:flow">5 Ricci Flow</h1>
+
+<div class="definition_thmwrapper theorem-style-definition" id="def:ricci-flow-equation">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">5.1</span>
+    <span class="definition_thmtitle">Ricci Flow Equation</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  <span style="None"></span>blue<span class="ttfamily">RicciFlow.ricci_flow_equation</span>  The Ricci Flow is the geometric evolution equation: </p>
+<div class="displaymath" id="a0000000010">
+  \[  \frac{\partial g}{\partial t} = -2 \operatorname{Ric}(g)  \]
+</div>
+<p> where \(g(t)\) is a time-dependent family of Riemannian metrics and \(\operatorname{Ric}(g)\) is the Ricci curvature tensor of \(g\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:short-time-existence">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">5.2</span>
+    <span class="theorem_thmtitle">Short-Time Existence</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  <span style="None"></span>blue<span class="ttfamily">RicciFlow.short_time_existence</span>  Let \((M, g_0)\) be a compact Riemannian manifold. Then there exists a time \(T {\gt} 0\) and a smooth family of metrics \(g(t)\) for \(t \in [0, T)\) such that: </p>
+<ol class="enumerate">
+  <li><p>\(g(0) = g_0\) (initial condition) </p>
+</li>
+  <li><p>\(g(t)\) satisfies the Ricci Flow equation for all \(t \in (0, T)\) </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000011">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>This is a deep result in geometric analysis, relying on the theory of parabolic PDEs. The proof involves: </p>
+<ul class="itemize">
+  <li><p>Showing that the Ricci Flow equation is a weakly parabolic system </p>
+</li>
+  <li><p>Applying short-time existence theory for parabolic systems </p>
+</li>
+  <li><p>Establishing appropriate estimates to ensure smoothness </p>
+</li>
+</ul>
+<p>In the Lean formalization, this theorem is currently stated with <span class="ttfamily">sorry</span>. A complete formalization would require developing substantial PDE theory in Lean. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="chap-ricci.html" title="Ricci Curvature"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Formalization of Ricci Flow in Lean 4"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0002.html" title="Future Directions"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

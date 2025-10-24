@@ -1,0 +1,223 @@
+\chapter{Introduction}
+
+This blueprint documents the formalization of Ricci Flow theory in Lean 4.
+Ricci Flow is a fundamental geometric evolution equation introduced by Richard Hamilton,
+which has profound applications including Perelman's proof of the Poincaré conjecture.
+
+\chapter{Basic Lemmas}
+\label{chap:basic}
+
+This chapter contains fundamental lemmas about real numbers and topology.
+
+\begin{lemma}[Positive Multiplication]
+\label{lem:pos_mul_pos}
+\lean{RicciFlow.pos_mul_pos}
+\leanok
+For positive real numbers $a > 0$ and $b > 0$, their product $a \cdot b > 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+Direct application of Mathlib's \texttt{mul\_pos}.
+\end{proof}
+
+\begin{lemma}[Square Positive of Nonzero]
+\label{lem:square_pos_of_ne_zero}
+\lean{RicciFlow.square_pos_of_ne_zero}
+\leanok
+For any nonzero real number $x \neq 0$, we have $x^2 > 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+Uses \texttt{sq\_pos\_of\_ne\_zero} from Mathlib.
+\end{proof}
+
+\begin{lemma}[Existence of Positive Real]
+\label{lem:exists_pos_real}
+\lean{RicciFlow.exists_pos_real}
+\leanok
+There exists a positive real number.
+\end{lemma}
+
+\begin{proof}
+\leanok
+We construct $1$ as a witness.
+\end{proof}
+
+\begin{lemma}[Inverse Positive of Positive]
+\label{lem:inv_pos_of_pos}
+\lean{RicciFlow.inv_pos_of_pos}
+\leanok
+For $x > 0$, we have $x^{-1} > 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+Uses \texttt{inv\_pos} from Mathlib.
+\end{proof}
+
+\begin{lemma}[Continuous At iff Continuous Within At]
+\label{lem:continuousAt_iff}
+\lean{RicciFlow.continuousAt_iff_continuousWithinAt}
+\leanok
+Continuity at a point is equivalent to continuity within the universal set.
+\end{lemma}
+
+\begin{proof}
+\leanok
+Uses \texttt{continuousWithinAt\_univ} from Mathlib.
+\end{proof}
+
+\chapter{Riemannian Manifolds}
+\label{chap:riemannian}
+
+\begin{definition}[Riemannian Metric]
+\label{def:riemannian_metric}
+\lean{RicciFlow.RiemannianMetric}
+\leanok
+\uses{lem:pos_mul_pos, lem:square_pos_of_ne_zero}
+A Riemannian metric on a manifold $M$ is a smooth positive-definite symmetric bilinear form on each tangent space.
+
+For each point $x \in M$ and tangent vectors $v, w \in T_xM$:
+\begin{itemize}
+\item \textbf{Symmetry}: $g_x(v, w) = g_x(w, v)$
+\item \textbf{Positive-definiteness}: $g_x(v, v) > 0$ for all $v \neq 0$
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Inner Product]
+\label{def:inner_product}
+\lean{RicciFlow.innerProduct}
+\leanok
+\uses{def:riemannian_metric}
+The inner product of tangent vectors $v, w \in T_xM$ is defined as $\langle v, w \rangle_x = g_x(v, w)$.
+\end{definition}
+
+\begin{definition}[Norm Squared]
+\label{def:norm_sq}
+\lean{RicciFlow.normSq}
+\leanok
+\uses{def:riemannian_metric}
+The squared norm of a tangent vector $v \in T_xM$ is $\|v\|^2 = g_x(v, v)$.
+\end{definition}
+
+\begin{lemma}[Inner Product Symmetry]
+\label{lem:inner_product_symm}
+\lean{RicciFlow.innerProduct_symm}
+\leanok
+\uses{def:inner_product}
+For any tangent vectors $v, w$ at point $x$: $\langle v, w \rangle_x = \langle w, v \rangle_x$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{def:riemannian_metric}
+Follows from the symmetry axiom of the Riemannian metric.
+\end{proof}
+
+\begin{lemma}[Norm Squared Positivity]
+\label{lem:norm_sq_pos}
+\lean{RicciFlow.normSq_pos}
+\leanok
+\uses{def:norm_sq}
+For any nonzero tangent vector $v$ at point $x$: $\|v\|^2 > 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{def:riemannian_metric}
+Follows from the positive-definiteness axiom.
+\end{proof}
+
+\chapter{Ricci Curvature}
+\label{chap:ricci}
+
+\begin{definition}[Ricci Tensor]
+\label{def:ricci_tensor}
+\lean{RicciFlow.RicciTensor}
+\leanok
+\uses{def:riemannian_metric}
+The Ricci curvature tensor $\mathrm{Ric}_{ij}$ is obtained by contracting the Riemann curvature tensor:
+\[ \mathrm{Ric}_{ij} = R^k_{ikj} = g^{kl} R_{likj} \]
+\end{definition}
+
+\begin{definition}[Scalar Curvature]
+\label{def:scalar_curvature}
+\lean{RicciFlow.scalarCurvature}
+\leanok
+\uses{def:ricci_tensor, lem:inv_pos_of_pos}
+The scalar curvature is the trace of the Ricci tensor: $R = g^{ij} \mathrm{Ric}_{ij}$.
+
+\textbf{Geometric meaning}:
+\begin{itemize}
+\item $R > 0$: positive curvature (sphere-like)
+\item $R < 0$: negative curvature (hyperbolic)
+\item $R = 0$: flat (Euclidean)
+\end{itemize}
+\end{definition}
+
+\begin{lemma}[Scalar Curvature Computation]
+\label{lem:scalar_curvature_eq}
+\lean{RicciFlow.scalarCurvature_eq_traceValue}
+\leanok
+\uses{def:scalar_curvature}
+The scalar curvature equals the trace value: $R = \mathrm{Ric}.\mathrm{traceValue}$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+Definitional in our current implementation.
+\end{proof}
+
+\chapter{Ricci Flow}
+\label{chap:flow}
+
+\begin{definition}[Ricci Flow Equation]
+\label{def:ricci_flow_equation}
+\lean{RicciFlow.ricci_flow_equation}
+\uses{def:riemannian_metric, def:ricci_tensor}
+The Ricci flow is the geometric evolution equation:
+\[ \frac{\partial g_{ij}}{\partial t} = -2 \mathrm{Ric}_{ij} \]
+
+This equation deforms the metric to make the curvature more uniform.
+\end{definition}
+
+\begin{theorem}[Short-Time Existence]
+\label{thm:short_time_existence}
+\lean{RicciFlow.short_time_existence}
+\uses{def:ricci_flow_equation, def:scalar_curvature, lem:exists_pos_real}
+For any smooth compact Riemannian manifold $(M, g_0)$, there exists $T > 0$ and a smooth solution $g(t)$ to the Ricci flow for $t \in [0, T)$ with initial condition $g(0) = g_0$.
+\end{theorem}
+
+\begin{proof}
+Hamilton's fundamental theorem (1982). The proof uses:
+\begin{enumerate}
+\item DeTurck's trick to break diffeomorphism invariance
+\item Parabolic PDE theory for short-time existence
+\item Pullback to obtain the Ricci flow solution
+\end{enumerate}
+
+Currently formalized as \texttt{sorry}.
+\end{proof}
+
+\chapter{Future Directions}
+
+\section{Planned Extensions}
+
+\begin{itemize}
+\item Complete formalization of short-time existence
+\item Maximum principles for Ricci flow
+\item Normalized Ricci flow
+\item Perelman's monotonicity formulas
+\item Convergence results
+\end{itemize}
+
+\section{Technical Improvements}
+
+\begin{itemize}
+\item Full tangent bundle implementation
+\item Complete Riemann tensor computation
+\item Time-dependent Riemannian metrics
+\item Manifold calculus infrastructure
+\end{itemize}

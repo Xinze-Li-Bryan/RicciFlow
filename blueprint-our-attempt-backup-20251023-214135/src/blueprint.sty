@@ -1,0 +1,9 @@
+\DeclareOption*{}
+\ProcessOptions
+
+% Define blueprint commands for web version
+\newcommand{\graphcolor}[3]{}
+
+% Disable the automatic dependency graph inclusion that causes the error
+% We'll manually add it to the HTML later
+\renewcommand{\includegraphics}[2][]{}

@@ -1,0 +1,14 @@
+import Lake
+open Lake DSL
+
+package «ricciflow» where
+  version := v!"0.1.0"
+
+require mathlib from git
+  "https://github.com/leanprover-community/mathlib4.git"
+
+require «doc-gen4» from git
+  "https://github.com/leanprover-community/doc-gen4" @ "main"
+
+@[default_target]
+lean_lib «RicciFlow» where

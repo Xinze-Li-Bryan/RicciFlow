@@ -1,0 +1,32 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["7d34c1ea92708d18.olean"],
+  "i": "5a1619a1ebda3da6.ilean",
+  "c": "f68b98863fc76e27.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow/RiemannianManifold.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RiemannianManifold.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RiemannianManifold.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/RiemannianManifold.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/RiemannianManifold.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["RicciFlow.RiemannianManifold:deps",
+   [["deps",
+     [["ricciflow/RicciFlow:extraDep",
+       [["@ricciflow:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "b1932a8a34cf8238"],
+        ["Mathlib:importAllArts", "dd9a3418932dc6ef"],
+        ["RicciFlow.Basic transitive imports (legacy)", "1636e2b8ffc2f287"],
+        ["RicciFlow.Basic:importAllArts", "e8a24de10b3f2f35"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.25.0, commit 744f98064b056ee27fc8c97f524797c8cc96f436",
+   "4bbac11c6209e48b"],
+  ["/Users/lixinze/RicciFlow/RicciFlow/RiemannianManifold.lean",
+   "e7b3588adb9c93b2"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "29cdeb760be61212"}

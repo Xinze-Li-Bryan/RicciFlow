@@ -1,0 +1,24 @@
+[project]
+name = "RicciFlow"
+
+[blueprint]
+name = "Formalization of Ricci Flow"
+author = "RicciFlow Project"
+description = "A Lean 4 formalization of Ricci Flow theory"
+
+[paths]
+source = "blueprint/src"
+build = "blueprint/build"
+web = "blueprint/web"
+# Path to Lean source files (relative to project root)
+lean_source = "RicciFlow"
+
+[lean]
+# Lean 4 project root
+root = "."
+# URL template for linking to Lean code on GitHub
+# Use {path} for file path and {line} for line number
+code_url = "https://github.com/yourusername/RicciFlow/blob/main/{path}#L{line}"
+
+[dependencies]
+# Lean project dependencies are managed by Lake

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dependency Graph - Ricci Flow Formalization</title>
+<link rel="stylesheet" href="styles/theme-white.css" />
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+header {
+    background: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+.nav-links {
+    margin-top: 10px;
+}
+.nav-links a {
+    color: #3498db;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 14px;
+}
+.nav-links a:hover {
+    text-decoration: underline;
+}
+.container {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 20px;
+}
+.legend {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.legend h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #2c3e50;
+}
+.legend-item {
+    display: inline-block;
+    margin-right: 25px;
+    margin-bottom: 10px;
+}
+.legend-box {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 2px solid #333;
+}
+.graph-container {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    overflow: auto;
+}
+.graph-container img {
+    max-width: 100%;
+    height: auto;
+}
+.info {
+    background: #e7f3ff;
+    border-left: 4px solid #2196F3;
+    padding: 15px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<header>
+<h1>Dependency Graph - Ricci Flow Formalization</h1>
+<div class="nav-links">
+<a href="index.html">← Back to Blueprint</a>
+<a href="dep_graph.svg" target="_blank">View SVG directly</a>
+</div>
+</header>
+
+<div class="container">
+<div class="legend">
+<h2>Legend</h2>
+<div class="legend-item">
+<span class="legend-box" style="background: #90ee90; border-color: green;"></span>
+<span>Formalized (with proof)</span>
+</div>
+<div class="legend-item">
+<span class="legend-box" style="background: #ffffe0; border-color: orange;"></span>
+<span>Definition (not yet fully formalized)</span>
+</div>
+<div class="legend-item">
+<span class="legend-box" style="border-color: black; background: white;"></span>
+<span>Boxes = Definitions</span>
+</div>
+<div class="legend-item">
+<span class="legend-box" style="border-color: black; border-radius: 50%; background: white;"></span>
+<span>Ellipses = Lemmas/Theorems</span>
+</div>
+<div class="legend-item">
+<span>→ Solid arrow = Direct proof dependency</span>
+</div>
+<div class="legend-item">
+<span>⟶ Dashed arrow = Uses in definition</span>
+</div>
+</div>
+
+<div class="graph-container">
+<img src="dep_graph.svg" alt="Dependency Graph" />
+</div>
+
+<div class="info">
+<h3>About this Dependency Graph</h3>
+<p><strong>What this shows:</strong> The logical dependencies between definitions and theorems in the Ricci Flow formalization.</p>
+<p><strong>How to read:</strong>
+<ul>
+<li>Each box represents a definition or theorem</li>
+<li>Arrows show dependencies (A → B means "B depends on A")</li>
+<li>Green boxes with solid borders are fully formalized in Lean</li>
+<li>Orange/yellow boxes are definitions that need more work</li>
+</ul>
+</p>
+<p><strong>Nodes in this graph:</strong></p>
+<ul>
+<li><strong>Manifold Type</strong> - Basic manifold structure</li>
+<li><strong>Riemannian Metric</strong> - Metric tensor on manifolds</li>
+<li><strong>Ricci Tensor</strong> - Ricci curvature tensor</li>
+<li><strong>Scalar Curvature</strong> - Trace of Ricci tensor</li>
+<li><strong>Ricci Flow Equation</strong> - The evolution equation</li>
+<li><strong>Short-Time Existence</strong> - Existence theorem for solutions</li>
+<li>Plus several lemmas: pos_mul_pos, square_pos, inv_pos, etc.</li>
+</ul>
+</div>
+</div>
+
+</body>
+</html>
