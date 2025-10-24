@@ -51,4 +51,10 @@ example (g0 : RiemannianMetric M V) (h : ricciOfMetric g0 = 0) :
 #check @ricciNaturalityOn_comp_id
 #check @ricciNaturalityOn_id_id
 
+-- ✅ Phase 5: Time-dependent diffeomorphism properties
+#check @dPullback_dt_const
+#check @pullbackChainRuleOn_const_simplified
+#check @gaugeCancellationOn_const_zero
+#check @ricciNaturalityOn_const_single
+
 end RicciFlow

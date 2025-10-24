@@ -6,7 +6,7 @@
   "c": "64fc31463056ba4c.c"},
  "log":
  [{"message":
-   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/MD4Lean/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/BibtexQuery/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/UnicodeBasic/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/doc-gen4/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow.setup.json --json",
+   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/MD4Lean/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/BibtexQuery/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/UnicodeBasic/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/doc-gen4/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/checkdecls/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow.setup.json --json",
    "level": "trace"}],
  "inputs":
  [["RicciFlow:deps",
@@ -24,7 +24,7 @@
         ["RicciFlow.RicciCurvature:importAllArts", "44d5bd96aba6c34d"],
         ["RicciFlow.Flow transitive imports (legacy)", "1a57b3ff1ae46850"],
         ["RicciFlow.Flow:importAllArts", "28a8c8f91f1c6d0e"],
-        ["RicciFlow.Examples transitive imports (legacy)", "9e3ff2d9876f9ec2"],
+        ["RicciFlow.Examples transitive imports (legacy)", "53b75b3ee5203581"],
         ["RicciFlow.Examples:importAllArts", "9011d07675ab39ca"],
         ["RicciFlow.Geometry.Pullback transitive imports (legacy)",
          "cc29b27e6aa875f3"],
@@ -32,7 +32,7 @@
         ["RicciFlow.Ricci.DeturckReduction transitive imports (legacy)",
          "e447c1691e0c429b"],
         ["RicciFlow.Ricci.DeturckReduction:importAllArts",
-         "6813b87fb21b7ab6"]]]]],
+         "7dbada49cd6fe048"]]]]],
     ["libs",
      [["import dynlibs", "00000000000006bb"],
       ["package external libraries", "00000000000006bb"],
@@ -43,4 +43,4 @@
   ["/Users/lixinze/RicciFlow/RicciFlow.lean", "db1ae0eb54eeabed"],
   ["options", "00000000000006bb"],
   ["Module.leanArgs: #[]", "00000000000006bb"]],
- "depHash": "669e87e47c08657d"}
+ "depHash": "e309d074b4c5c5a3"}

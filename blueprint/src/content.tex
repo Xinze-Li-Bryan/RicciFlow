@@ -694,6 +694,68 @@ By simplification using $\mathrm{id} \circ \mathrm{id} = \mathrm{id}$ and Lemma~
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
 
+\subsection{Phase 5: Time-Dependent Diffeomorphism Properties}
+
+\begin{lemma}[Constant Diffeomorphism Has Zero Phi-Part Derivative]
+\label{lem:dPullback_dt_const}
+\lean{RicciFlow.dPullback_dt_const}
+\leanok
+For a constant-in-time diffeomorphism $\varphi(t) \equiv \varphi_0$, the "φ-part" time derivative vanishes:
+\[ \frac{\partial}{\partial t}\big|_{\varphi}\varphi_0^* g(t) = 0 \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{lem:timeDeriv_const}
+The time derivative of a constant pullback is zero.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Constant Diffeomorphism Chain Rule Simplification]
+\label{lem:pullbackChainRuleOn_const_simplified}
+\lean{RicciFlow.pullbackChainRuleOn_const_simplified}
+When $\varphi$ is constant in time, the pullback commutes with time differentiation:
+\[ \frac{\partial}{\partial t}(\varphi_0^* g(t)) = \varphi_0^*\left(\frac{\partial g}{\partial t}\right) \]
+\end{lemma}
+
+\begin{proof}
+\uses{lem:dPullback_dt_const}
+This is the simplification of the chain rule when the φ-part derivative vanishes.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Constant Diffeomorphism with Zero Gauge Satisfies Gauge Cancellation]
+\label{lem:gaugeCancellationOn_const_zero}
+\lean{RicciFlow.gaugeCancellationOn_const_zero}
+\uses{lem:dPullback_dt_const, lem:pullback_linearity}
+For a constant diffeomorphism $\varphi_0$ and zero gauge $G \equiv 0$, gauge cancellation holds automatically.
+\end{lemma}
+
+\begin{proof}
+\uses{lem:dPullback_dt_const, lem:pullback_linearity}
+Both the φ-part derivative and the pulled-back gauge term vanish.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Constant Ricci Naturality for Metric Family]
+\label{lem:ricciNaturalityOn_const_single}
+\lean{RicciFlow.ricciNaturalityOn_const_single}
+\leanok
+\uses{def:ricciNaturalityOn}
+If $\varphi$ preserves Ricci curvature for a single metric $g_0$, then it preserves it for the constant family $g(t) \equiv g_0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+\uses{def:ricciNaturalityOn}
+Immediate from the assumption applied at each time $t$.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
 \section{Changelog: New Symbols and Files}
 
 This chapter introduces the following new symbols and files:
