@@ -175,7 +175,7 @@ lemma deturckEqOnWithGauge_ricciFlat_static
   intro t ht
   unfold timeDeriv
   ext x v w
-  simp [deriv_const, smul_toFun, h, MetricVelocity.toFun_zero, mv_toFun_add]
+  simp [deriv_const, h, MetricVelocity.toFun_zero, mv_toFun_add]
 
 /-- **Sanity corollary**: With constant φ and zero gauge, DeTurck reduces to Hamilton.
     This demonstrates the reduction mechanism in a controlled, provable setting. -/
@@ -208,7 +208,6 @@ lemma deturck_to_hamilton_id_ricciFlat
     · exact pullbackChainRuleOn_id (fun _ => g0) s
     · exact gaugeCancellationOn_id_zero (fun _ => g0) s
     · exact ricciNaturalityOn_id (fun _ => g0) s
-  simp only [pullbackMetric_id] at hg
-  exact hg
+  simpa using hg
 
 end RicciFlow
