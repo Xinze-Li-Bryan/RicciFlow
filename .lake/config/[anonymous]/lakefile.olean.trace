@@ -1,5 +1,5 @@
 {"platform": "x86_64-apple-darwin24.6.0",
- "options": {},
+ "options": {"env": "dev"},
  "name": "[anonymous]",
  "leanHash": "744f98064b056ee27fc8c97f524797c8cc96f436",
- "configHash": "026cca360a179043"}
+ "configHash": "38a800521249fbf2"}

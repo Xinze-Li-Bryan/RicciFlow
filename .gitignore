@@ -1,0 +1,47 @@
+# Lean 4 build artifacts
+/.lake/build/
+/.lake/config/
+*.olean
+*.ilean
+*.trace
+*.hash
+
+# Lake packages should be downloaded via lake-manifest.json
+.lake/packages/
+
+# Documentation build (will be regenerated)
+/docs/
+/.lake/build/doc/
+
+# Blueprint generated files (keep source, ignore build)
+/blueprint/web/
+
+# Backup directories
+*-backup*/
+*-old*/
+blueprint-backup-*/
+blueprint-manual-backup-*/
+blueprint-our-attempt-backup-*/
+
+# System files
+.DS_Store
+*.swp
+*~
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+/tmp/
+
+# Temporary files
+*.log
+/sphere-eversion.zip
+/sphere-eversion-master/
+
+# Generated scripts
+/generate_dep_graph.py
+/add_lean_links.py
+/monitor_*.sh
+/watch_*.sh
