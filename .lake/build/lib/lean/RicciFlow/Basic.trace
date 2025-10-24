@@ -1,12 +1,12 @@
 {"synthetic": false,
  "schemaVersion": "2025-09-10",
  "outputs":
- {"o": ["5be9a22a3714a6f2.olean"],
-  "i": "6108e28dae7d87fd.ilean",
+ {"o": ["5f49a5f0d5199abd.olean"],
+  "i": "91430283161cdbd9.ilean",
   "c": "6d907aa6aed15230.c"},
  "log":
  [{"message":
-   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow/Basic.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Basic.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Basic.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/Basic.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/Basic.setup.json --json",
+   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/MD4Lean/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/BibtexQuery/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/UnicodeBasic/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/doc-gen4/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow/Basic.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Basic.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Basic.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/Basic.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/Basic.setup.json --json",
    "level": "trace"}],
  "inputs":
  [["RicciFlow.Basic:deps",
@@ -23,7 +23,7 @@
       ["module plugins", "00000000000006bb"]]]]],
   ["Lean 4.25.0, commit 744f98064b056ee27fc8c97f524797c8cc96f436",
    "4bbac11c6209e48b"],
-  ["/Users/lixinze/RicciFlow/RicciFlow/Basic.lean", "e27d946cb66e7713"],
+  ["/Users/lixinze/RicciFlow/RicciFlow/Basic.lean", "68cadc9024e28abb"],
   ["options", "00000000000006bb"],
   ["Module.leanArgs: #[]", "00000000000006bb"]],
- "depHash": "6ffc121d16fc2014"}
+ "depHash": "fd069969d091290b"}

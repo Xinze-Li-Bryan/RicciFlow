@@ -1,12 +1,12 @@
 {"synthetic": false,
  "schemaVersion": "2025-09-10",
  "outputs":
- {"o": ["0e5ced819b055cde.olean"],
-  "i": "aaa26af34ce30547.ilean",
-  "c": "8d4d6f4d1b7bc353.c"},
+ {"o": ["7dab3f4ac2c3bfc6.olean"],
+  "i": "a267c955032900bf.ilean",
+  "c": "21d349299c425834.c"},
  "log":
  [{"message":
-   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow/RicciCurvature.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RicciCurvature.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RicciCurvature.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/RicciCurvature.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/RicciCurvature.setup.json --json",
+   ".> LEAN_PATH=/Users/lixinze/RicciFlow/.lake/packages/batteries/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Qq/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/aesop/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/importGraph/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/plausible/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/MD4Lean/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/BibtexQuery/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/UnicodeBasic/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/Cli/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/mathlib/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/packages/doc-gen4/.lake/build/lib/lean:/Users/lixinze/RicciFlow/.lake/build/lib/lean /Users/lixinze/.elan/toolchains/leanprover--lean4---v4.25.0-rc2/bin/lean /Users/lixinze/RicciFlow/RicciFlow/RicciCurvature.lean -o /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RicciCurvature.olean -i /Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RicciCurvature.ilean -c /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/RicciCurvature.c --setup /Users/lixinze/RicciFlow/.lake/build/ir/RicciFlow/RicciCurvature.setup.json --json",
    "level": "trace"}],
  "inputs":
  [["RicciFlow.RicciCurvature:deps",
@@ -14,13 +14,12 @@
      [["ricciflow/RicciFlow:extraDep",
        [["@ricciflow:extraDep", "00000000000006bb"]]],
       ["imports",
-       [["Mathlib transitive imports (legacy)", "b1932a8a34cf8238"],
-        ["Mathlib:importAllArts", "dd9a3418932dc6ef"],
-        ["RicciFlow.Basic transitive imports (legacy)", "1636e2b8ffc2f287"],
-        ["RicciFlow.Basic:importAllArts", "e8a24de10b3f2f35"],
+       [["Mathlib.Data.Real.Basic transitive imports (legacy)",
+         "4d82470b4750a557"],
+        ["Mathlib.Data.Real.Basic:importAllArts", "6e8abc764d84e9d4"],
         ["RicciFlow.RiemannianManifold transitive imports (legacy)",
-         "0c5199e04a8a065c"],
-        ["RicciFlow.RiemannianManifold:importAllArts", "cd3508df1ff86ea7"]]]]],
+         "f2079e867a52b244"],
+        ["RicciFlow.RiemannianManifold:importAllArts", "9e036d2d3d2ad038"]]]]],
     ["libs",
      [["import dynlibs", "00000000000006bb"],
       ["package external libraries", "00000000000006bb"],
@@ -29,7 +28,7 @@
   ["Lean 4.25.0, commit 744f98064b056ee27fc8c97f524797c8cc96f436",
    "4bbac11c6209e48b"],
   ["/Users/lixinze/RicciFlow/RicciFlow/RicciCurvature.lean",
-   "269b0c5cc51a3f0d"],
+   "bdf09586e08b5572"],
   ["options", "00000000000006bb"],
   ["Module.leanArgs: #[]", "00000000000006bb"]],
- "depHash": "a77e64c9b197e2c7"}
+ "depHash": "5628739fcbcc5df3"}

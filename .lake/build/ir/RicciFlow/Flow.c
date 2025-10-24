@@ -1,6 +1,6 @@
 // Lean compiler output
 // Module: RicciFlow.Flow
-// Imports: public import Init public import Mathlib public import RicciFlow.Basic public import RicciFlow.RiemannianManifold public import RicciFlow.RicciCurvature
+// Imports: public import Init public import Mathlib.Analysis.Calculus.Deriv.Basic public import Mathlib.Topology.Basic public import RicciFlow.RiemannianManifold public import RicciFlow.RicciCurvature
 #include <lean/lean.h>
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wunused-parameter"
@@ -14,8 +14,8 @@
 extern "C" {
 #endif
 lean_object* initialize_Init(uint8_t builtin, lean_object*);
-lean_object* initialize_Mathlib(uint8_t builtin, lean_object*);
-lean_object* initialize_RicciFlow_Basic(uint8_t builtin, lean_object*);
+lean_object* initialize_Mathlib_Analysis_Calculus_Deriv_Basic(uint8_t builtin, lean_object*);
+lean_object* initialize_Mathlib_Topology_Basic(uint8_t builtin, lean_object*);
 lean_object* initialize_RicciFlow_RiemannianManifold(uint8_t builtin, lean_object*);
 lean_object* initialize_RicciFlow_RicciCurvature(uint8_t builtin, lean_object*);
 static bool _G_initialized = false;
@@ -26,10 +26,10 @@ _G_initialized = true;
 res = initialize_Init(builtin, lean_io_mk_world());
 if (lean_io_result_is_error(res)) return res;
 lean_dec_ref(res);
-res = initialize_Mathlib(builtin, lean_io_mk_world());
+res = initialize_Mathlib_Analysis_Calculus_Deriv_Basic(builtin, lean_io_mk_world());
 if (lean_io_result_is_error(res)) return res;
 lean_dec_ref(res);
-res = initialize_RicciFlow_Basic(builtin, lean_io_mk_world());
+res = initialize_Mathlib_Topology_Basic(builtin, lean_io_mk_world());
 if (lean_io_result_is_error(res)) return res;
 lean_dec_ref(res);
 res = initialize_RicciFlow_RiemannianManifold(builtin, lean_io_mk_world());

@@ -15,8 +15,8 @@ RicciFlow.scalarCurvature
 RicciFlow.scalarCurvature_eq_traceValue
 RicciFlow.timeDeriv
 RicciFlow.ricciFlowEqOn
-RicciFlow.timeDeriv_const
 RicciFlow.ricciFlowEqOn_const_of_ricciFlat
+RicciFlow.timeDeriv_const
 RicciFlow.hamilton_short_time_existence
 RicciFlow.short_time_existence
 RicciFlow.short_time_existence_ricciFlat

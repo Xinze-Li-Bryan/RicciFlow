@@ -65,6 +65,10 @@ jobs:
       run: |
         lake build
 
+    - name: Check declarations
+      run: |
+        lake exe checkdecls blueprint/lean_decls
+
     - name: Build blueprint
       run: |
         cd blueprint

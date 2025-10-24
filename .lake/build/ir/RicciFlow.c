@@ -1,6 +1,6 @@
 // Lean compiler output
 // Module: RicciFlow
-// Imports: public import Init public import RicciFlow.Basic public import RicciFlow.RiemannianManifold public import RicciFlow.RicciCurvature public import RicciFlow.Flow
+// Imports: public import Init public import RicciFlow.Basic public import RicciFlow.RiemannianManifold public import RicciFlow.RicciCurvature public import RicciFlow.Flow public import RicciFlow.Examples public import RicciFlow.Geometry.Pullback public import RicciFlow.Ricci.DeturckReduction
 #include <lean/lean.h>
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wunused-parameter"
@@ -18,6 +18,9 @@ lean_object* initialize_RicciFlow_Basic(uint8_t builtin, lean_object*);
 lean_object* initialize_RicciFlow_RiemannianManifold(uint8_t builtin, lean_object*);
 lean_object* initialize_RicciFlow_RicciCurvature(uint8_t builtin, lean_object*);
 lean_object* initialize_RicciFlow_Flow(uint8_t builtin, lean_object*);
+lean_object* initialize_RicciFlow_Examples(uint8_t builtin, lean_object*);
+lean_object* initialize_RicciFlow_Geometry_Pullback(uint8_t builtin, lean_object*);
+lean_object* initialize_RicciFlow_Ricci_DeturckReduction(uint8_t builtin, lean_object*);
 static bool _G_initialized = false;
 LEAN_EXPORT lean_object* initialize_RicciFlow(uint8_t builtin, lean_object* w) {
 lean_object * res;
@@ -36,6 +39,15 @@ res = initialize_RicciFlow_RicciCurvature(builtin, lean_io_mk_world());
 if (lean_io_result_is_error(res)) return res;
 lean_dec_ref(res);
 res = initialize_RicciFlow_Flow(builtin, lean_io_mk_world());
+if (lean_io_result_is_error(res)) return res;
+lean_dec_ref(res);
+res = initialize_RicciFlow_Examples(builtin, lean_io_mk_world());
+if (lean_io_result_is_error(res)) return res;
+lean_dec_ref(res);
+res = initialize_RicciFlow_Geometry_Pullback(builtin, lean_io_mk_world());
+if (lean_io_result_is_error(res)) return res;
+lean_dec_ref(res);
+res = initialize_RicciFlow_Ricci_DeturckReduction(builtin, lean_io_mk_world());
 if (lean_io_result_is_error(res)) return res;
 lean_dec_ref(res);
 return lean_io_result_mk_ok(lean_box(0));

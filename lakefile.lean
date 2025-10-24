@@ -10,5 +10,8 @@ require mathlib from git
 require «doc-gen4» from git
   "https://github.com/leanprover/doc-gen4" @ "main"
 
+require checkdecls from git
+  "https://github.com/PatrickMassot/checkdecls.git"
+
 @[default_target]
 lean_lib «RicciFlow» where

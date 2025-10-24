@@ -7,8 +7,14 @@
   ["/Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RiemannianManifold.olean"],
   "RicciFlow.RicciCurvature":
   ["/Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/RicciCurvature.olean"],
+  "RicciFlow.Ricci.DeturckReduction":
+  ["/Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Ricci/DeturckReduction.olean"],
+  "RicciFlow.Geometry.Pullback":
+  ["/Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Geometry/Pullback.olean"],
   "RicciFlow.Flow":
   ["/Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Flow.olean"],
+  "RicciFlow.Examples":
+  ["/Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Examples.olean"],
   "RicciFlow.Basic":
   ["/Users/lixinze/RicciFlow/.lake/build/lib/lean/RicciFlow/Basic.olean"],
   "Qq.Typ":
