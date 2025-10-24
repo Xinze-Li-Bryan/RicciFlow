@@ -77,13 +77,23 @@ Uses \texttt{continuousWithinAt\_univ} from Mathlib.
 \lean{RicciFlow.RiemannianMetric}
 \leanok
 \uses{lem:pos_mul_pos, lem:square_pos_of_ne_zero}
-A Riemannian metric on a manifold $M$ is a smooth positive-definite symmetric bilinear form on each tangent space.
+A Riemannian metric on a manifold $M$ is a smooth assignment of an inner product $g_x(\cdot,\cdot)$ to each tangent space $T_xM$. This allows us to measure lengths, angles, and volumes on the manifold.
 
-For each point $x \in M$ and tangent vectors $v, w \in T_xM$:
+Formally, $g$ is a symmetric positive-definite bilinear form. For each point $x \in M$ and tangent vectors $v, w \in T_xM$:
 \begin{itemize}
 \item \textbf{Symmetry}: $g_x(v, w) = g_x(w, v)$
+\item \textbf{Bilinearity}: $g_x(av + bw, u) = a \cdot g_x(v,u) + b \cdot g_x(w,u)$ for $a,b \in \mathbb{R}$
 \item \textbf{Positive-definiteness}: $g_x(v, v) > 0$ for all $v \neq 0$
 \end{itemize}
+
+\textbf{Geometric intuition}: The metric $g$ encodes the "geometry" of the manifold. For example:
+\begin{itemize}
+\item The length of a curve $\gamma : [0,1] \to M$ is $L(\gamma) = \int_0^1 \sqrt{g_{\gamma(t)}(\dot{\gamma}(t), \dot{\gamma}(t))} \, dt$
+\item The angle $\theta$ between vectors $v,w$ satisfies $\cos \theta = \frac{g_x(v,w)}{\sqrt{g_x(v,v)} \sqrt{g_x(w,w)}}$
+\item The volume element is determined by $\sqrt{\det(g_{ij})}$ in local coordinates
+\end{itemize}
+
+In Lean, we model this as a structure with fields \texttt{toFun}, \texttt{symm}, and \texttt{pos\_def}.
 \end{definition}
 
 \begin{definition}[Inner Product]
@@ -253,7 +263,17 @@ For any constant Riemannian metric $g_0$, the time derivative of the constant fa
 \begin{proof}
 \leanok
 \uses{def:time_deriv}
-Direct application of the derivative of a constant function.
+By definition, \texttt{timeDeriv g t} is the derivative $\frac{d}{d\tau}\big|_{\tau=t} g(\tau)$ computed pointwise. For the constant family $g(\tau) \equiv g_0$, we have:
+\[
+\frac{d}{d\tau}\big|_{\tau=t} g_0 = \frac{d}{d\tau}\big|_{\tau=t} (\text{constant}) = 0.
+\]
+
+More precisely, for any point $x \in M$ and tangent vectors $v, w \in T_x M$, the metric components satisfy:
+\[
+\frac{d}{d\tau}\big|_{\tau=t} g_0(v, w) = \frac{d}{d\tau}\big|_{\tau=t} (\text{constant}) = 0.
+\]
+
+This is the standard calculus fact that the derivative of a constant function is zero, applied component wise to the metric tensor.
 
 \textbf{File}: \texttt{Flow.lean}
 \end{proof}
@@ -373,7 +393,29 @@ The pullback operation is linear in velocities:
 \begin{proof}
 \leanok
 \uses{def:pullback_velocity}
-All properties follow immediately from the pointwise definition. For example, $\varphi^*0$ is zero because $(\varphi^*0)_x(v,w) = 0_{\varphi(x)}(v,w) = 0$ for all $x, v, w$. The other properties are similar.
+All properties follow from the pointwise definition $(\varphi^*\tau)_x(v,w) = \tau_{\varphi(x)}(v,w)$.
+
+\textbf{Preserves zero}: $(\varphi^*0)_x(v,w) = 0_{\varphi(x)}(v,w) = 0$.
+
+\textbf{Preserves addition}:
+\begin{align*}
+(\varphi^*(\tau + \sigma))_x(v,w)
+&= (\tau + \sigma)_{\varphi(x)}(v,w) \\
+&= \tau_{\varphi(x)}(v,w) + \sigma_{\varphi(x)}(v,w) \\
+&= (\varphi^*\tau)_x(v,w) + (\varphi^*\sigma)_x(v,w).
+\end{align*}
+
+\textbf{Preserves scalar multiplication}:
+\begin{align*}
+(\varphi^*(c \cdot \tau))_x(v,w)
+&= (c \cdot \tau)_{\varphi(x)}(v,w) \\
+&= c \cdot \tau_{\varphi(x)}(v,w) \\
+&= c \cdot (\varphi^*\tau)_x(v,w).
+\end{align*}
+
+\textbf{Preserves negation}: Similar to scalar multiplication with $c = -1$.
+
+This linearity is crucial for the DeTurck reduction, as it allows us to pull back the entire Ricci flow equation term by term.
 \end{proof}
 
 \begin{lemma}[Functoriality of Pullback]
@@ -391,7 +433,22 @@ Pullback satisfies functorial properties:
 \begin{proof}
 \leanok
 \uses{def:pullback_metric, def:pullback_velocity}
-Direct verification from the definition.
+\textbf{Identity}: For the identity map $\mathrm{id}(x) = x$, we have:
+\[
+(\mathrm{id}^*g)_x(v,w) = g_{\mathrm{id}(x)}(v,w) = g_x(v,w)
+\]
+Thus $\mathrm{id}^*g = g$ for any metric $g$.
+
+\textbf{Composition}: For maps $\varphi, \psi : M \to M$ and the composition $(\varphi \circ \psi)(x) = \varphi(\psi(x))$:
+\begin{align*}
+\big((\varphi \circ \psi)^*g\big)_x(v,w)
+&= g_{(\varphi \circ \psi)(x)}(v,w) \\
+&= g_{\varphi(\psi(x))}(v,w) \\
+&= (\varphi^*g)_{\psi(x)}(v,w) \\
+&= \big(\psi^*(\varphi^*g)\big)_x(v,w)
+\end{align*}
+
+This shows that pullback is a \emph{contravariant functor}: composition of maps corresponds to composition of pullbacks in reverse order.
 \end{proof}
 
 \section{DeTurck--Hamilton Reduction (Conditional)}
@@ -715,13 +772,28 @@ The time derivative of a constant pullback is zero.
 \begin{lemma}[Constant Diffeomorphism Chain Rule Simplification]
 \label{lem:pullbackChainRuleOn_const_simplified}
 \lean{RicciFlow.pullbackChainRuleOn_const_simplified}
+\leanok
 When $\varphi$ is constant in time, the pullback commutes with time differentiation:
 \[ \frac{\partial}{\partial t}(\varphi_0^* g(t)) = \varphi_0^*\left(\frac{\partial g}{\partial t}\right) \]
 \end{lemma}
 
 \begin{proof}
+\leanok
 \uses{lem:dPullback_dt_const}
-This is the simplification of the chain rule when the φ-part derivative vanishes.
+Since $\varphi_0$ is constant in time, the pullback operation $\varphi_0^*$ acts only on the spatial arguments of the metric. By Lemma~\ref{lem:dPullback_dt_const}, the ``$\varphi$-part'' time derivative vanishes:
+\[
+\frac{\partial}{\partial t}\big|_{\varphi}\, (\varphi_0^* g(t)) = 0.
+\]
+
+Therefore, the chain rule for the pullback reduces to:
+\begin{align*}
+\frac{\partial}{\partial t}(\varphi_0^* g(t))
+&= \varphi_0^*\left(\frac{\partial g}{\partial t}\right) + \frac{\partial}{\partial t}\big|_{\varphi}\, (\varphi_0^* g(t)) \\
+&= \varphi_0^*\left(\frac{\partial g}{\partial t}\right) + 0 \\
+&= \varphi_0^*\left(\frac{\partial g}{\partial t}\right).
+\end{align*}
+
+In other words, since $\varphi_0$ does not depend on $t$, differentiating $\varphi_0^* g(t)$ in time is equivalent to first differentiating $g(t)$ and then pulling back. The derivative commutes with the pullback.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
@@ -729,13 +801,33 @@ This is the simplification of the chain rule when the φ-part derivative vanishe
 \begin{lemma}[Constant Diffeomorphism with Zero Gauge Satisfies Gauge Cancellation]
 \label{lem:gaugeCancellationOn_const_zero}
 \lean{RicciFlow.gaugeCancellationOn_const_zero}
+\leanok
 \uses{lem:dPullback_dt_const, lem:pullback_linearity}
-For a constant diffeomorphism $\varphi_0$ and zero gauge $G \equiv 0$, gauge cancellation holds automatically.
+For a constant diffeomorphism $\varphi_0$ and zero gauge $G \equiv 0$, gauge cancellation holds automatically:
+\[
+\frac{\partial}{\partial t}\big|_{\varphi}\, (\varphi_0^* g(t)) = -\varphi_0^* G(t).
+\]
 \end{lemma}
 
 \begin{proof}
+\leanok
 \uses{lem:dPullback_dt_const, lem:pullback_linearity}
-Both the φ-part derivative and the pulled-back gauge term vanish.
+We need to verify the gauge cancellation condition. The left-hand side is the ``$\varphi$-part'' time derivative, which by Lemma~\ref{lem:dPullback_dt_const} equals zero:
+\[
+\frac{\partial}{\partial t}\big|_{\varphi}\, (\varphi_0^* g(t)) = 0.
+\]
+
+For the right-hand side, since the gauge is zero ($G(t) \equiv 0$), and pullback is linear (from \texttt{pullback\_linearity}), we have:
+\[
+-\varphi_0^* G(t) = -\varphi_0^* 0 = 0.
+\]
+
+Therefore, both sides equal zero, and gauge cancellation holds:
+\[
+0 = -0.
+\]
+
+This lemma shows that when using a constant diffeomorphism with zero gauge term, the gauge cancellation condition is trivially satisfied—both the diffeomorphism evolution and the gauge correction vanish simultaneously.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
