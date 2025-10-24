@@ -3,81 +3,84 @@ import RicciFlow.Basic
 import RicciFlow.RiemannianManifold
 
 /-!
-# Ricci 曲率
+# Ricci Curvature
 
-本文件定义 Ricci 曲率张量和标量曲率。
+This file defines the Ricci curvature tensor and scalar curvature.
 
-## 主要定义
+## Main Definitions
 
-* `RicciTensor M`: 流形 M 上的 Ricci 曲率张量
-* `scalarCurvature`: 标量曲率，即 Ricci 张量的迹
+* `RicciTensor M`: The Ricci curvature tensor on manifold M
+* `scalarCurvature`: The scalar curvature, which is the trace of the Ricci tensor
 
-## 实现注记
+## Implementation Notes
 
-当前实现是简化版本，将标量曲率的值直接存储在 RicciTensor 结构中。
-完整的实现应该从度量张量和 Riemann 曲率张量通过缩并计算得到。
+The current implementation is simplified, storing the scalar curvature value directly
+in the RicciTensor structure. A complete implementation should compute it from the
+metric tensor and Riemann curvature tensor via contraction.
 -/
 
 namespace RicciFlow
 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace ℝ M]
 
-/-- Ricci 曲率张量的简化表示。
+/-- Simplified representation of the Ricci curvature tensor.
 
-数学上，Ricci 张量 Ric 是通过对 Riemann 曲率张量进行缩并得到的：
+Mathematically, the Ricci tensor Ric is obtained by contracting the Riemann curvature tensor:
   Ric_ij = R^k_{ikj}
 
-在完整的实现中，这应该是一个 (0,2)-张量场。
-当前的简化版本直接存储其迹（标量曲率）。
+In a complete implementation, this should be a (0,2)-tensor field.
+The current simplified version directly stores its trace (scalar curvature).
 
-## 未来扩展
-* 添加完整的张量分量表示
-* 实现张量运算（加法、标量乘法）
-* 从 Riemann 曲率张量计算 Ricci 张量
+## Future Extensions
+* Add complete tensor component representation
+* Implement tensor operations (addition, scalar multiplication)
+* Compute Ricci tensor from Riemann curvature tensor
 -/
 structure RicciTensor (M : Type*) where
-  /-- 标量曲率的值，即 Ricci 张量的迹 R = g^{ij} Ric_{ij}。
+  /-- The value of the scalar curvature, i.e., the trace of the Ricci tensor R = g^{ij} Ric_{ij}.
 
-  这是一个简化表示。完整的实现应该存储所有分量，
-  然后通过与度量的逆进行缩并来计算标量曲率。 -/
+  This is a simplified representation. A complete implementation should store all components
+  and then compute the scalar curvature by contracting with the inverse metric. -/
   traceValue : ℝ
 
-/-- 标量曲率（scalar curvature）。
+/-- Scalar curvature.
 
-数学定义：标量曲率是 Ricci 张量与度量逆的缩并：
+Mathematical definition: The scalar curvature is the contraction of the Ricci tensor
+with the inverse metric:
   R = g^{ij} Ric_{ij}
 
-其中：
-* g^{ij} 是黎曼度量的逆
-* Ric_{ij} 是 Ricci 张量的分量
-* 采用 Einstein 求和约定
+where:
+* g^{ij} is the inverse of the Riemannian metric
+* Ric_{ij} are the components of the Ricci tensor
+* Einstein summation convention is used
 
-## 几何意义
+## Geometric Meaning
 
-标量曲率衡量流形在某点处的"总曲率"。
-* R > 0: 该点附近的流形像球面一样向内弯曲
-* R < 0: 该点附近的流形像双曲空间一样向外弯曲
-* R = 0: 该点附近局部平坦（如欧氏空间）
+The scalar curvature measures the "total curvature" of the manifold at a point.
+* R > 0: the manifold curves inward like a sphere near this point
+* R < 0: the manifold curves outward like hyperbolic space near this point
+* R = 0: the manifold is locally flat (like Euclidean space) near this point
 
-## 实现注记
+## Implementation Notes
 
-当前实现直接从 RicciTensor 结构中提取预计算的值。
-这是一个简化版本，完整的实现应该：
-1. 从 RicciTensor 获取所有分量 Ric_{ij}
-2. 从 RiemannianMetric 计算逆度量 g^{ij}
-3. 计算缩并 g^{ij} Ric_{ij}
+The current implementation directly extracts the precomputed value from the RicciTensor structure.
+This is a simplified version. A complete implementation should:
+1. Obtain all components Ric_{ij} from RicciTensor
+2. Compute the inverse metric g^{ij} from RiemannianMetric
+3. Compute the contraction g^{ij} Ric_{ij}
 
-参考：
+References:
 * Do Carmo, "Riemannian Geometry" (1992), Chapter 3
 * Lee, "Riemannian Manifolds" (1997), Chapter 3
 -/
 def scalarCurvature {M : Type*} (Ric : RicciTensor M) : ℝ :=
   Ric.traceValue
 
-/-- 标量曲率的提取引理：直接等于 traceValue。
+/-- Scalar curvature extraction lemma: directly equals traceValue.
 
-这个引理在当前的简化实现中是平凡的，但为将来的扩展提供了接口。
-当实现完整的张量计算时，这个引理的证明会变得非平凡。 -/
+This lemma is trivial in the current simplified implementation, but provides an interface
+for future extensions. When complete tensor computations are implemented, the proof of this
+lemma will become non-trivial. -/
 @[simp]
 theorem scalarCurvature_eq_traceValue {M : Type*} (Ric : RicciTensor M) :
     scalarCurvature Ric = Ric.traceValue := by

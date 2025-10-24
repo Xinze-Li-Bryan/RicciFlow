@@ -2,22 +2,22 @@ import Mathlib
 import RicciFlow.Basic
 
 /-!
-# 黎曼流形
+# Riemannian Manifolds
 
-本文件定义黎曼度量及其基本性质。
+This file defines Riemannian metrics and their basic properties.
 
-## 主要定义
+## Main Definitions
 
-* `RiemannianMetric M V`: 流形 M 上的黎曼度量，V 表示切空间
-* `innerProduct`: 在指定点计算两个切向量的内积
-* `normSq`: 切向量的范数平方
+* `RiemannianMetric M V`: A Riemannian metric on manifold M, where V represents the tangent space
+* `innerProduct`: Computes the inner product of two tangent vectors at a specified point
+* `normSq`: The squared norm of a tangent vector
 
-## 实现注记
+## Implementation Notes
 
-当前实现使用类型参数 V 来表示抽象的"切空间"。
-完整的实现应该使用具体的切丛 (tangent bundle) 理论。
+The current implementation uses a type parameter V to represent an abstract "tangent space".
+A complete implementation should use the concrete tangent bundle theory.
 
-参考：
+References:
 * Lee, "Riemannian Manifolds" (1997)
 * Do Carmo, "Riemannian Geometry" (1992)
 -/
@@ -26,93 +26,96 @@ namespace RicciFlow
 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace ℝ M]
 
-/-- 黎曼度量的简化表示。
+/-- Simplified representation of a Riemannian metric.
 
-数学上，黎曼度量是流形切丛上的光滑正定对称 (0,2)-张量场。
-在每一点 x ∈ M，它给出切空间 TₓM 上的一个内积。
+Mathematically, a Riemannian metric is a smooth positive-definite symmetric (0,2)-tensor field
+on the tangent bundle of a manifold. At each point x ∈ M, it provides an inner product on
+the tangent space TₓM.
 
-## 当前实现
+## Current Implementation
 
-这是一个简化版本，使用类型参数 V 来表示抽象的"向量空间"（代表切空间）。
-度量在每个点 x ∈ M 处给出一个双线性形式 V → V → ℝ。
+This is a simplified version using a type parameter V to represent an abstract "vector space"
+(representing the tangent space). The metric gives a bilinear form V → V → ℝ at each point x ∈ M.
 
-## 数学定义
+## Mathematical Definition
 
-黎曼度量 g 满足：
-1. **双线性**: g(x, av + bw, u) = a·g(x, v, u) + b·g(x, w, u)
-2. **对称性**: g(x, v, w) = g(x, w, v)
-3. **正定性**: g(x, v, v) > 0 当 v ≠ 0
-4. **光滑性**: g 关于 x 是光滑的
+A Riemannian metric g satisfies:
+1. **Bilinearity**: g(x, av + bw, u) = a·g(x, v, u) + b·g(x, w, u)
+2. **Symmetry**: g(x, v, w) = g(x, w, v)
+3. **Positive-definiteness**: g(x, v, v) > 0 when v ≠ 0
+4. **Smoothness**: g is smooth with respect to x
 
-## 类型参数
+## Type Parameters
 
-* `M`: 流形的类型
-* `V`: 表示"切向量空间"的类型参数
-  - 当前是抽象类型
-  - 将来应该实例化为 TangentSpace ℝ M x
+* `M`: The type of the manifold
+* `V`: Type parameter representing the "tangent vector space"
+  - Currently an abstract type
+  - Should be instantiated as TangentSpace ℝ M x in the future
 
-## 未来扩展路径
+## Future Extension Path
 
-Phase 1 (当前): `RiemannianMetric M V` with `toFun : M → (V → V → ℝ)`
-Phase 2 (中期): 依赖类型的切空间 `∀ x : M, TangentSpace ℝ M x → TangentSpace ℝ M x → ℝ`
-Phase 3 (完整): 光滑正定对称张量场 `SmoothSection (SymmetricPositive (⊗² T*M))`
+Phase 1 (current): `RiemannianMetric M V` with `toFun : M → (V → V → ℝ)`
+Phase 2 (intermediate): Dependent tangent space `∀ x : M, TangentSpace ℝ M x → TangentSpace ℝ M x → ℝ`
+Phase 3 (complete): Smooth positive-definite symmetric tensor field `SmoothSection (SymmetricPositive (⊗² T*M))`
 -/
 structure RiemannianMetric (M : Type*) (V : Type*) [Zero V] where
-  /-- 度量函数：在流形的每个点 x 处，给出切空间上的双线性形式。
+  /-- Metric function: at each point x of the manifold, provides a bilinear form on the tangent space.
 
-  数学上: gₓ : TₓM × TₓM → ℝ
-  当前实现: toFun x : V × V → ℝ
+  Mathematically: gₓ : TₓM × TₓM → ℝ
+  Current implementation: toFun x : V × V → ℝ
 
-  其中 V 是抽象的"切向量类型"。 -/
+  where V is the abstract "tangent vector type". -/
   toFun : M → (V → V → ℝ)
 
-  /-- 对称性：度量关于两个向量参数是对称的。
+  /-- Symmetry: the metric is symmetric with respect to its two vector arguments.
 
-  数学表达: g(x)(v, w) = g(x)(w, v)
+  Mathematical expression: g(x)(v, w) = g(x)(w, v)
 
-  这保证了内积的对称性，是黎曼度量的基本性质之一。 -/
+  This ensures the symmetry of the inner product, one of the fundamental properties
+  of a Riemannian metric. -/
   symm : ∀ (x : M) (v w : V), toFun x v w = toFun x w v
 
-  /-- 正定性：非零向量的自内积严格为正。
+  /-- Positive-definiteness: the self-inner-product of a nonzero vector is strictly positive.
 
-  数学表达: g(x)(v, v) > 0 当 v ≠ 0
+  Mathematical expression: g(x)(v, v) > 0 when v ≠ 0
 
-  这保证了我们可以定义向量的"长度": ||v|| = √(g(v, v))
-  正定性是区分黎曼度量和一般伪黎曼度量的关键性质。 -/
+  This ensures we can define the "length" of a vector: ||v|| = √(g(v, v)).
+  Positive-definiteness is the key property distinguishing Riemannian metrics from
+  general pseudo-Riemannian metrics. -/
   pos_def : ∀ (x : M) (v : V), v ≠ 0 → 0 < toFun x v v
 
--- 为了方便使用，我们添加一些辅助定义
+-- For convenience, we add some auxiliary definitions
 
-/-- 内积：在点 x 处计算两个切向量 v 和 w 的内积。
+/-- Inner product: computes the inner product of two tangent vectors v and w at point x.
 
-数学符号: ⟨v, w⟩ₓ 或 gₓ(v, w)
+Mathematical notation: ⟨v, w⟩ₓ or gₓ(v, w)
 
-性质:
-* 对称性: ⟨v, w⟩ = ⟨w, v⟩
-* 正定性: ⟨v, v⟩ > 0 当 v ≠ 0
-* 双线性: ⟨av + bw, u⟩ = a⟨v, u⟩ + b⟨w, u⟩ -/
+Properties:
+* Symmetry: ⟨v, w⟩ = ⟨w, v⟩
+* Positive-definiteness: ⟨v, v⟩ > 0 when v ≠ 0
+* Bilinearity: ⟨av + bw, u⟩ = a⟨v, u⟩ + b⟨w, u⟩ -/
 def innerProduct {M V : Type*} [Zero V] (g : RiemannianMetric M V) (x : M) (v w : V) : ℝ :=
   g.toFun x v w
 
-/-- 范数平方：切向量在点 x 处的长度的平方。
+/-- Norm squared: the squared length of a tangent vector at point x.
 
-数学表达: ||v||² = g(v, v)
+Mathematical expression: ||v||² = g(v, v)
 
-这是正数（当 v ≠ 0 时）。实际的范数是 ||v|| = √(||v||²)。
+This is positive (when v ≠ 0). The actual norm is ||v|| = √(||v||²).
 
-几何意义: 度量了切向量的"大小"。 -/
+Geometric meaning: measures the "magnitude" of the tangent vector. -/
 def normSq {M V : Type*} [Zero V] (g : RiemannianMetric M V) (x : M) (v : V) : ℝ :=
   g.toFun x v v
 
--- 基本引理
+-- Basic lemmas
 
-/-- 内积的对称性。 -/
+/-- Symmetry of the inner product. -/
 @[simp]
 theorem innerProduct_symm {M V : Type*} [Zero V] (g : RiemannianMetric M V) (x : M) (v w : V) :
     @innerProduct M V _ g x v w = @innerProduct M V _ g x w v :=
   g.symm x v w
 
-/-- 非零向量的范数平方严格为正。 -/
+/-- The squared norm of a nonzero vector is strictly positive. -/
 theorem normSq_pos {M V : Type*} [Zero V] (g : RiemannianMetric M V) (x : M) (v : V) (hv : v ≠ 0) :
     0 < @normSq M V _ g x v :=
   g.pos_def x v hv

@@ -1,9 +1,10 @@
 import Mathlib
 
 /-!
-# Ricci Flow 基础定义
+# Basic Definitions for Ricci Flow
 
-本文件包含 Ricci Flow 形式化所需的基础引理和辅助定理。
+This file contains fundamental lemmas and auxiliary theorems required for the
+formalization of Ricci Flow.
 -/
 
 namespace RicciFlow
@@ -11,40 +12,42 @@ namespace RicciFlow
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace ℝ M]
 
 /-!
-## 实数的基本性质
+## Basic Properties of Real Numbers
 
-这些引理在处理度量张量的正定性和标量曲率计算时会用到。
+These lemmas are used when dealing with positive-definiteness of metric tensors
+and scalar curvature computations.
 -/
 
-/-- 两个正实数的乘积仍然是正数。
-这在验证度量张量的正定性时是基础性质。 -/
+/-- The product of two positive real numbers is positive.
+This is a fundamental property when verifying positive-definiteness of metric tensors. -/
 lemma pos_mul_pos {a b : ℝ} (ha : 0 < a) (hb : 0 < b) : 0 < a * b := by
   exact mul_pos ha hb
 
-/-- 任何非零实数的平方严格大于零。
-这是度量正定性的核心性质：对于非零向量 v，⟨v, v⟩ > 0。 -/
+/-- The square of any nonzero real number is strictly positive.
+This is a core property of metric positive-definiteness: for nonzero vector v, ⟨v, v⟩ > 0. -/
 lemma square_pos_of_ne_zero {x : ℝ} (hx : x ≠ 0) : 0 < x ^ 2 := by
   exact sq_pos_of_ne_zero hx
 
-/-- 构造性地给出一个正实数。
-在 short_time_existence 定理中，我们需要证明存在 T > 0。 -/
+/-- Constructively provide a positive real number.
+In the short_time_existence theorem, we need to prove there exists T > 0. -/
 lemma exists_pos_real : ∃ (t : ℝ), 0 < t := by
   use 1
   norm_num
 
-/-- 正数的倒数仍然是正数。
-这在处理度量张量的逆和计算标量曲率时会用到。 -/
+/-- The reciprocal of a positive number is positive.
+This is used when dealing with inverse metric tensors and computing scalar curvature. -/
 lemma inv_pos_of_pos {x : ℝ} (hx : 0 < x) : 0 < x⁻¹ := by
   exact inv_pos.mpr hx
 
 /-!
-## 拓扑空间的基本性质
+## Basic Properties of Topological Spaces
 
-这些引理为流形上的连续性和光滑性理论提供基础。
+These lemmas provide the foundation for continuity and smoothness theory on manifolds.
 -/
 
-/-- 函数在一点连续，当且仅当它在该点的某个邻域内的限制是连续的。
-这个性质在局部坐标系中处理光滑函数时非常有用。 -/
+/-- A function is continuous at a point if and only if its restriction to a
+neighborhood of that point is continuous.
+This property is very useful when working with smooth functions in local coordinate systems. -/
 lemma continuousAt_iff_continuousWithinAt {X Y : Type*} [TopologicalSpace X]
     [TopologicalSpace Y] {f : X → Y} {x : X} :
     ContinuousAt f x ↔ ContinuousWithinAt f Set.univ x := by
