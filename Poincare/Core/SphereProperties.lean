@@ -72,26 +72,13 @@ example : CompactSpace (Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) :=
   inferInstance
 
 -- ULift 保持紧致性
-instance ulift_compact {α : Type*} [TopologicalSpace α] [CompactSpace α] :
-    CompactSpace (ULift α) := by
-  constructor
-  rw [isCompact_iff_isCompact_univ]
-  have : (Set.univ : Set (ULift α)) = ULift.up ⁻¹' Set.univ := by
-    ext; simp
-  rw [this]
-  apply IsCompact.preimage
-  · exact continuous_uLift_up
-  · exact isCompact_univ
+-- 注意：mathlib 中已经有 ULift.compactSpace 实例，这里仅作示例
+-- instance ulift_compact {α : Type*} [TopologicalSpace α] [CompactSpace α] :
+--     CompactSpace (ULift α) := inferInstance
 
 -- S³ 是紧致的
--- 由于 Sphere3 = ↑(TopCat.sphere 3) = ULift (Metric.sphere 0 1)
--- 我们可以使用上面的实例
-theorem sphere3_is_compact : CompactSpace Sphere3 := by
-  unfold Sphere3
-  -- TopCat.sphere 3 定义为 diskBoundary 4
-  -- diskBoundary 4 = TopCat.of (ULift (Metric.sphere 0 1))
-  -- 因此底层类型是 ULift (Metric.sphere 0 1)
-  exact inferInstance
+-- 验证实例确实存在（使用 TopologyInput.lean 中定义的 sphere3_compact）
+example : CompactSpace Sphere3 := sphere3_compact
 
 /-!
 ## 定理 2: S³ 是 Hausdorff 空间
@@ -109,18 +96,13 @@ example : T2Space (Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) :=
   inferInstance
 
 -- ULift 保持 T2Space 性质
-instance ulift_t2 {α : Type*} [TopologicalSpace α] [T2Space α] : T2Space (ULift α) := by
-  unfold T2Space
-  intro x y hxy
-  obtain ⟨u, v, hu, hv, hxu, hyv, huv⟩ := T2Space.t2 (hxy ∘ congr_arg ULift.down)
-  exact ⟨ULift.up ⁻¹' u, ULift.up ⁻¹' v,
-         hu.preimage continuous_uLift_up, hv.preimage continuous_uLift_up,
-         hxu, hyv, huv.preimage (continuous_uLift_up.prod_map continuous_uLift_up)⟩
+-- 注意：mathlib 中已经有 instT2SpaceULift 实例，这里仅作示例
+-- instance ulift_t2 {α : Type*} [TopologicalSpace α] [T2Space α] : T2Space (ULift α) :=
+--   inferInstance
 
 -- S³ 是 T2 的
-theorem sphere3_is_t2 : T2Space Sphere3 := by
-  unfold Sphere3
-  exact inferInstance
+-- 验证实例确实存在（使用 TopologyInput.lean 中定义的 sphere3_t2）
+example : T2Space Sphere3 := sphere3_t2
 
 /-!
 ## 定理 3: S³ 是连通的
@@ -170,22 +152,20 @@ example : ConnectedSpace Sphere3 := inferInstance
 /-!
 ## 总结
 
-已证明的定理：
-1. ✅ `sphere3_is_compact` - S³ 是紧致的（完全证明）
-2. ✅ `sphere3_is_t2` - S³ 是 Hausdorff 空间（完全证明）
-3. ⏳ S³ 是连通的（通过路径连通性，但路径连通性使用 axiom）
-4. ⏳ S³ 是单连通的（需要代数拓扑）
+本文件作为 S³ 性质的详细文档和证明示例。
 
-注意：主要的实例定义在 TopologyInput.lean 中：
-- `sphere3_t2`: T2Space Sphere3
-- `sphere3_compact`: CompactSpace Sphere3
-- `sphere3_path_connected`: PathConnectedSpace Sphere3
-- `sphere3_connected`: ConnectedSpace Sphere3
-- `sphere3_simply_connected`: SimplyConnectedSpace Sphere3 (axiom)
+主要实例定义在 TopologyInput.lean 中：
+- ✅ `sphere3_t2`: T2Space Sphere3 - 完全证明
+- ✅ `sphere3_compact`: CompactSpace Sphere3 - 完全证明
+- ⏳ `sphere3_path_connected`: PathConnectedSpace Sphere3 - 使用 axiom
+- ⏳ `sphere3_connected`: ConnectedSpace Sphere3 - 通过路径连通证明
+- ⏳ `sphere3_simply_connected`: SimplyConnectedSpace Sphere3 - axiom
 
 下一步：
-- 证明球面的路径连通性（使用 manifold 理论）
 - 开始 Phase 2: Perelman 熵理论
+  - 实现 W-熵泛函
+  - 证明 W-熵单调性
+  - 实现 F-泛函和 ν-熵
 -/
 
 end Poincare
