@@ -37,7 +37,10 @@ example (g0 : RiemannianMetric M V) (h : ricciOfMetric g0 = 0) :
 #check @ricciNaturalityOn
 
 -- ✅ 验证新增的 toy 引理（无公理，可证明）
+#check @pullbackChainRuleOn_id
 #check @pullbackChainRuleOn_constφ
+#check @ricciNaturalityOn_id
+#check @gaugeCancellationOn_zero_constφ
 #check @deturck_to_hamilton_constφ_noGauge
 
 end RicciFlow

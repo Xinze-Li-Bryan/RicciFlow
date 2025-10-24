@@ -112,6 +112,15 @@ theorem deturck_to_hamilton_reduction
   -- 目标：= (-2) • ricciOfMetric (pullbackMetric (φ t) (g t))
   rw [step4, ← hnat]
 
+/-- **Trivial case**: Identity map satisfies chain rule.
+    When φ = id, pullback is identity, so chain rule becomes: ∂ₜg = ∂ₜg + 0. -/
+lemma pullbackChainRuleOn_id (g : ℝ → RiemannianMetric M V) (s : Set ℝ) :
+  pullbackChainRuleOn (fun _ => id) g s := by
+  intro t ht
+  unfold dPullback_dt
+  ext x v w
+  simp [timeDeriv, pullbackMetric, pullbackVelocity, mv_toFun_add, deriv_const]
+
 /-- **Toy lemma**: Chain rule holds for constant diffeomorphism.
     When φ is constant in time, dPullback_dt = 0, so the chain rule simplifies. -/
 lemma pullbackChainRuleOn_constφ
@@ -129,6 +138,24 @@ lemma pullbackChainRuleOn_constφ
   -- Now show the chain rule: LHS = pullbackVelocity φ0 (timeDeriv g t) + 0
   ext x v w
   simp [timeDeriv, pullbackMetric, pullbackVelocity, h_dpb, mv_toFun_add, MetricVelocity.toFun_zero]
+
+/-- **Trivial case**: Identity map satisfies Ricci naturality.
+    When φ is the identity, pullback does nothing, so Ricci commutes trivially. -/
+lemma ricciNaturalityOn_id (g : ℝ → RiemannianMetric M V) (s : Set ℝ) :
+  ricciNaturalityOn (fun _ => id) g s := by
+  intro t ht
+  rfl
+
+/-- **Trivial case**: Constant φ with zero gauge satisfies gauge cancellation.
+    When φ is constant, dPullback_dt = 0, and with zero gauge, -φ*(0) = 0. -/
+lemma gaugeCancellationOn_zero_constφ
+  (φ0 : M → M) (g : ℝ → RiemannianMetric M V) (s : Set ℝ) :
+  gaugeCancellationOn (fun _ => φ0) g (fun _ => 0) s := by
+  intro t ht
+  unfold dPullback_dt
+  ext x v w
+  simp [timeDeriv, pullbackMetric, pullbackVelocity, deriv_const,
+        mv_toFun_neg, MetricVelocity.toFun_zero]
 
 /-- **Sanity corollary**: With constant φ and zero gauge, DeTurck reduces to Hamilton.
     This demonstrates the reduction mechanism in a controlled, provable setting. -/

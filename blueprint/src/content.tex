@@ -413,6 +413,22 @@ This completes the proof.
 
 \section{Toy Corollaries for Sanity Checks}
 
+\begin{lemma}[Chain Rule for Identity Map]
+\label{lem:pullbackChainRuleOn_id}
+\lean{RicciFlow.pullbackChainRuleOn_id}
+\leanok
+\uses{def:pullbackChainRuleOn}
+If $\varphi_t \equiv \mathrm{id}$ is the identity map, then the chain rule (\ref{def:pullbackChainRuleOn}) holds trivially: pullback does nothing, so
+\[ \frac{\partial g}{\partial t} = \frac{\partial g}{\partial t} + 0 \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+When $\varphi_t = \mathrm{id}$, both $\varphi_t^* g(t) = g(t)$ and $\partial \varphi_t^*/\partial t = 0$, so the equation holds by reflexivity.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
 \begin{lemma}[Chain Rule for Constant Diffeomorphism]
 \label{lem:pullbackChainRuleOn_constφ}
 \lean{RicciFlow.pullbackChainRuleOn_constφ}
@@ -425,6 +441,37 @@ If $\varphi_t \equiv \varphi_0$ is constant in time, then the chain rule (\ref{d
 \begin{proof}
 \leanok
 When $\varphi_t$ is constant, $\partial \varphi_t^*/\partial t = 0$. The chain rule reduces to the statement that pullback commutes with time differentiation, which is immediate from the definition.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Ricci Naturality for Identity Map]
+\label{lem:ricciNaturalityOn_id}
+\lean{RicciFlow.ricciNaturalityOn_id}
+\leanok
+\uses{def:ricciNaturalityOn}
+The identity map trivially satisfies Ricci naturality:
+\[ \mathrm{Ric}(g(t)) = \mathrm{Ric}(g(t)) \]
+\end{lemma}
+
+\begin{proof}
+\leanok
+Immediate by reflexivity since $\mathrm{id}^* = \mathrm{id}$.
+
+\textbf{File}: \texttt{Ricci/DeturckReduction.lean}
+\end{proof}
+
+\begin{lemma}[Gauge Cancellation for Constant Map with Zero Gauge]
+\label{lem:gaugeCancellationOn_zero_constφ}
+\lean{RicciFlow.gaugeCancellationOn_zero_constφ}
+\leanok
+\uses{def:gaugeCancellationOn}
+If $\varphi_t \equiv \varphi_0$ is constant and $G \equiv 0$, then gauge cancellation (\ref{def:gaugeCancellationOn}) holds: $0 = -\varphi_0^*(0) = 0$.
+\end{lemma}
+
+\begin{proof}
+\leanok
+When $\varphi_t$ is constant, $\partial \varphi_t^*/\partial t = 0$. With zero gauge, $-\varphi_0^*(0) = 0$ by linearity of pullback.
 
 \textbf{File}: \texttt{Ricci/DeturckReduction.lean}
 \end{proof}
