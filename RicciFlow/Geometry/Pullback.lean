@@ -23,27 +23,33 @@ def pullbackMetric (φ : M → M) (g : RiemannianMetric M V) : RiemannianMetric 
     exact (g.pos_def (φ x) v hv) }
 
 -- 线性性（后续归约定理中会使用）
+omit [Zero V] in
 @[simp] lemma pullbackVelocity_zero (φ : M → M) :
   pullbackVelocity φ (0 : MetricVelocity M V) = 0 := by
   ext x v w; simp [pullbackVelocity, MetricVelocity.toFun_zero]
 
+omit [Zero V] in
 @[simp] lemma pullbackVelocity_smul (φ : M → M) (c : ℝ) (τ : MetricVelocity M V) :
   pullbackVelocity φ (c • τ) = c • pullbackVelocity φ τ := by
   ext x v w; simp [pullbackVelocity, smul_toFun]
 
+omit [Zero V] in
 @[simp] lemma pullbackVelocity_add (φ : M → M) (τ σ : MetricVelocity M V) :
   pullbackVelocity φ (τ + σ) = pullbackVelocity φ τ + pullbackVelocity φ σ := by
   ext x v w; simp [pullbackVelocity, mv_toFun_add]
 
+omit [Zero V] in
 @[simp] lemma pullbackVelocity_neg (φ : M → M) (τ : MetricVelocity M V) :
   pullbackVelocity φ (-τ) = - pullbackVelocity φ τ := by
   ext x v w; simp [pullbackVelocity, mv_toFun_neg]
 
 -- 函子性（合成与恒等）
+omit [Zero V] in
 @[simp] lemma pullbackVelocity_id (τ : MetricVelocity M V) :
   pullbackVelocity (fun x : M => x) τ = τ := by
   ext x v w; simp [pullbackVelocity]
 
+omit [Zero V] in
 @[simp] lemma pullbackVelocity_comp (φ ψ : M → M) (τ : MetricVelocity M V) :
   pullbackVelocity (fun x => φ (ψ x)) τ =
   pullbackVelocity ψ (pullbackVelocity φ τ) := by
