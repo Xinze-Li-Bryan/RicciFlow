@@ -94,21 +94,40 @@ axiom simplyConnected_to_simplyConnectedSpace
 
 /-!
 ## 基本拓扑性质
+
+### Mathlib 对接状态
+
+本节使用 Mathlib 的以下定理：
+- `Convex.contractibleSpace` (Mathlib.Analysis.Convex.Contractible)
+  凸集是可缩的
+- `SimplyConnectedSpace.ofContractible` (Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected)
+  可缩空间是单连通的
+
+参考: MATHLIB_FINDINGS.md
 -/
 
 -- 3-球是可缩的
--- TODO: 对接到 Mathlib.Topology.Homotopy.Contractible
--- 证明策略：
--- 1. 球是凸集
--- 2. 凸集是可缩的（到任意点的直线收缩）
--- 3. 使用 Mathlib.Topology.Homotopy.Contractible 中的定理
+-- 证明策略：球是凸集 → 凸集可缩（Mathlib.Analysis.Convex.Contractible）
+-- TODO: 证明 Ball3 在 ℝ⁴ 中是凸集
 instance : ContractibleSpace Ball3 := sorry
+  -- 一旦证明了 Ball3 的凸性，可以应用：
+  -- Convex.contractibleSpace : Convex ℝ s → s.Nonempty → ContractibleSpace s
+  --
+  -- 凸性证明思路：
+  -- ∀ x y ∈ Ball3, ∀ a b ≥ 0, a + b = 1 →
+  --   ‖a • x + b • y‖² = a²‖x‖² + 2ab⟨x,y⟩ + b²‖y‖²
+  --                   ≤ a²·1 + 2ab·1 + b²·1  (Cauchy-Schwarz)
+  --                   = (a + b)² = 1
+  -- 因此 a • x + b • y ∈ Ball3
 
--- 推论：3-球是单连通的（通过 Mathlib）
--- 这个实例**自动**从 ContractibleSpace Ball3 实例推导出来！
+-- 推论：3-球是单连通的（自动推导！）✨
+-- 这个实例**自动**从 ContractibleSpace Ball3 通过 Mathlib 推导出来！
 -- SimplyConnectedSpace.ofContractible : [ContractibleSpace X] → SimplyConnectedSpace X
 example : SimplyConnectedSpace Ball3 := inferInstance
-  -- ✓ 验证：一旦有了 ContractibleSpace Ball3，就自动有 SimplyConnectedSpace Ball3
+  -- ✓ 验证：类型类推导链
+  --   ContractibleSpace Ball3 (line 105 instance)
+  --     ↓ SimplyConnectedSpace.ofContractible (Mathlib 自动)
+  --   SimplyConnectedSpace Ball3
 
 -- S² 是 D³ 的边界
 axiom sphere2_boundary_ball3 :
