@@ -9,6 +9,8 @@ import Mathlib.Topology.Basic
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
 import Mathlib.Topology.Homotopy.Contractible
+import Mathlib.Analysis.Convex.Basic
+import Mathlib.Analysis.Convex.Contractible
 
 /-!
 # Topology Helper Lemmas for Surgery Theory
@@ -79,9 +81,7 @@ class SimplyConnected (M : Type*) [TopologicalSpace M] : Prop where
 theorem simplyConnectedSpace_implies_simplyConnected
     (M : Type*) [TopologicalSpace M] [SimplyConnectedSpace M] :
     SimplyConnected M where
-  pathConnected := by
-    -- SimplyConnectedSpace 蕴含 PathConnectedSpace
-    sorry  -- 需要从 Mathlib 的定义推导
+  pathConnected := inferInstance  -- SimplyConnectedSpace 自动提供 PathConnectedSpace
   pi1_trivial := trivial
 
 -- 反向（在某些条件下）
