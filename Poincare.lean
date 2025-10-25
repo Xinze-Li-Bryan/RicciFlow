@@ -4,6 +4,7 @@
 import Poincare.Final
 import Poincare.Core.TopologyInput
 import Poincare.Perelman.KappaSolutionClassification
+import Poincare.Perelman.SurgeryExtinction
 import Poincare.Perelman.PoincareFromPerelman
 import Poincare.Dev.Audit
 import Poincare.Dev.Notes
@@ -29,20 +30,22 @@ Ricci Flow with surgery approach.
 - `Poincare.Perelman.KappaSolutions`: κ-solution theory
 - `Poincare.Perelman.KappaSolutionClassification`: κ-solution classification (Phase 4)
 - `Poincare.Perelman.GeometricSurgery`: Surgery framework
+- `Poincare.Perelman.SurgeryExtinction`: Surgery theory and extinction (Phase 5)
 - `Poincare.Perelman.PoincareFromPerelman`: Proof derivation
 - `Poincare.Dev.Audit`: Axiom auditing
 - `Poincare.Dev.Notes`: Development notes
 
 ## Status
 
-**Phase 0-4 Progress** (October 2024):
+**Phase 0-5 Progress** (October 2024):
 - ✅ Phase 0: Architecture setup
 - ✅ Phase 1: Topology foundations
 - ✅ Phase 2: Perelman entropy functionals
 - ✅ Phase 3: κ-solutions and geometric surgery
-- ✅ Phase 4: κ-solution classification (NEW)
+- ✅ Phase 4: κ-solution classification
+- ✅ Phase 5: Surgery theory and finite extinction (NEW)
 
-**Next**: Phase 5 (Surgery theory and extinction)
+**Next**: Phase 6 (Final synthesis and axiom reduction)
 
 ## Dependencies
 
