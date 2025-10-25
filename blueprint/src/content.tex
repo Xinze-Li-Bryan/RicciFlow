@@ -2,9 +2,9 @@
 % THE POINCARÉ CONJECTURE: A FORMAL PROOF IN LEAN 4
 %============================================================================
 
-\title{The Poincaré Conjecture}
+\title{The Poincaré Conjecture: A Formal Proof in Lean 4}
 \author{Xinze Li (李昕泽)}
-\date{\today}
+\date{October 2024}
 
 \maketitle
 
@@ -193,6 +193,7 @@ This formalization is organized in two layers:
 \begin{definition}[3-Manifold]
 \label{def:3manifold}
 \lean{Poincare.Is3Manifold}
+\leanok
 A topological space $M$ is a \textbf{3-manifold} if it is locally homeomorphic to $\mathbb{R}^3$.
 
 Formally, $M$ admits an atlas of charts to Euclidean 3-space.
@@ -201,6 +202,7 @@ Formally, $M$ admits an atlas of charts to Euclidean 3-space.
 \begin{definition}[Simply-Connected]
 \label{def:simply_connected}
 \lean{Poincare.SimplyConnected}
+\leanok
 A topological space $M$ is \textbf{simply-connected} if it is path-connected and has trivial fundamental group: $\pi_1(M) = \{e\}$.
 
 Equivalently, every loop in $M$ can be continuously contracted to a point.
@@ -209,6 +211,7 @@ Equivalently, every loop in $M$ can be continuously contracted to a point.
 \begin{definition}[3-Sphere]
 \label{def:sphere3}
 \lean{Poincare.Sphere3}
+\leanok
 The \textbf{3-sphere} $S^3$ is the set of unit vectors in $\mathbb{R}^4$:
 \[
 S^3 = \{(x_1, x_2, x_3, x_4) \in \mathbb{R}^4 : x_1^2 + x_2^2 + x_3^2 + x_4^2 = 1\}
@@ -219,6 +222,7 @@ S^3 = \{(x_1, x_2, x_3, x_4) \in \mathbb{R}^4 : x_1^2 + x_2^2 + x_3^2 + x_4^2 = 
 \label{thm:poincare_conjecture}
 \lean{Poincare.poincare_conjecture}
 \leanok
+\uses{def:3manifold, def:simply_connected, def:sphere3}
 Every simply-connected, closed 3-manifold is homeomorphic to $S^3$.
 
 Formally: Let $M$ be a topological space. If
@@ -254,6 +258,7 @@ This is formalized in \texttt{poincare_from_perelman}.
 \section{Ricci Flow Equation}
 
 \begin{definition}[Ricci Flow]
+\label{def:ricci_flow}
 \lean{RicciFlow.ricciFlowEqOn}
 \leanok
 A family of Riemannian metrics $g(t)$ on a manifold $M$, for $t \in [0,T)$, satisfies the \textbf{Ricci flow equation} if:
@@ -280,6 +285,7 @@ Think of it as "geometric heat flow" - just as the heat equation diffuses temper
 \label{thm:deturck_existence}
 \lean{RicciFlow.deturck_short_time_existence}
 \leanok
+\uses{def:ricci_flow}
 Given any smooth Riemannian manifold $(M, g_0)$, there exists $T > 0$ and a smooth family of metrics $g(t)$ for $t \in [0, T)$ satisfying the Ricci flow equation with initial condition $g(0) = g_0$.
 \end{theorem}
 
@@ -299,6 +305,8 @@ This is completely formalized in \texttt{RicciFlow/Ricci/DeturckReduction.lean} 
 \begin{definition}[W-Entropy]
 \label{def:w_entropy}
 \lean{Perelman.WEntropy}
+\leanok
+\uses{def:ricci_flow}
 For a Ricci flow $(M, g(t))$ with an auxiliary function $f : M \to \mathbb{R}$ and scale parameter $\tau > 0$, the \textbf{W-entropy} is:
 \[
 W(g, f, \tau) = \int_M \left[\tau(R + |\nabla f|^2) + f - n\right] (4\pi\tau)^{-n/2} e^{-f} \, dV
@@ -309,6 +317,7 @@ where $R$ is the scalar curvature and $n$ is the dimension.
 \begin{theorem}[W-Entropy Monotonicity]
 \label{thm:w_entropy_monotone}
 \lean{Perelman.w_entropy_monotone}
+\leanok
 \uses{def:w_entropy}
 Along the Ricci flow with the gradient flow of $W$, the W-entropy is non-decreasing in time:
 \[
@@ -335,6 +344,8 @@ The W-entropy:
 \begin{definition}[κ-Solution]
 \label{def:kappa_solution}
 \lean{Perelman.KappaSolution}
+\leanok
+\uses{def:ricci_flow, thm:w_entropy_monotone}
 A Ricci flow $(M, g(t))$ for $t \in (-\infty, T)$ is a \textbf{κ-solution} if:
 \begin{enumerate}
 \item It is \textbf{ancient}: exists for all $t < T$
@@ -349,6 +360,7 @@ A Ricci flow $(M, g(t))$ for $t \in (-\infty, T)$ is a \textbf{κ-solution} if:
 \begin{theorem}[κ-Solution Classification]
 \label{thm:kappa_classification}
 \lean{Perelman.kappa_solution_classification_3d}
+\leanok
 \uses{def:kappa_solution}
 Every 3-dimensional κ-solution is one of the following:
 
@@ -389,6 +401,8 @@ When Ricci flow encounters a singularity, we cannot continue the flow naively. P
 \begin{definition}[ε-Neck]
 \label{def:epsilon_neck}
 \lean{Perelman.EpsilonNeck}
+\leanok
+\uses{thm:kappa_classification}
 A region of a Riemannian manifold is an \textbf{ε-neck} if, after appropriate rescaling, it is ε-close (in some metric) to a standard cylinder $S^2 \times I$.
 \end{definition}
 
@@ -407,6 +421,8 @@ A region of a Riemannian manifold is an \textbf{ε-neck} if, after appropriate r
 \begin{theorem}[Finite Surgery]
 \label{thm:finite_surgery}
 \lean{Perelman.finite_surgery_theorem_detailed}
+\leanok
+\uses{def:epsilon_neck, thm:kappa_classification}
 In any finite time interval $[0, T]$, only finitely many surgeries are needed for a compact 3-manifold under Ricci flow.
 \end{theorem}
 
@@ -427,6 +443,8 @@ In any finite time interval $[0, T]$, only finitely many surgeries are needed fo
 \begin{theorem}[Finite Extinction]
 \label{thm:finite_extinction}
 \lean{Perelman.finite_extinction_theorem}
+\leanok
+\uses{def:simply_connected, thm:finite_surgery}
 Let $(M, g_0)$ be a simply-connected, compact 3-manifold. Under Ricci flow with surgery, the manifold vanishes (becomes empty) in finite time $T_{\text{ext}} < \infty$.
 \end{theorem}
 
@@ -446,7 +464,8 @@ Let $(M, g_0)$ be a simply-connected, compact 3-manifold. Under Ricci flow with 
 \begin{theorem}[Extinction Implies $S^3$]
 \label{thm:extinction_implies_s3}
 \lean{Perelman.extinction_implies_homeomorphic_to_s3}
-\uses{thm:finite_extinction}
+\leanok
+\uses{def:sphere3, thm:finite_extinction}
 If a simply-connected, compact 3-manifold $M$ has finite extinction time under Ricci flow with surgery, then $M$ is homeomorphic to $S^3$.
 \end{theorem}
 
@@ -469,7 +488,8 @@ If a simply-connected, compact 3-manifold $M$ has finite extinction time under R
 \begin{theorem}[Poincaré Conjecture - Complete Version]
 \label{thm:poincare_complete}
 \lean{Poincare.ricci_flow_surgery_on_simply_connected_3manifold}
-\uses{thm:finite_extinction, thm:extinction_implies_s3}
+\leanok
+\uses{def:ricci_flow, thm:deturck_existence, thm:finite_surgery, thm:finite_extinction, thm:extinction_implies_s3}
 Let $M$ be a simply-connected, compact 3-manifold. Then:
 \begin{enumerate}
 \item A Ricci flow with surgery can be constructed on $M$
