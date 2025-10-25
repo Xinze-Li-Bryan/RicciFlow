@@ -4,6 +4,7 @@
 import RicciFlow.Flow
 import RicciFlow.Ricci.DeturckReduction
 import Mathlib.Analysis.Calculus.Deriv.Basic
+import Mathlib.Analysis.Calculus.Deriv.MeanValue
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
 import Mathlib.Analysis.SpecialFunctions.Exp
 
@@ -189,9 +190,19 @@ theorem w_entropy_monotone
     have h_lt : t₁ < t₂ := lt_of_le_of_ne h h_eq
     -- 我们需要证明：∀ t ∈ [t₁,t₂], dW/dt ≥ 0 蕴含 W(t₁) ≤ W(t₂)
     -- 这是平均值定理的推论
-    -- 为了形式化的简洁性，这里使用 axiom 的语义含义
-    -- 在完整证明中，需要使用 Mathlib 的积分定理
-    sorry  -- 需要实分析库支持：MonotoneOn.le_of_deriv_nonneg
+    -- 使用 Mathlib 的 monotone_of_deriv_nonneg
+    -- 定义 W 函数
+    let W := fun t => WEntropy (data t) n
+    -- W 是单调的，因为导数非负
+    have h_mono : Monotone W := by
+      apply monotone_of_deriv_nonneg
+      · -- W 可微
+        sorry  -- 需要证明 WEntropy 可微，这依赖于 Ricci 流的正则性
+      · -- 导数非负
+        intro t
+        exact w_entropy_derivative data n t (h_normalized t)
+    -- 应用单调性
+    exact h_mono h
 
 /-!
 ## 4. F-泛函
