@@ -396,8 +396,8 @@ theorem extinction_standard_decomposition_detailed
 -- 标准分解中所有片都是球面
 theorem decomposition_all_spheres
     {M : Type*} [TopologicalSpace M]
-    (h_simply_connected : SimplyConnected M)
-    (decomp : StandardDecomposition M) :
+    (_h_simply_connected : SimplyConnected M)
+    (_decomp : StandardDecomposition M) :
     -- 如果 M 单连通，则所有分量都是 3-球（简化为 True）
     True := by
   trivial
@@ -424,7 +424,7 @@ theorem gluing_balls_gives_sphere
 theorem extinction_implies_homeomorphic_to_s3
     {M : Type*} [TopologicalSpace M]
     (flow : RicciFlowWithSurgery M)
-    (h_compact : IsCompact (Set.univ : Set M))
+    (_h_compact : IsCompact (Set.univ : Set M))
     (h_simply_connected : SimplyConnected M)
     (T_ext : ℝ)
     (h_extinct : becomes_empty flow T_ext) :
@@ -460,8 +460,19 @@ theorem ricci_flow_surgery_on_simply_connected_3manifold
     (∃ flow : RicciFlowWithSurgery M, ∃ T_ext, becomes_empty flow T_ext) ∧
     -- 4. 因此 M ≃ₜ S³
     Nonempty (M ≃ₜ Sphere3) := by
-  sorry
   -- 综合所有前面的定理
+  constructor
+  · -- 1. 存在 Ricci 流带手术（使用 Classical.choice 构造）
+    sorry  -- 需要从 assign_riemannian_metric 和 ricci_flow_with_surgery_global
+  constructor
+  · -- 2. 手术次数有限（使用 finite_surgery_theorem_detailed）
+    sorry  -- 需要先构造一个 flow
+  constructor
+  · -- 3. 有限时间灭绝（使用 finite_extinction_theorem）
+    sorry  -- 需要先构造一个 flow
+  · -- 4. M ≃ₜ S³ （使用 extinction_implies_topology axiom）
+    -- 这个已经在 PoincareFromPerelman.lean 中定义
+    sorry  -- 需要导入或直接使用 axiom
 
 -- 这完成了从 Perelman 工作到庞加莱猜想的证明链条
 -- 回顾 PoincareFromPerelman.lean 中的 extinction_implies_topology 公理

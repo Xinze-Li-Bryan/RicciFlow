@@ -36,9 +36,9 @@ theorem poincare_conjecture
 -- 注意：这是一个弱化的陈述，实际上应该返回手术后的流形
 theorem topological_surgery_via_ricci_flow.{u}
   (M : Type u) [TopologicalSpace M]
-  (h_manifold : Is3Manifold M)
-  (h_closed : IsCompact (Set.univ : Set M)) :
-  ∃ (t : ℝ), t > 0 ∧ ∃ (M' : Type u), True := by
+  (_h_manifold : Is3Manifold M)
+  (_h_closed : IsCompact (Set.univ : Set M)) :
+  ∃ (t : ℝ), t > 0 ∧ ∃ (_M' : Type u), True := by
   -- 由于这个定理的结论非常弱（只要求存在 M' : Type u 使得 True）
   -- 我们可以直接构造，而不需要依赖 Ricci 流的细节
   -- 选择 t = 1 > 0，M' = M（同一个宇宙）
