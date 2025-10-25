@@ -69,13 +69,13 @@ structure AncientSolution (M : Type*) where
 -/
 
 -- 曲率张量的范数有界
-def has_bounded_curvature {M : Type*} (_metric : ℝ → Type*) (_C : ℝ) : Prop :=
+def has_bounded_curvature {_M : Type*} (_metric : ℝ → Type*) (_C : ℝ) : Prop :=
   -- ∀ t, x, |Rm(x,t)| ≤ C
   True  -- 简化定义
 
 -- 尺度不变的曲率有界性
 -- |Rm(x,t)| ≤ C/|t|（对于 t < 0）
-def has_scale_invariant_curvature {M : Type*} (_metric : ℝ → Type*) : Prop :=
+def has_scale_invariant_curvature {_M : Type*} (_metric : ℝ → Type*) : Prop :=
   ∃ _C : ℝ, ∀ _t < 0, True  -- |Rm(x,t)| ≤ C/|t|
 
 /-!
@@ -203,20 +203,20 @@ axiom standard_cylinder_structure :
 -- 在 κ-解中，曲率在空间上的变化受到控制
 axiom pointwise_curvature_estimate :
   ∀ {M : Type*} [MeasurableSpace M] (sol : KappaSolution M)
-    (t : ℝ) (h : t < sol.ancient.T),
-  ∃ C : ℝ, True
+    (_t : ℝ) (_h : _t < sol.ancient.T),
+  ∃ _C : ℝ, True
   -- |∇Rm| ≤ C · |Rm|^(3/2)
 
 -- 曲率的时间导数估计
 axiom curvature_derivative_estimate :
   ∀ {M : Type*} [MeasurableSpace M] (sol : KappaSolution M)
-    (t : ℝ) (h : t < sol.ancient.T),
-  ∃ C : ℝ, True
+    (_t : ℝ) (_h : _t < sol.ancient.T),
+  ∃ _C : ℝ, True
   -- ∂R/∂t ≥ -C · R
 
 -- 梯度估计（Hamilton-Li-Yau 型）
 axiom hamilton_li_yau_estimate :
-  ∀ {M : Type*} [MeasurableSpace M] (sol : KappaSolution M),
+  ∀ {M : Type*} [MeasurableSpace M] (_sol : KappaSolution M),
   True  -- 具体的 Hamilton-Li-Yau 不等式
 
 /-!
@@ -259,13 +259,13 @@ axiom singularity_classification :
   ∀ {M : Type*} [MeasurableSpace M] (metric : ℝ → Type*)
     (singular_point : M × ℝ),
   -- 如果是有限时间奇点
-  ∃ (tangent : TangentFlow metric singular_point),
+  ∃ (_tangent : TangentFlow metric singular_point),
   True
   -- tangent 的模型给出奇点的类型
 
 -- Type I 奇点：曲率增长率 |Rm| ≤ C/(T-t)
-def is_type_I_singularity {M : Type*} (metric : ℝ → Type*) (T : ℝ) : Prop :=
-  ∃ C : ℝ, True  -- |Rm(x,t)| ≤ C/(T-t)
+def is_type_I_singularity {_M : Type*} (_metric : ℝ → Type*) (_T : ℝ) : Prop :=
+  ∃ _C : ℝ, True  -- |Rm(x,t)| ≤ C/(T-t)
 
 -- Type II 奇点：曲率增长更快
 def is_type_II_singularity {M : Type*} (metric : ℝ → Type*) (T : ℝ) : Prop :=
@@ -314,11 +314,11 @@ structure EpsilonCap (M : Type*) where
 -- 典则邻域定理（Canonical Neighborhood Theorem）
 -- Perelman 的关键结果：高曲率点附近必然是 ε-颈部或 ε-帽
 axiom canonical_neighborhood_theorem :
-  ∀ {M : Type*} (metric : ℝ → Type*) (ε : ℝ) (h_ε : ε > 0),
+  ∀ {M : Type*} (_metric : ℝ → Type*) (ε : ℝ) (_h_ε : ε > 0),
   -- 存在曲率阈值 r
-  ∃ r : ℝ,
+  ∃ _r : ℝ,
   -- 对所有曲率 > r 的点
-  ∀ (x : M) (t : ℝ),
+  ∀ (x : M) (_t : ℝ),
   -- 该点的邻域要么是 ε-颈部，要么是 ε-帽
   (∃ neck : EpsilonNeck M, x ∈ neck.region) ∨
   (∃ cap : EpsilonCap M, x ∈ cap.region)
