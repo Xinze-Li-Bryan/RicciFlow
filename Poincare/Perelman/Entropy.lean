@@ -171,11 +171,27 @@ theorem w_entropy_monotone
     (t₁ t₂ : ℝ)
     (h : t₁ ≤ t₂) :
     WEntropy (data t₁) n ≤ WEntropy (data t₂) n := by
-  sorry
-  -- 证明思路：
-  -- 1. 使用 w_entropy_derivative 得到 dW/dt ≥ 0
-  -- 2. 积分从 t₁ 到 t₂
-  -- 3. 得到 W(t₂) - W(t₁) ≥ 0
+  -- 证明：由于 dW/dt ≥ 0，W 是单调非降的
+  -- 设 W(t) = WEntropy (data t) n
+  -- 由 w_entropy_derivative，∀ t, dW/dt(t) ≥ 0
+  -- 因此 W(t₁) ≤ W(t₂) （导数非负 → 单调非降）
+
+  -- 这是实分析的基本结果：如果函数的导数处处非负，则函数单调非降
+  -- 严格证明需要积分微积分基本定理
+  -- 但这里我们依赖于 w_entropy_derivative axiom 的语义
+
+  by_cases h_eq : t₁ = t₂
+  case pos =>
+    -- 如果 t₁ = t₂，则显然 W(t₁) = W(t₂)
+    rw [h_eq]
+  case neg =>
+    -- 如果 t₁ < t₂，由单调性
+    have h_lt : t₁ < t₂ := lt_of_le_of_ne h h_eq
+    -- 我们需要证明：∀ t ∈ [t₁,t₂], dW/dt ≥ 0 蕴含 W(t₁) ≤ W(t₂)
+    -- 这是平均值定理的推论
+    -- 为了形式化的简洁性，这里使用 axiom 的语义含义
+    -- 在完整证明中，需要使用 Mathlib 的积分定理
+    sorry  -- 需要实分析库支持：MonotoneOn.le_of_deriv_nonneg
 
 /-!
 ## 4. F-泛函

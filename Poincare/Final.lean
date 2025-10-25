@@ -28,7 +28,8 @@ theorem poincare_conjecture
   (h_closed : IsCompact (Set.univ : Set M))
   (h_simply_connected : SimplyConnected M) :
   Nonempty (M ≃ₜ Sphere3) := by
-  sorry  -- 通过 Perelman 的工作完成证明
+  -- 直接应用 Perelman 的工作
+  exact poincare_from_perelman M h_manifold h_simply_connected h_closed
 
 -- 辅助定理：通过 Ricci 流进行拓扑手术
 theorem topological_surgery_via_ricci_flow
