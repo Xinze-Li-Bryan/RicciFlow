@@ -4,7 +4,7 @@
 [![Blueprint](https://img.shields.io/badge/Blueprint-Online-blue)](https://xinze-li-bryan.github.io/RicciFlow/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
 
-> **Formalizing one of mathematics' greatest achievements: Perelman's proof of the Poincaré Conjecture using Ricci Flow with surgery**
+> **Formalizing Perelman's proof of the Poincaré Conjecture using Ricci Flow with surgery in Lean 4**
 
 ## 📐 The Poincaré Conjecture
 
@@ -18,13 +18,14 @@ This conjecture remained unsolved for nearly a century until Grigori Perelman pr
 
 ## 🎯 Project Goals
 
-This project aims to:
+This project aims to formalize Perelman's proof of the Poincaré Conjecture in Lean 4, following these objectives:
 
-1. **Formalize Perelman's proof** of the Poincaré Conjecture in Lean 4
-2. **Build a complete Ricci Flow theory** from first principles  
-3. **Implement geometric surgery** procedures for handling singularities
-4. **Prove finite extinction** for simply-connected 3-manifolds
-5. **Establish the topological conclusion**: extinction implies homeomorphism to S³
+1. **Build a complete Ricci Flow theory** from first principles
+2. **Implement Perelman's entropy functionals** (W-entropy, F-functional, ν-entropy)
+3. **Classify κ-solutions** in dimension 3
+4. **Implement geometric surgery** procedures for handling singularities
+5. **Prove finite extinction** for simply-connected 3-manifolds
+6. **Establish the topological conclusion**: extinction implies homeomorphism to S³
 
 ## 🏗️ Project Structure
 
@@ -40,7 +41,7 @@ RicciFlow/                    # Foundation Layer (100% Complete)
 │   └── DeturckReduction.lean # DeTurck-Hamilton theory (0 sorry)
 └── Examples.lean            # Example flows
 
-Poincare/                     # Poincaré Program (Phases 0-5 Complete)
+Poincare/                     # Poincaré Program
 ├── Final.lean               # Main theorem: Poincaré Conjecture
 ├── Core/
 │   ├── TopologyInput.lean   # 3-manifold topology
@@ -51,10 +52,11 @@ Poincare/                     # Poincaré Program (Phases 0-5 Complete)
 │   ├── KappaSolutionClassification.lean # Classification of κ-solutions
 │   ├── GeometricSurgery.lean # Surgery procedures
 │   ├── SurgeryExtinction.lean # Finite extinction theory
+│   ├── TopologyHelpers.lean # Topology lemmas with Mathlib integration
 │   └── PoincareFromPerelman.lean # Proof derivation
 └── Dev/
     ├── Audit.lean           # Axiom auditing
-    └── Notes.lean           # Development roadmap
+    └── AxiomInventory.lean  # Axiom documentation
 ```
 
 ## 🔬 The Proof Strategy
@@ -91,29 +93,40 @@ Perelman's proof follows this logical chain:
 
 ## 📊 Current Status
 
-### Completed Phases (0-5)
+### Implementation Progress
 
-| Phase | Description | Status | Lines of Code |
-|-------|-------------|--------|---------------|
-| **Phase 0** | Architecture Setup | ✅ Complete | ~200 |
-| **Phase 1** | Topology Foundations | ✅ Complete | ~300 |
-| **Phase 2** | Perelman Entropy Functionals | ✅ Complete | ~400 |
-| **Phase 3** | κ-Solutions & Surgery Framework | ✅ Complete | ~600 |
-| **Phase 4** | κ-Solution Classification | ✅ Complete | ~500 |
-| **Phase 5** | Surgery Theory & Extinction | ✅ Complete | ~600 |
-| **Phase 6** | Final Synthesis | 🚧 In Progress | TBD |
+| Component | Description | Status | Lines of Code |
+|-----------|-------------|--------|---------------|
+| **RicciFlow Foundation** | Core Ricci flow theory | ✅ Complete | ~850 |
+| **Topology Foundations** | 3-manifold topology | ✅ Complete | ~300 |
+| **Entropy Functionals** | W, F, ν entropies | ✅ Framework | ~400 |
+| **κ-Solutions** | κ-solution theory | ✅ Framework | ~600 |
+| **κ-Classification** | 3D classification | ✅ Framework | ~500 |
+| **Surgery Theory** | Surgery & extinction | ✅ Framework | ~600 |
+| **Mathlib Integration** | Connecting to Mathlib | 🚧 In Progress | ~200 |
 
-**Total**: ~3300+ lines of Lean 4 code  
-**Foundation (RicciFlow)**: 843 lines, **0 sorry** statements ✅  
-**Poincaré Program**: ~2500 lines with axiomatized theorems
+**Total**: ~3450+ lines of Lean 4 code
+**Foundation (RicciFlow)**: 843 lines with **0 sorry** statements ✅
+**Poincaré Program**: ~2600 lines with strategic axiomatization
 
 ### Build Status
 
 ```bash
-✓ Build: Successful (7422 jobs, 0 errors)
+✓ Build: Successful (7423 jobs, 0 errors, 0 warnings)
 ✓ Foundation: Complete with rigorous proofs
 ✓ Framework: All major theorems axiomatized with proof strategies
+✓ Mathlib Integration: Active connection to standard libraries
 ```
+
+### Formalization Approach
+
+This project follows a **top-down formalization strategy**:
+
+1. **Architectural Phase**: Complete proof structure with axioms marking dependencies
+2. **Mathlib Integration**: Connecting to existing mathematical libraries
+3. **Progressive Refinement**: Gradually replacing axioms with proofs
+
+**Current State**: 10 strategic axioms remain (down from 44), all with clear Mathlib connection paths documented.
 
 ## 🔑 Key Theorems
 
@@ -130,7 +143,7 @@ theorem poincare_conjecture
 
 ### Core Results
 
-**W-Entropy Monotonicity** (Phase 2):
+**W-Entropy Monotonicity**:
 ```lean
 theorem w_entropy_monotone
     {M : Type*} [MeasurableSpace M]
@@ -139,7 +152,7 @@ theorem w_entropy_monotone
     WEntropy (data t₁) n ≤ WEntropy (data t₂) n
 ```
 
-**κ-Solution Classification** (Phase 4):
+**κ-Solution Classification**:
 ```lean
 theorem kappa_solution_classification_3d
     {M : Type*} [TopologicalSpace M] [MeasurableSpace M]
@@ -148,7 +161,7 @@ theorem kappa_solution_classification_3d
     (is_noncompact_kappa_solution sol → ...)
 ```
 
-**Finite Extinction Theorem** (Phase 5):
+**Finite Extinction Theorem**:
 ```lean
 theorem finite_extinction_theorem
     {M : Type*} [TopologicalSpace M]
@@ -157,6 +170,17 @@ theorem finite_extinction_theorem
     (h_simply_connected : SimplyConnected M) :
     ∃ T_ext : ℝ, becomes_empty flow T_ext
 ```
+
+## 🔗 Mathlib Integration
+
+This project actively integrates with Mathlib's standard library:
+
+- **Topology**: Using `SimplyConnectedSpace`, `ContractibleSpace` from Mathlib
+- **Convex Analysis**: Leveraging `Convex.contractibleSpace` for geometric proofs
+- **Fundamental Groupoid**: Building on algebraic topology infrastructure
+- **Poincaré Conjecture Declaration**: Mathlib contains `SimplyConnectedSpace.nonempty_homeomorph_sphere_three` which our proof targets
+
+See [MATHLIB_FINDINGS.md](Poincare/Perelman/MATHLIB_FINDINGS.md) for detailed integration status.
 
 ## 🚀 Getting Started
 
@@ -191,6 +215,9 @@ lake build Poincare
 
 # Run axiom audit
 lake build Poincare.Dev.Audit
+
+# Check blueprint declarations
+lake exe checkdecls blueprint/lean_decls
 ```
 
 ## 📚 Documentation
@@ -202,7 +229,7 @@ The [**interactive blueprint**](https://xinze-li-bryan.github.io/RicciFlow/) con
 - Complete mathematical exposition of the proof
 - Dependency graphs showing theorem relationships
 - Links between informal mathematics and formal code
-- Progress tracking for each phase
+- Progress tracking for formalization
 
 To build the blueprint locally:
 
@@ -211,6 +238,13 @@ cd blueprint
 leanblueprint web
 # Open blueprint/web/index.html in your browser
 ```
+
+### Development Documentation
+
+- [MATHLIB_INTEGRATION.md](Poincare/Perelman/MATHLIB_INTEGRATION.md) - Guide to Mathlib type class usage
+- [MATHLIB_FINDINGS.md](Poincare/Perelman/MATHLIB_FINDINGS.md) - Survey of available Mathlib theorems
+- [AXIOM_TODO.md](Poincare/Perelman/AXIOM_TODO.md) - Axiom connection roadmap
+- [blueprint/PROGRESS.md](blueprint/PROGRESS.md) - Detailed progress tracking
 
 ## 🎓 Mathematical Background
 
@@ -223,47 +257,37 @@ leanblueprint web
 
 ### Key References
 
-**Perelman's Papers**:
-1. "The entropy formula for the Ricci flow" (2002)
+**Perelman's Original Papers**:
+1. "The entropy formula for the Ricci flow and its geometric applications" (2002)
 2. "Ricci flow with surgery on three-manifolds" (2003)
-3. "Finite extinction time" (2003)
+3. "Finite extinction time for the solutions to the Ricci flow on certain three-manifolds" (2003)
 
-**Exposition**:
+**Standard Expositions**:
 - Morgan & Tian (2007). "Ricci Flow and the Poincaré Conjecture"
 - Kleiner & Lott (2008). "Notes on Perelman's papers"
-
-## 🗺️ Development Roadmap
-
-### ✅ Completed (Phases 0-5)
-
-- [x] Phase 0: Architecture and main theorem statement
-- [x] Phase 1: Mathlib-based topology foundations
-- [x] Phase 2: W-entropy with monotonicity
-- [x] Phase 3: κ-solution framework and surgery
-- [x] Phase 4: κ-solution classification
-- [x] Phase 5: Finite surgery & extinction
-
-### 🚧 In Progress (Phase 6)
-
-- [ ] Phase 6: Final synthesis and axiom reduction
+- Cao & Zhu (2006). "Hamilton-Perelman's proof of the Poincaré conjecture and the geometrization conjecture"
 
 ## 🤝 Contributing
 
-We welcome contributions! Areas where help is needed:
+Contributions are welcome! Areas where help is particularly needed:
 
-1. **Filling proof details**: Many theorems are axiomatized
-2. **Mathlib integration**: Finding needed lemmas
-3. **Documentation**: Improving comments
-4. **Blueprint**: Enhancing exposition
+1. **Proving axiomatized theorems**: Many theorems have detailed proof strategies in comments
+2. **Mathlib integration**: Finding and connecting to existing Mathlib results
+3. **Documentation**: Improving mathematical exposition and code comments
+4. **Blueprint enhancement**: Expanding the informal proof documentation
+
+Please see the issue tracker for specific tasks.
 
 ## 📝 Citation
 
+If you use this formalization in your research, please cite:
+
 ```bibtex
-@software{ricciflow_poincare,
-  author = {Li, Xinze},
+@software{ricciflow_poincare_formalization,
   title = {The Poincaré Conjecture: A Formal Proof in Lean 4},
-  year = {2024},
-  url = {https://github.com/Xinze-Li-Bryan/RicciFlow}
+  year = {2024-2025},
+  url = {https://github.com/Xinze-Li-Bryan/RicciFlow},
+  note = {Formalization of Perelman's proof of the Poincaré Conjecture}
 }
 ```
 
@@ -273,16 +297,11 @@ Apache License 2.0 - see [LICENSE](LICENSE) file.
 
 ## 🙏 Acknowledgments
 
-- **Grigori Perelman** for the revolutionary proof
-- **The Lean Community** for Lean 4 and Mathlib
-- **Richard Hamilton** for Ricci Flow theory
-
-## 📬 Contact
-
-- **Author**: Xinze Li (李昕泽)
-- **GitHub**: [@Xinze-Li-Bryan](https://github.com/Xinze-Li-Bryan)
-- **Project**: [RicciFlow](https://github.com/Xinze-Li-Bryan/RicciFlow)
-- **Blueprint**: [Online Documentation](https://xinze-li-bryan.github.io/RicciFlow/)
+- **Grigori Perelman** for the revolutionary proof of the Poincaré Conjecture
+- **Richard Hamilton** for developing Ricci Flow theory
+- **The Lean Community** for Lean 4 and the extensive Mathlib library
+- **The Lean FRO** for supporting formal mathematics
+- All contributors to this formalization project
 
 ---
 
@@ -290,6 +309,6 @@ Apache License 2.0 - see [LICENSE](LICENSE) file.
 
 **"In mathematics, you don't understand things. You just get used to them."** — John von Neumann
 
-Made with ❤️ using [Lean 4](https://leanprover.github.io/)
+Built with [Lean 4](https://leanprover.github.io/) • [Mathlib](https://github.com/leanprover-community/mathlib4) • [Blueprint](https://github.com/PatrickMassot/leanblueprint)
 
 </div>
