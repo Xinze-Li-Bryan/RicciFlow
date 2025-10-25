@@ -1,7 +1,6 @@
 Poincare.Is3Manifold
 Poincare.SimplyConnected
 Poincare.Sphere3
-Poincare.poincare_conjecture
 RicciFlow.ricciFlowEqOn
 RicciFlow.deturck_short_time_existence
 Perelman.WEntropy
@@ -12,4 +11,5 @@ Perelman.EpsilonNeck
 Perelman.finite_surgery_theorem_detailed
 Perelman.finite_extinction_theorem
 Perelman.extinction_implies_homeomorphic_to_s3
+Poincare.poincare_conjecture
 Poincare.ricci_flow_surgery_on_simply_connected_3manifold
