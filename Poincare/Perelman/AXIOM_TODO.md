@@ -226,29 +226,41 @@ axiom canonical_neighborhood_theorem : ...
 
 ## 下一步行动
 
+### ✅ 已完成的搜索 (2025-10-25)
+
+1. **✅ 搜索 Mathlib van Kampen**
+   - 找到：`Mathlib.CategoryTheory.Limits.VanKampen` (categorical)
+   - **未找到**：拓扑学 van Kampen for FundamentalGroupoid
+   - 结论：需要自己陈述或保留 axiom
+
+2. **✅ 搜索凸集可缩性**
+   - **找到**：`Mathlib.Analysis.Convex.Contractible`
+   - 定理：`Convex.contractibleSpace`
+   - **可应用**：证明 `ContractibleSpace Ball3`
+
+3. **✅ 搜索球面单连通性**
+   - **未找到**：π₁(Sⁿ) = 1 证明
+   - 结论：需要 axiomatize 或自己证明
+
+4. **🎉 重大发现**：Mathlib 有庞加莱猜想！
+   - `Mathlib.Geometry.Manifold.PoincareConjecture`
+   - `SimplyConnectedSpace.nonempty_homeomorph_sphere_three`
+   - **可以对接我们的证明**！
+
+**详细**: [MATHLIB_FINDINGS.md](MATHLIB_FINDINGS.md)
+
 ### 立即可做
-1. **搜索 Mathlib** 中的 van Kampen 定理
-   ```bash
-   grep -r "VanKampen\|van_kampen" .lake/packages/mathlib/
-   ```
-
-2. **搜索球面单连通性**
-   ```bash
-   grep -r "sphere.*simply.*connected\|π₁.*sphere" .lake/packages/mathlib/
-   ```
-
-3. **检查 FundamentalGroupoid**
-   ```lean
-   import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
-   ```
+1. ✅ 证明 Ball3 凸性 → `ContractibleSpace Ball3`
+2. ⬜ 添加类型转换对接 Mathlib 庞加莱猜想
+3. ⬜ 完整陈述 van Kampen 定理
 
 ### 中期目标
-- 将 TopologyHelpers 中的简化版 SimplyConnected 替换为 Mathlib 的标准定义
-- 完整陈述 van Kampen 定理（目前只是 True）
+- 证明手术保持单连通性（基于 van Kampen）
+- 贡献球面拓扑性质到 Mathlib
 
 ### 长期目标
-- 逐个证明手术相关的 theorems
-- 减少 axiom 数量到只剩深层 PDE/几何分析结果
+- PR 我们的庞加莱猜想证明到 Mathlib
+- 只保留深层 PDE/几何分析 axioms
 
 ---
 
