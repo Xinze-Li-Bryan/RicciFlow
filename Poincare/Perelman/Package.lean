@@ -1,6 +1,9 @@
 -- Poincare/Perelman/Package.lean
 -- Perelman 工作包：熵泛函、无崩塌定理、κ-解
 
+import Poincare.Perelman.Entropy
+import Poincare.Perelman.KappaSolutions
+import Poincare.Perelman.GeometricSurgery
 import RicciFlow.Flow
 import RicciFlow.Ricci.DeturckReduction
 
@@ -35,65 +38,20 @@ set_option autoImplicit true
 namespace Perelman
 
 -- ========================================
--- 1. 熵泛函
+-- 注意：核心定义已迁移到专门的文件
 -- ========================================
-
--- W-熵泛函的定义
--- W(g,f,τ) = ∫_M [τ(R + |∇f|²) + f - n] (4πτ)^(-n/2) e^(-f) dV
-axiom WEntropy (M : Type*) (g : Type*) (f : M → ℝ) (τ : ℝ) : ℝ
-
--- W-熵的单调性
-axiom w_entropy_monotone :
-  ∀ (M : Type*) (g : ℝ → Type*) (f : ℝ → M → ℝ) (τ : ℝ → ℝ),
-  ∀ t₁ t₂ : ℝ, t₁ < t₂ →
-  WEntropy M (g t₁) (f t₁) (τ t₁) ≤ WEntropy M (g t₂) (f t₂) (τ t₂)
+-- 1. 熵泛函 → Poincare.Perelman.Entropy
+-- 2. κ-解 → Poincare.Perelman.KappaSolutions
+-- 3. κ-解分类 → Poincare.Perelman.KappaSolutionClassification
+-- 4. 几何手术 → Poincare.Perelman.GeometricSurgery
 
 -- ========================================
--- 2. 无崩塌定理
+-- 说明：本文件现在作为统一导入点
+-- 详细定义见各专门文件：
+-- - Entropy.lean: W-熵、F-functional、ν-熵、无崩塌定理
+-- - KappaSolutions.lean: κ-解的定义和性质
+-- - KappaSolutionClassification.lean: κ-解的详细分类
+-- - GeometricSurgery.lean: 手术理论
 -- ========================================
-
--- κ-无崩塌条件
--- 定义：如果对所有半径 r ≤ r₀，只要 |Rm| ≤ r⁻² 在 B(x,r)，
--- 则 Vol(B(x,r)) ≥ κ rⁿ
-axiom KappaNonCollapsing (M : Type*) (g : Type*) (κ r₀ : ℝ) : Prop
-
--- Perelman 的无崩塌定理
-axiom perelman_no_local_collapsing :
-  ∀ (M : Type*) (g : ℝ → Type*) (T : ℝ),
-  T > 0 →
-  ∃ κ > 0, KappaNonCollapsing M (g T) κ (Real.sqrt T)
-
--- ========================================
--- 3. κ-解
--- ========================================
-
--- κ-解的定义（古代解 + 曲率控制 + κ-非崩塌）
-axiom IsKappaSolution (M : Type*) (g : ℝ → Type*) (κ : ℝ) : Prop
-
--- κ-解的渐近柱形性质
-axiom kappa_solution_asymptotic_cylinder :
-  ∀ (M : Type*) (g : ℝ → Type*) (κ : ℝ),
-  IsKappaSolution M g κ →
-  ∃ (Cylinder : Type*), True  -- 简化版本
-
--- ========================================
--- 4. 几何手术
--- ========================================
-
--- 手术时刻的颈部识别
-axiom neck_recognition :
-  ∀ (M : Type*) (g : Type*) (T : ℝ),
-  ∃ (NeckRegion : Set M), True
-
--- 手术后流形的构造
-axiom surgery_construction :
-  ∀ (M : Type*) (g : Type*) (T : ℝ),
-  ∃ (M' : Type*) (g' : Type*), True
-
--- 手术后的 Ricci 流延拓
-axiom ricci_flow_with_surgery :
-  ∀ (M : Type*) (g₀ : Type*),
-  ∃ (g : ℝ → Type*) (surgery_times : List ℝ),
-  True  -- 简化版本
 
 end Perelman
