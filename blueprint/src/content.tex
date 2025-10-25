@@ -59,26 +59,7 @@ Perelman's insight was to use \textbf{geometry} (Ricci Flow) to understand \text
 Perelman's proof follows this logical chain:
 
 \begin{center}
-\begin{tikzpicture}[node distance=2cm, auto, thick,
-    box/.style={rectangle, draw, rounded corners, text width=6cm, align=center, minimum height=1cm, fill=blue!10}]
-
-\node[box] (M) {Simply-connected closed 3-manifold $M$};
-\node[box, below of=M, fill=green!10] (g0) {Assign Riemannian metric $g_0$};
-\node[box, below of=g0] (flow) {Evolve via Ricci Flow:\\$\frac{\partial g}{\partial t} = -2 \cdot \text{Ric}(g)$};
-\node[box, below of=flow, fill=yellow!20] (sing) {Encounter singularity at time $T_1$};
-\node[box, below of=sing, fill=orange!20] (surgery) {Perform Perelman surgery:\\Cut necks, glue caps};
-\node[box, below of=surgery] (continue) {Continue flow with surgery\\(iterate)};
-\node[box, below of=continue, fill=red!20] (extinct) {Finite extinction time:\\$T_{\text{ext}} < \infty$};
-\node[box, below of=extinct, fill=purple!20] (topo) {Topology conclusion:\\$M \cong S^3$ \qed};
-
-\draw[->] (M) -- (g0);
-\draw[->] (g0) -- (flow);
-\draw[->] (flow) -- (sing);
-\draw[->] (sing) -- (surgery);
-\draw[->] (surgery) -- (continue);
-\draw[->] (continue) -- (extinct);
-\draw[->] (extinct) -- (topo);
-\end{tikzpicture}
+[Dependency diagram - see PDF version]
 \end{center}
 
 \subsection{Key Ingredients}
@@ -129,8 +110,8 @@ This formalization is organized in two layers:
 
 \begin{itemize}
 \item ✅ Two-tier library structure: \texttt{Poincare} (top) $\leftarrow$ \texttt{RicciFlow} (foundation)
-\item ✅ Main theorem statement: \texttt{poincare\_conjecture}
-\item ✅ Perelman derivation chain: \texttt{poincare\_from\_perelman}
+\item ✅ Main theorem statement: \texttt{poincare_conjecture}
+\item ✅ Perelman derivation chain: \texttt{poincare_from_perelman}
 \item ✅ Axiom transparency via \texttt{Poincare/Dev/Audit.lean}
 \end{itemize}
 
@@ -236,7 +217,7 @@ S^3 = \{(x_1, x_2, x_3, x_4) \in \mathbb{R}^4 : x_1^2 + x_2^2 + x_3^2 + x_4^2 = 
 
 \begin{theorem}[The Poincaré Conjecture]
 \label{thm:poincare_conjecture}
-\lean{Poincare.poincare\_conjecture}
+\lean{Poincare.poincare_conjecture}
 \leanok
 Every simply-connected, closed 3-manifold is homeomorphic to $S^3$.
 
@@ -262,7 +243,7 @@ The proof follows Perelman's approach using Ricci Flow with surgery:
 
 \textbf{Step 5}: Conclude $M \cong S^3$ from extinction
 
-This is formalized in \texttt{poincare\_from\_perelman}.
+This is formalized in \texttt{poincare_from_perelman}.
 \end{proof}
 
 %============================================================================
@@ -297,7 +278,7 @@ Think of it as "geometric heat flow" - just as the heat equation diffuses temper
 
 \begin{theorem}[Short-Time Existence]
 \label{thm:deturck_existence}
-\lean{RicciFlow.deturck\_short\_time\_existence}
+\lean{RicciFlow.deturck_short_time_existence}
 \leanok
 Given any smooth Riemannian manifold $(M, g_0)$, there exists $T > 0$ and a smooth family of metrics $g(t)$ for $t \in [0, T)$ satisfying the Ricci flow equation with initial condition $g(0) = g_0$.
 \end{theorem}
@@ -327,7 +308,7 @@ where $R$ is the scalar curvature and $n$ is the dimension.
 
 \begin{theorem}[W-Entropy Monotonicity]
 \label{thm:w_entropy_monotone}
-\lean{Perelman.w\_entropy\_monotone}
+\lean{Perelman.w_entropy_monotone}
 \uses{def:w_entropy}
 Along the Ricci flow with the gradient flow of $W$, the W-entropy is non-decreasing in time:
 \[
@@ -367,7 +348,7 @@ A Ricci flow $(M, g(t))$ for $t \in (-\infty, T)$ is a \textbf{κ-solution} if:
 
 \begin{theorem}[κ-Solution Classification]
 \label{thm:kappa_classification}
-\lean{Perelman.kappa\_solution\_classification\_3d}
+\lean{Perelman.kappa_solution_classification_3d}
 \uses{def:kappa_solution}
 Every 3-dimensional κ-solution is one of the following:
 
@@ -425,7 +406,7 @@ A region of a Riemannian manifold is an \textbf{ε-neck} if, after appropriate r
 
 \begin{theorem}[Finite Surgery]
 \label{thm:finite_surgery}
-\lean{Perelman.finite\_surgery\_theorem\_detailed}
+\lean{Perelman.finite_surgery_theorem_detailed}
 In any finite time interval $[0, T]$, only finitely many surgeries are needed for a compact 3-manifold under Ricci flow.
 \end{theorem}
 
@@ -445,7 +426,7 @@ In any finite time interval $[0, T]$, only finitely many surgeries are needed fo
 
 \begin{theorem}[Finite Extinction]
 \label{thm:finite_extinction}
-\lean{Perelman.finite\_extinction\_theorem}
+\lean{Perelman.finite_extinction_theorem}
 Let $(M, g_0)$ be a simply-connected, compact 3-manifold. Under Ricci flow with surgery, the manifold vanishes (becomes empty) in finite time $T_{\text{ext}} < \infty$.
 \end{theorem}
 
@@ -464,7 +445,7 @@ Let $(M, g_0)$ be a simply-connected, compact 3-manifold. Under Ricci flow with 
 
 \begin{theorem}[Extinction Implies $S^3$]
 \label{thm:extinction_implies_s3}
-\lean{Perelman.extinction\_implies\_homeomorphic\_to\_s3}
+\lean{Perelman.extinction_implies_homeomorphic_to_s3}
 \uses{thm:finite_extinction}
 If a simply-connected, compact 3-manifold $M$ has finite extinction time under Ricci flow with surgery, then $M$ is homeomorphic to $S^3$.
 \end{theorem}
@@ -487,7 +468,7 @@ If a simply-connected, compact 3-manifold $M$ has finite extinction time under R
 
 \begin{theorem}[Poincaré Conjecture - Complete Version]
 \label{thm:poincare_complete}
-\lean{Poincare.ricci\_flow\_surgery\_on\_simply\_connected\_3manifold}
+\lean{Poincare.ricci_flow_surgery_on_simply_connected_3manifold}
 \uses{thm:finite_extinction, thm:extinction_implies_s3}
 Let $M$ be a simply-connected, compact 3-manifold. Then:
 \begin{enumerate}
@@ -503,27 +484,7 @@ Let $M$ be a simply-connected, compact 3-manifold. Then:
 The complete proof chain:
 
 \begin{center}
-\begin{tikzpicture}[node distance=1.5cm, auto,
-    theorem/.style={rectangle, draw, rounded corners, text width=5cm, align=center, fill=blue!10},
-    uses/.style={->, thick}]
-
-\node[theorem] (rf) {Ricci Flow\\Short-time existence};
-\node[theorem, below of=rf] (ent) {W-Entropy\\Monotonicity};
-\node[theorem, below of=ent] (nc) {κ-Noncollapsing\\Theorem};
-\node[theorem, below of=nc] (ks) {κ-Solution\\Classification};
-\node[theorem, below of=ks] (cn) {Canonical\\Neighborhoods};
-\node[theorem, below of=cn] (surg) {Finite Surgery\\Theorem};
-\node[theorem, below of=surg] (ext) {Finite Extinction\\Theorem};
-\node[theorem, below of=ext, fill=green!20] (pc) {\textbf{Poincaré}\\  \textbf{Conjecture}};
-
-\draw[uses] (rf) -- (ent);
-\draw[uses] (ent) -- (nc);
-\draw[uses] (nc) -- (ks);
-\draw[uses] (ks) -- (cn);
-\draw[uses] (cn) -- (surg);
-\draw[uses] (surg) -- (ext);
-\draw[uses] (ext) -- (pc);
-\end{tikzpicture}
+[Dependency diagram - see PDF version]
 \end{center}
 
 %============================================================================
